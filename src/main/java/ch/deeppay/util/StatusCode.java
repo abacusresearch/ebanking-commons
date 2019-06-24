@@ -4,6 +4,7 @@ public enum StatusCode {
 
   OK(0),
   ERROR(1),
+  WARNING(2),
 
   // general
   INTERFACE_ERROR(100),
