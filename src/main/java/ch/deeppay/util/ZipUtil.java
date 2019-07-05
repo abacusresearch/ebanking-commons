@@ -9,12 +9,15 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.util.StreamUtils;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PushbackInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -23,6 +26,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+import java.util.zip.ZipInputStream;
 
 public class ZipUtil {
 
@@ -52,6 +57,14 @@ public class ZipUtil {
     } catch (ZipException | IOException e) {
       LOGGER.warning(e.getMessage());
       throw new GeneralException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  public boolean isZipFile(@NonNull final String fileContent) {
+    try(ByteArrayInputStream is = new ByteArrayInputStream(fileContent.getBytes())) {
+      return new ZipInputStream(is).getNextEntry() != null;
+    } catch (IOException e) {
+      return false;
     }
   }
 

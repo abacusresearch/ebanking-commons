@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public enum FileFormat {
 
   MT940("MT940", true, false),
+  CAMT052("CAMT052", true, false),
   CAMT053("CAMT053", true, false),
   CAMT054("CAMT054", true, false),
   ESR("ESR", true, false),
