@@ -29,9 +29,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
     implementation 'commons-codec:commons-codec:1.10'
 
-    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.4'
-    compile group: 'org.aspectj', name: 'aspectjtools', version: '1.9.4'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.0'
+    implementation 'org.aspectj:aspectjrt:1.9.4'
+    implementation 'org.aspectj:aspectjtools:1.9.4'
+    implementation 'org.apache.logging.log4j:log4j-core:2.12.0'
 
 
 
