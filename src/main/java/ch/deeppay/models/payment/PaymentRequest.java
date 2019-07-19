@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 public class PaymentRequest extends ClientRequest {
 
   @NotNull private FileFormat format;
+  private String challenge;
 
   public void setFormat(final @NonNull String format) {
     this.format = FileFormat.validateUpload(format);

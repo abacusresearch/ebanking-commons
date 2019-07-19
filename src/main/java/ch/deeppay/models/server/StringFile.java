@@ -1,6 +1,5 @@
 package ch.deeppay.models.server;
 
-import ch.deeppay.util.FileFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,6 +8,7 @@ import lombok.Data;
 public class StringFile {
 
   private String fileContent;
-  private FileFormat format;
+  private String format;
   private String fileName;
+
 }
