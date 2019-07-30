@@ -9,7 +9,7 @@
  *
  * Copyright (c) 2019 ABACUS Research AG, All Rights Reserved
  */
-package ch.deeppay.aspect;
+package ch.deeppay.spring.aspect;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.ArrayUtils;
@@ -30,9 +30,9 @@ public class LogBeginEndAspect {
   // this is marked as faulty.
   @Around("execution(* ch.abacus..*(..))")
   public Object logBeginEnd(ProceedingJoinPoint joinPoint) throws Throwable {
-    if(log.isTraceEnabled()) {
+    if (log.isTraceEnabled()) {
       return createTraceInfo(joinPoint);
-    } else if(log.isDebugEnabled()) {
+    } else if (log.isDebugEnabled()) {
       return createDebugInfo(joinPoint);
     } else {
       return joinPoint.proceed();
@@ -49,9 +49,8 @@ public class LogBeginEndAspect {
       startMessageStringBuffer.append(joinPoint.getSignature().getName());
       startMessageStringBuffer.append('(');
 
-
       Object[] args = joinPoint.getArgs();
-      if(ArrayUtils.isNotEmpty(args)) {
+      if (ArrayUtils.isNotEmpty(args)) {
         startMessageStringBuffer.append(StringUtils.join(args, ","));
       }
       startMessageStringBuffer.append(')');
@@ -60,8 +59,8 @@ public class LogBeginEndAspect {
       retVal = joinPoint.proceed();
 
       String endMessageStringBuffer = "Finished method "
-          + joinPoint.getSignature().getName()
-          + "(..)";
+                                      + joinPoint.getSignature().getName()
+                                      + "(..)";
       log.debug(endMessageStringBuffer);
     } catch (Throwable ex) {
       log.error(ex);
