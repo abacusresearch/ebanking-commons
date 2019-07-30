@@ -8,7 +8,7 @@ package ch.deeppay.util;
  * CND - Collective Advice No Details
  * CWD - Collective Advice With Details
  */
-public enum DeviceNote {
+public enum AdviceNote {
 
   DEFAULT,
   NO_ADVICE,
