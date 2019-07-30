@@ -1,7 +1,6 @@
 package ch.deeppay.util;
 
 import ch.deeppay.models.server.StringFile;
-import lombok.extern.log4j.Log4j2;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -23,10 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.zip.ZipInputStream;
 
-@Log4j2
 public class ZipUtil {
+
+  private static final Logger LOGGER = Logger.getLogger(ZipUtil.class.getName());
 
   public String getBase64Zip(@NonNull final List<StringFile> files) {
     if (files.isEmpty()) {
@@ -45,12 +46,12 @@ public class ZipUtil {
       File zipFile = createZipFile(tmpDirectory);
 
       if (!tmpDirectory.delete()) {
-        log.warn(tmpDirectory.getAbsolutePath() + " could not be deleted!");
+        LOGGER.warning(tmpDirectory.getAbsolutePath() + " could not be deleted!");
       }
 
       return encodeFileToString(zipFile.getPath());
     } catch (ZipException | IOException e) {
-      log.warn(e.getMessage());
+      LOGGER.warning(e.getMessage());
       throw new GeneralException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -84,7 +85,7 @@ public class ZipUtil {
       fileInputStreamReader.read(bytes);
       encodedBase64 = new String(Base64.encodeBase64(bytes), StandardCharsets.UTF_8);
     } catch (IOException e) {
-      log.warn("cannot encode zip file! " + filepath);
+      LOGGER.warning("cannot encode zip file! " + filepath);
 
     }
 
