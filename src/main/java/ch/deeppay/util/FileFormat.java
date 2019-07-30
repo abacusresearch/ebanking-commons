@@ -14,6 +14,10 @@ public enum FileFormat {
   CAMT052("CAMT052", true, false),
   CAMT053("CAMT053", true, false),
   CAMT054("CAMT054", true, false),
+  CAMT054_CDTN_DBTN("CAMT054_CDTN_DBTN", true, false),
+  CAMT054_ESR_LSV("CAMT054_ESR_LSV", true, false),
+  CAMT054_ZA("CAMT054_ZA", true, false),
+
   ESR("ESR", true, false),
   LSV("LSV", true, true),
   EDOC("EDOC", true, false),

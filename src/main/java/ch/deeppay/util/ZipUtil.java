@@ -1,6 +1,7 @@
 package ch.deeppay.util;
 
 import ch.deeppay.models.server.StringFile;
+import lombok.extern.log4j.Log4j2;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -9,7 +10,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
-import org.springframework.util.StreamUtils;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -17,21 +17,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PushbackInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Stream;
 import java.util.zip.ZipInputStream;
 
+@Log4j2
 public class ZipUtil {
-
-  private static final Logger LOGGER = Logger.getLogger(ZipUtil.class.getName());
 
   public String getBase64Zip(@NonNull final List<StringFile> files) {
     if (files.isEmpty()) {
@@ -50,18 +45,18 @@ public class ZipUtil {
       File zipFile = createZipFile(tmpDirectory);
 
       if (!tmpDirectory.delete()) {
-        LOGGER.warning(tmpDirectory.getAbsolutePath() + " could not be deleted!");
+        log.warn(tmpDirectory.getAbsolutePath() + " could not be deleted!");
       }
 
       return encodeFileToString(zipFile.getPath());
     } catch (ZipException | IOException e) {
-      LOGGER.warning(e.getMessage());
+      log.warn(e.getMessage());
       throw new GeneralException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   public boolean isZipFile(@NonNull final String fileContent) {
-    try(ByteArrayInputStream is = new ByteArrayInputStream(fileContent.getBytes())) {
+    try (ByteArrayInputStream is = new ByteArrayInputStream(fileContent.getBytes())) {
       return new ZipInputStream(is).getNextEntry() != null;
     } catch (IOException e) {
       return false;
@@ -89,7 +84,7 @@ public class ZipUtil {
       fileInputStreamReader.read(bytes);
       encodedBase64 = new String(Base64.encodeBase64(bytes), StandardCharsets.UTF_8);
     } catch (IOException e) {
-      LOGGER.warning("cannot encode zip file! " + filepath);
+      log.warn("cannot encode zip file! " + filepath);
 
     }
 

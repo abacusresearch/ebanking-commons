@@ -10,11 +10,17 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Contains beans used for configuring log files.
+ */
 @Configuration
 public class LogConfiguration {
 
+  /**
+   * Configured bean to mask sensitive log data for request and response
+   */
   @Bean
-  public Logbook logbook() {
+  public Logbook getMaskSensitiveDataConfiguration() {
     final Set<String> properties = new HashSet<>(Arrays.asList(
         "password", "passwort", "passwordNew",
         "challenge",
