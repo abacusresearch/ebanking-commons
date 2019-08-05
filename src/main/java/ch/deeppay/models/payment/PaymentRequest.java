@@ -14,7 +14,7 @@ public class PaymentRequest extends ClientRequest {
 
   @NotNull private FileFormat format;
   private final String challenge;
-  private final boolean details;
+  private final Boolean details;
   private final String deviceNote;
 
   public void setFormat(final @NonNull String format) {
