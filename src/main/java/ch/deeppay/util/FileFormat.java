@@ -1,6 +1,7 @@
 package ch.deeppay.util;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,17 +52,20 @@ public enum FileFormat {
     return this.name;
   }
 
-  @NonNull
-  public static FileFormat validateUpload(@NonNull final String formatAsString) {
+  @Nullable
+  public static FileFormat validateUpload(@Nullable final String formatAsString) {
     return validate(formatAsString, FileFormat::isUpload);
   }
 
-  @NonNull
-  public static FileFormat validateDownload(@NonNull final String formatAsString) {
+  @Nullable
+  public static FileFormat validateDownload(@Nullable final String formatAsString) {
     return validate(formatAsString, FileFormat::isDownload);
   }
 
-  private static FileFormat validate(@NonNull final String formatAsString, @NonNull final Predicate<FileFormat> type) {
+  private static FileFormat validate(@Nullable final String formatAsString, @NonNull final Predicate<FileFormat> type) {
+    if (formatAsString == null) {
+      return null;
+    }
     List<FileFormat> fileFormats = Arrays.stream(FileFormat.values()).filter(type).collect(Collectors.toList());
 
     try {

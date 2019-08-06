@@ -4,20 +4,18 @@ import ch.deeppay.models.ClientRequest;
 import ch.deeppay.util.FileFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-
-import javax.validation.constraints.NotNull;
+import org.springframework.lang.Nullable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class PaymentRequest extends ClientRequest {
 
-  @NotNull private FileFormat format;
-  private final String challenge;
-  private final Boolean details;
-  private final String deviceNote;
+  @Nullable private FileFormat format;
+  @Nullable private final String challenge;
+  @Nullable private final Boolean details;
+  @Nullable private final String deviceNote;
 
-  public void setFormat(final @NonNull String format) {
+  public void setFormat(final String format) {
     this.format = FileFormat.validateUpload(format);
   }
 }

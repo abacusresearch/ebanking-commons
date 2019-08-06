@@ -1,5 +1,6 @@
 package ch.deeppay.controller;
 
+import ch.deeppay.models.payment.PaymentRequest;
 import ch.deeppay.models.payment.PaymentResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,6 +21,6 @@ public interface PaymentOperations {
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   ResponseEntity<PaymentResponse> uploadPayment(@RequestHeader final HttpHeaders httpHeader,
-                                                @RequestParam final String transportData,
+                                                @RequestParam final PaymentRequest transportData,
                                                 @RequestParam("file") final MultipartFile file);
 }
