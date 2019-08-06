@@ -6,6 +6,6 @@ import org.apache.commons.lang.StringUtils;
 @Data
 public class LogoutResponse {
 
-  private Integer code = 0;
+  private int code = 0;
   private String message = StringUtils.EMPTY;
 }

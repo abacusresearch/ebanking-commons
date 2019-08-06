@@ -22,12 +22,13 @@ import java.util.Date;
 public interface StatementOperations {
 
   @GetMapping
-  ResponseEntity<StatementResponse> downloadStatements(@RequestHeader final HttpHeaders headers,
-                                                       @RequestParam final String transportData,
-                                                       @RequestParam final String format,
-                                                       @RequestParam(required = false) final String account,
-                                                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date dateFrom,
-                                                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date dateTo);
+  ResponseEntity<StatementResponse> downloadStatements(
+      @RequestHeader final HttpHeaders headers,
+      @RequestParam final String transportData,
+      @RequestParam final String format,
+      @RequestParam(required = false) final String account,
+      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date dateFrom,
+      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date dateTo);
 
   @GetMapping(value = "/{statementId}")
   public ResponseEntity<StatementResponse> downloadStatement(
