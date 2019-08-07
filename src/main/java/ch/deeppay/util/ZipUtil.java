@@ -5,6 +5,7 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
+import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,11 @@ public class ZipUtil {
   }
 
   public boolean isZipFile(@NonNull final String fileContent) {
-    try (ByteArrayInputStream is = new ByteArrayInputStream(fileContent.getBytes())) {
+    return isZipFile(fileContent.getBytes(Charsets.UTF_8));
+  }
+
+  public boolean isZipFile(@NonNull final byte[] fileContent) {
+    try (ByteArrayInputStream is = new ByteArrayInputStream(fileContent)) {
       return new ZipInputStream(is).getNextEntry() != null;
     } catch (IOException e) {
       return false;
