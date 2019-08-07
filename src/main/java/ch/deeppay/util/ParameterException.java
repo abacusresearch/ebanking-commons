@@ -2,19 +2,21 @@ package ch.deeppay.util;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
-
-import java.util.Collections;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ParameterException extends GeneralException {
 
-  private final List<String> errors;
+  private final String message;
+  private final String field;
 
-  public ParameterException(@NonNull final String error) {
-    this.errors = Collections.singletonList(error);
+  public ParameterException(@NonNull final String field, @NonNull final String message) {
+    super("Parameter Violation",
+          "Parameter " + field + ": " + message,
+          HttpStatus.BAD_REQUEST);
+    this.field = field;
+    this.message = message;
   }
-
 }

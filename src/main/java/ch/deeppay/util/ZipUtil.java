@@ -52,7 +52,7 @@ public class ZipUtil {
       return encodeFileToString(zipFile.getPath());
     } catch (ZipException | IOException e) {
       LOGGER.warning(e.getMessage());
-      throw new GeneralException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new GeneralException("Internal Server Error", "Creating of zip file failed.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

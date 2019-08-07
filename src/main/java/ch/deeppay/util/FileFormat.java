@@ -75,7 +75,7 @@ public enum FileFormat {
       }
       return format;
     } catch (IllegalArgumentException e) {
-      throw new ParameterException("Actual file format: [" + formatAsString.toUpperCase() + "]. Required: " + fileFormats);
+      throw new ParameterException("fileFormat", "Actual fileFormat: [" + formatAsString.toUpperCase() + "]. Required: " + fileFormats);
     }
   }
 }
