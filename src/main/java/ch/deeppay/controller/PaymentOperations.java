@@ -21,6 +21,6 @@ public interface PaymentOperations {
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   ResponseEntity<PaymentResponse> uploadPayment(@RequestHeader final HttpHeaders httpHeader,
-                                                @RequestParam final PaymentRequest transportData,
-                                                @RequestParam("file") final MultipartFile file);
+                                                @RequestParam("file") final MultipartFile file,
+                                                final PaymentRequest transportData);
 }
