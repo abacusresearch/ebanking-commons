@@ -9,8 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.zalando.problem.Problem;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
+import org.zalando.problem.violations.ConstraintViolationProblem;
+import org.zalando.problem.violations.Violation;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,19 +33,42 @@ public class ProblemExceptionHandler implements ProblemHandling {
 
   @Override
   public ResponseEntity<Problem> process(ResponseEntity<Problem> entity) {
-    Problem body = entity.getBody();
-    if (body != null) {
-      Problem traceId = Problem.builder()
-          .withTitle(body.getTitle())
-          .withDetail(body.getDetail())
-          .withStatus(body.getStatus())
-          .withInstance(body.getInstance())
+    Problem problem = entity.getBody();
+    if (problem != null) {
+
+      //defaults
+      String detail = problem.getDetail();
+
+      if (problem instanceof ConstraintViolationProblem) {
+        detail = getContrainViolationDetails((ConstraintViolationProblem) problem);
+      }
+
+      Problem traceIdProblem = Problem.builder()
+          .withTitle(problem.getTitle())
+          .withDetail(detail)
+          .withStatus(problem.getStatus())
+          .withInstance(problem.getInstance())
           .with("id", getTraceId())
           .build();
 
-      return new ResponseEntity<>(traceId, entity.getStatusCode());
+      return new ResponseEntity<>(traceIdProblem, entity.getStatusCode());
     }
     return entity;
+  }
+
+  /**
+   * List details in reponse details.
+   *
+   * @param body b
+   * @return details as list of violations.
+   */
+  private String getContrainViolationDetails(ConstraintViolationProblem problem) {
+    String detail;
+    final List<Violation> violations = problem.getViolations();
+    List<String> details = new ArrayList<>();
+    violations.forEach(violation -> details.add(violation.getField() + ": " + violation.getMessage()));
+    detail = StringUtils.join(details, "\n");
+    return detail;
   }
 
   @Nonnull

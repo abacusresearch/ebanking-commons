@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
@@ -15,11 +16,14 @@ import java.util.Date;
 @AllArgsConstructor
 public class StatementRequest {
 
-  @Nullable private String statementId;
+  private @NotBlank(message = "TransportData cannot be blank.") String transportData;
   @Nullable private FileFormat format;
+  @Nullable private String account;
   @Nullable private Date dateFrom;
   @Nullable private Date dateTo;
-  private String transportData;
+  @Nullable private String dataType;
+  @Nullable private String transactionType;
+  @Nullable private Boolean details;
 
   public void setFormat(final String format) {
     this.format = FileFormat.validateDownload(format);
