@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Rest endpoints for logout.
  */
 @RestController
-@RequestMapping(value = "/variations/standard/logout", produces = "application/json")
+@RequestMapping(value = "/logout", produces = "application/json")
 public interface LogoutOperations {
 
   @PostMapping
