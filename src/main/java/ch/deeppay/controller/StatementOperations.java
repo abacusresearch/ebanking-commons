@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Rest endpoints for downloading statements.
  */
@@ -27,6 +29,6 @@ public interface StatementOperations {
   ResponseEntity<StatementResponse> downloadStatement(
       @RequestHeader final HttpHeaders headers,
       @PathVariable final String statementId,
-      StatementRequest request);
+      @Valid StatementRequest request);
 
 }
