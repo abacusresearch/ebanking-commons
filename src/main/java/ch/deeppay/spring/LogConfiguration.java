@@ -47,7 +47,7 @@ public class LogConfiguration {
         .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
-        .condition(exclude(requestTo("/health"),
+        .condition(exclude(requestTo("**/health"),
                            requestTo("/admin/**")))
         .build();
   }
