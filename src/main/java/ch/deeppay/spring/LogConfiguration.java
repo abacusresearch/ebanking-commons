@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.zalando.logbook.Conditions.exclude;
+import static org.zalando.logbook.Conditions.requestTo;
+
 /**
  * Contains beans used for configuring log files.
  */
@@ -44,6 +47,8 @@ public class LogConfiguration {
         .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
+        .condition(exclude(requestTo("/health"),
+                           requestTo("/admin/**")))
         .build();
   }
 
