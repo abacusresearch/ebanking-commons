@@ -18,6 +18,10 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation 'org.springframework:spring-context:4.0.1.RELEASE'
     implementation 'org.springframework:spring-web:5.1.6.RELEASE'
