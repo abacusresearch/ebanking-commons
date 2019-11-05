@@ -9,6 +9,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -62,7 +63,7 @@ public class EncryptionUtil {
 
       Cipher cipher = Cipher.getInstance(CIPHER_PADDING);
       cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
-      String base64Encoded = URLDecoder.decode(strToDecrypt, StandardCharsets.UTF_8.name());
+      String base64Encoded = urlDecode(strToDecrypt);
       byte[] decode = Base64.getDecoder().decode(base64Encoded);
       return Optional.of(new String(cipher.doFinal(decode)));
     } catch (Exception e) {
@@ -70,4 +71,14 @@ public class EncryptionUtil {
     }
     return Optional.empty();
   }
+
+  private static String urlDecode(@Nonnull String strToDecrypt) throws UnsupportedEncodingException {
+    String decode = URLDecoder.decode(strToDecrypt, StandardCharsets.UTF_8.name());
+
+    if (org.apache.commons.codec.binary.Base64.isBase64(decode) && !decode.contains(" ")) {
+      return decode;
+    }
+    return strToDecrypt;
+  }
+
 }

@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.0.20'
+version = '0.0.21'
 
 sourceCompatibility = '1.8'
 
@@ -40,7 +40,7 @@ dependencies {
     implementation 'org.zalando:logbook-spring-boot-starter:1.13.0'
     implementation 'org.zalando:problem-spring-web:0.24.0'
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
-
+    implementation 'commons-codec:commons-codec:1.13'
 
 
     compileOnly 'org.projectlombok:lombok:1.18.6'
