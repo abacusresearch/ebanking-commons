@@ -1,5 +1,6 @@
 package ch.deeppay.models.login;
 
+import ch.deeppay.spring.constraints.LanguageConstraint;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
@@ -14,6 +15,6 @@ public class LoginRequest {
   private String challenge = StringUtils.EMPTY;
   private String passwordNew = StringUtils.EMPTY;
   private String bankId = StringUtils.EMPTY;
-  private String language = StringUtils.EMPTY;
+  @LanguageConstraint private String language = StringUtils.EMPTY;
   private String transportData = StringUtils.EMPTY;
 }

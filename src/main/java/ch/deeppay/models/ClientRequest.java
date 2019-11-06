@@ -7,5 +7,5 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ClientRequest {
 
-  @NotNull private String transportData;
+  private @NotNull String transportData;
 }

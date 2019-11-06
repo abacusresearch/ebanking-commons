@@ -1,5 +1,6 @@
 package ch.deeppay.util;
 
+import ch.deeppay.exception.GeneralException;
 import ch.deeppay.models.server.StringFile;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -10,6 +11,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -26,6 +28,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.zip.ZipInputStream;
 
+@SuppressWarnings("unused")
 public class ZipUtil {
 
   private static final Logger LOGGER = Logger.getLogger(ZipUtil.class.getName());
@@ -50,7 +53,11 @@ public class ZipUtil {
         LOGGER.warning(tmpDirectory.getAbsolutePath() + " could not be deleted!");
       }
 
-      return encodeFileToString(zipFile.getPath());
+      final String result = encodeFileToString(zipFile.getPath());
+      if (result == null) {
+        return StringUtils.EMPTY;
+      }
+      return result;
     } catch (ZipException | IOException e) {
       LOGGER.warning(e.getMessage());
       throw new GeneralException("Internal Server Error", "Creating of zip file failed.", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,6 +88,7 @@ public class ZipUtil {
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
+  @Nullable
   private String encodeFileToString(@NonNull final String filepath) {
     File originalFile = new File(filepath);
     String encodedBase64 = null;
@@ -110,7 +118,7 @@ public class ZipUtil {
                             final int count) throws IOException {
     Date date = new Date();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-    String name = file.getFileName() != null ? file.getFileName() : file.getFormat() + "_" + dateFormat.format(date) + "_" + count;
+    String name = file.getFileName() != null ? file.getFileName() : file.getFormat() + '_' + dateFormat.format(date) + '_' + count;
     return File.createTempFile(name, "", tmpDirectory);
   }
 
