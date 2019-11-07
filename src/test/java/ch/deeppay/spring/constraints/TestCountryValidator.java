@@ -43,15 +43,15 @@ class TestCountryValidator {
   @Test
   public void testValidCountryCH() {
     MyCountryTester tester = new MyCountryTester();
-    tester.country = "CH";
+    tester.country = "ch";
     final Set<ConstraintViolation<MyCountryTester>> result = validator.validate(tester);
     assertEquals(0, result.size());
   }
 
   @Test
-  public void testInvalidCountryCH() {
+  public void testInvalidCountryChh() {
     MyCountryTester tester = new MyCountryTester();
-    tester.country = "ch";
+    tester.country = "chh";
     final Set<ConstraintViolation<MyCountryTester>> result = validator.validate(tester);
     assertEquals(1, result.size());
     final ConstraintViolation<MyCountryTester> constraintViolation = result.iterator().next();

@@ -31,6 +31,9 @@ public class LanguageValidator implements ConstraintValidator<LanguageConstraint
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
+    if (value != null) {
+      value = value.toLowerCase();
+    }
     return languageCodes.contains(value);
   }
 

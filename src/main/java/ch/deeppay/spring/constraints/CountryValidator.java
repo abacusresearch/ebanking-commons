@@ -31,6 +31,9 @@ public class CountryValidator implements ConstraintValidator<CountryConstraint, 
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
+    if (value != null) {
+      value = value.toUpperCase();
+    }
     return countryCodes.contains(value);
   }
 

@@ -17,4 +17,10 @@ public class LoginRequest {
   private String bankId = StringUtils.EMPTY;
   @LanguageConstraint private String language = StringUtils.EMPTY;
   private String transportData = StringUtils.EMPTY;
+
+  public void setLanguage(String language) {
+    if (language != null) {
+      this.language = language.toLowerCase();
+    }
+  }
 }

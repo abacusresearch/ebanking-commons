@@ -49,9 +49,9 @@ class TestLanguageValidator {
   }
 
   @Test
-  public void testInvalidLanguageFr() {
+  public void testInvalidLanguageRrr() {
     MyLanguageTester tester = new MyLanguageTester();
-    tester.language = "FR";
+    tester.language = "rrr";
     final Set<ConstraintViolation<MyLanguageTester>> result = validator.validate(tester);
     assertEquals(1, result.size());
     final ConstraintViolation<MyLanguageTester> constraintViolation = result.iterator().next();
