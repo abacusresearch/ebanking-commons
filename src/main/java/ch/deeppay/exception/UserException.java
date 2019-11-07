@@ -1,4 +1,4 @@
-package ch.deeppay.util;
+package ch.deeppay.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

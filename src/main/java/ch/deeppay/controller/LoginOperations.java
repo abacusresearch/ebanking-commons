@@ -5,20 +5,21 @@ import ch.deeppay.models.login.LoginResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Nonnull;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
 public interface LoginOperations {
 
   @PostMapping
-  ResponseEntity<LoginResponse> login(@Nonnull @RequestHeader final HttpHeaders headers,
-                                      @Nonnull @RequestBody final LoginRequest clientRequest);
+  ResponseEntity<LoginResponse> login(@RequestHeader @NonNull final HttpHeaders headers,
+                                      @RequestBody @NonNull final @Valid LoginRequest clientRequest);
 
 }

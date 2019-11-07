@@ -1,6 +1,7 @@
 package ch.deeppay.models.statement;
 
 import ch.deeppay.models.ClientResponse;
+import ch.deeppay.util.FileFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class StatementResponse extends ClientResponse {
 
-  private String format;
+  private FileFormat format;
   private String file;
 }

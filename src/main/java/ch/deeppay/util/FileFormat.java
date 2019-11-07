@@ -1,5 +1,6 @@
 package ch.deeppay.util;
 
+import ch.deeppay.exception.ParameterException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -49,7 +50,7 @@ public enum FileFormat {
 
   @Override
   public String toString() {
-    return this.name;
+    return name;
   }
 
   @Nullable
@@ -62,6 +63,7 @@ public enum FileFormat {
     return validate(formatAsString, FileFormat::isDownload);
   }
 
+  @Nullable
   private static FileFormat validate(@Nullable final String formatAsString, @NonNull final Predicate<FileFormat> type) {
     if (formatAsString == null) {
       return null;
