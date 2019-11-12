@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public interface LogoutOperations {
 
   @PostMapping
-  public ResponseEntity<LogoutResponse> logout(@RequestHeader final HttpHeaders headers,
-                                               @RequestBody final ClientRequest clientRequest);
+  ResponseEntity<LogoutResponse> logout(@RequestHeader final HttpHeaders headers,
+                                        @RequestBody final ClientRequest clientRequest);
 
 }
 
