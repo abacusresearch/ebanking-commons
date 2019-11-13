@@ -1,4 +1,4 @@
-package ch.deeppay.spring;
+package ch.deeppay.exception;
 
 import brave.Span;
 import brave.Tracer;
@@ -6,13 +6,13 @@ import brave.propagation.TraceContext;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.zalando.problem.Problem;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import org.zalando.problem.violations.Violation;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +71,7 @@ public class ProblemExceptionHandler implements ProblemHandling {
     return detail;
   }
 
-  @Nonnull
+  @NonNull
   private String getTraceId() {
     return Optional.ofNullable(tracer)
         .map(Tracer::currentSpan)

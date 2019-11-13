@@ -1,5 +1,6 @@
 package ch.deeppay.models.login;
 
+import ch.deeppay.util.DownloadFormat;
 import lombok.Data;
 
 import java.util.Map;
@@ -11,6 +12,6 @@ import java.util.Map;
 public class Challenge {
 
   private String id;
-  private String format; // e.g. base64, text
+  private DownloadFormat format; // e.g. base64, text
   private Map<String, String> content;
 }

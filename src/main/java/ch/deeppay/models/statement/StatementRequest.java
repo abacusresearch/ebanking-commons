@@ -25,6 +25,7 @@ public class StatementRequest {
 
   @NonNull
   @FileFormatConstraint
+  @Builder.Default
   private String format = "";
   @Nullable private String account;
 

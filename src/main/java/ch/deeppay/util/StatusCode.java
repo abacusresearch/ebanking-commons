@@ -1,5 +1,7 @@
 package ch.deeppay.util;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum StatusCode {
 
   OK(0),
@@ -29,6 +31,7 @@ public enum StatusCode {
     this.code = code;
   }
 
+  @JsonValue
   public int getCode() {
     return code;
   }
