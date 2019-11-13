@@ -1,14 +1,3 @@
-/*
- * FileFormatConstraint.java
- *
- * Creator:
- * 2/09/2019 14:41 hoefel
- *
- * Last Modification:
- * $Id: $
- *
- * Copyright (c) 2019 ABACUS Research AG, All Rights Reserved
- */
 package ch.deeppay.spring.constraints;
 
 import javax.validation.Constraint;

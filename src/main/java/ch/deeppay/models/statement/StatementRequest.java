@@ -2,6 +2,7 @@ package ch.deeppay.models.statement;
 
 import ch.deeppay.spring.constraints.FileFormatConstraint;
 import ch.deeppay.util.FileFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +14,11 @@ import org.springframework.lang.Nullable;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class StatementRequest {
 
   private @NotBlank(message = "TransportData cannot be blank.") String transportData;

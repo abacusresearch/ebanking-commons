@@ -1,14 +1,3 @@
-/*
- * LogBeginEndAspect.java
- *
- * Creator:
- * 17/07/2019 09:50 hoefel
- *
- * Last Modification:
- * $Id: $
- *
- * Copyright (c) 2019 ABACUS Research AG, All Rights Reserved
- */
 package ch.deeppay.spring.aspect;
 
 import lombok.extern.log4j.Log4j2;
