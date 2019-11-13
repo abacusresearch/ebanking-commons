@@ -1,14 +1,3 @@
-/*
- * FileFormatValidator.java
- *
- * Creator:
- * 2/09/2019 14:39 hoefel
- *
- * Last Modification:
- * $Id: $
- *
- * Copyright (c) 2019 ABACUS Research AG, All Rights Reserved
- */
 package ch.deeppay.spring.constraints;
 
 import ch.deeppay.util.FileFormat;
