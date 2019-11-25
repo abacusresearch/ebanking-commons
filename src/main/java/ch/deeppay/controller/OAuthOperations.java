@@ -22,7 +22,7 @@ public interface OAuthOperations {
    * @param state parameter will be returned. Can be used to retrieve information on the clients application.
    */
   @GetMapping(path = "/authorize")
-  ModelAndView authorize(@NonNull final AuthorizeRequest oAuthAuthorizeRequest);
+  ModelAndView handleAuthorize(@NonNull final AuthorizeRequest oAuthAuthorizeRequest);
 
   /**
    * @param grandType The grant type of the request, must be refresh_token when refreshing an access token.
@@ -35,6 +35,6 @@ public interface OAuthOperations {
    * @return TokenResponse
    */
   @PostMapping(path = "/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  ResponseEntity<TokenResponse> token(@NonNull TokenRequest tokenRequest);
+  ResponseEntity<TokenResponse> handleToken(@NonNull TokenRequest tokenRequest);
 
 }
