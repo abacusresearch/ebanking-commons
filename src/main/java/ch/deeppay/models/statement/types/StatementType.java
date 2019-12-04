@@ -18,5 +18,6 @@ public enum StatementType {
   TAX,
   TAX_REFUND,
   ATM,
-  DEPOSIT
+  DEPOSIT,
+  NOTIFICATION
 }
