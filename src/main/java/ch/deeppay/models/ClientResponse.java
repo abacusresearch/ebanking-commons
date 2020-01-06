@@ -11,8 +11,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClientResponse {
 
-  private StatusCode code = StatusCode.OK;
-  private String message = StringUtils.EMPTY;
+  private StatusCode code;
+  private String message;
   private String transportData = StringUtils.EMPTY;
 
   // should not displayed to user
