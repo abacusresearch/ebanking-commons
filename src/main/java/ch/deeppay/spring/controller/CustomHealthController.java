@@ -15,7 +15,6 @@ import java.net.UnknownHostException;
  * Therefore we cannot reach the actuator health on the server port.
  * But it should be possible to check whether the services can be reached via the Api-Gateway.
  */
-
 @RestController
 @Log4j2
 public class CustomHealthController {
