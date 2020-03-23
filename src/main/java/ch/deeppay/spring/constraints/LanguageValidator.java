@@ -31,10 +31,10 @@ public class LanguageValidator implements ConstraintValidator<LanguageConstraint
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
-    if (value != null) {
-      value = value.toLowerCase();
+    if (value == null || value.isEmpty()) {
+      return true;
     }
-    return languageCodes.contains(value);
+    return languageCodes.contains(value.toLowerCase());
   }
 
 }

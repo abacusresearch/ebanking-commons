@@ -1,6 +1,5 @@
 package ch.deeppay.spring.controller;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.http.MediaType;
@@ -16,7 +15,6 @@ import java.net.UnknownHostException;
  * But it should be possible to check whether the services can be reached via the Api-Gateway.
  */
 @RestController
-@Log4j2
 public class CustomHealthController {
 
   private final HealthEndpoint healthEndpoint;
