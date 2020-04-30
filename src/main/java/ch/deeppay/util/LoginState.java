@@ -13,5 +13,6 @@ public enum LoginState {
   GRID_CARD,
   CHOOSE,
   SUCCESS,
-  ERROR
+  ERROR,
+  NOT_SUPPORTED
 }
