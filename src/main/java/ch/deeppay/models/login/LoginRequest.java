@@ -2,12 +2,18 @@ package ch.deeppay.models.login;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ch.deeppay.spring.constraints.LanguageConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 
 /**
  * Bean for each request on the login route.
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class LoginRequest {

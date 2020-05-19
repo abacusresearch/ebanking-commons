@@ -1,17 +1,17 @@
 package ch.deeppay.models.statement;
 
-import ch.deeppay.models.statement.types.BookingType;
-import ch.deeppay.models.statement.types.PaymentState;
-import ch.deeppay.models.statement.types.StatementType;
 import ch.deeppay.models.statement.elements.Amount;
 import ch.deeppay.models.statement.elements.CreditCard;
 import ch.deeppay.models.statement.elements.Exchange;
 import ch.deeppay.models.statement.elements.Institute;
 import ch.deeppay.models.statement.elements.Merchant;
+import ch.deeppay.models.statement.types.BookingType;
+import ch.deeppay.models.statement.types.PaymentState;
+import ch.deeppay.models.statement.types.StatementType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Data
 public class Statement {
@@ -20,7 +20,7 @@ public class Statement {
   private Institute institute;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "GMT")
-  private Date date;
+  private Instant date;
 
   private Amount amount;
   private Amount fees;

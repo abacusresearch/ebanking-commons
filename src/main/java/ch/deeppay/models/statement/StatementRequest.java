@@ -12,7 +12,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.time.Instant;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
@@ -31,15 +31,16 @@ public class StatementRequest {
 
   @Nullable
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private Date dateFrom;
+  private Instant dateFrom;
 
   @Nullable
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private Date dateTo;
+  private Instant dateTo;
 
   @Nullable private String dataType;
   @Nullable private String transactionType;
   @Nullable private Boolean details;
+  @Nullable private Boolean withOld;
 
   @SuppressWarnings("unused")
   public FileFormat getFormat() {
