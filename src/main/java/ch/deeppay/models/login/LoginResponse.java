@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class LoginResponse extends ClientResponse {
 
   private LoginState state;
-  private Challenge challenge = null;
-  private String sessionId = null;
+  private Challenge challenge;
+  private String sessionId;
 
 }

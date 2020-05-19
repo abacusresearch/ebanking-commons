@@ -1,7 +1,7 @@
 package ch.deeppay.models.login;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ch.deeppay.spring.constraints.LanguageConstraint;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +18,19 @@ import org.apache.commons.lang.StringUtils;
 @Data
 public class LoginRequest {
 
+  @Builder.Default
   private String contractId = StringUtils.EMPTY;
+  @Builder.Default
   private String password = StringUtils.EMPTY;
+  @Builder.Default
   private String challenge = StringUtils.EMPTY;
+  @Builder.Default
   private String passwordNew = StringUtils.EMPTY;
-  private String bankId = StringUtils.EMPTY;
-  @LanguageConstraint private String language = StringUtils.EMPTY;
+  private String bankId;
+  @Builder.Default
+  @LanguageConstraint
+  private String language = StringUtils.EMPTY;
+  @Builder.Default
   private String transportData = StringUtils.EMPTY;
 
   public void setLanguage(String language) {

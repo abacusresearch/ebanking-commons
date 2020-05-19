@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 @Data
 public class LogoutResponse {
 
-  private int code = 0;
+  private int code;
+  @Builder.Default
   private String message = StringUtils.EMPTY;
 }

@@ -12,7 +12,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClientResponse {
