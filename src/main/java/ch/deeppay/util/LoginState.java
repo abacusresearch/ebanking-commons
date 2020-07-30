@@ -11,6 +11,7 @@ public enum LoginState {
   ONE_TIME_PASSWORD,
   OPTICAL_CHALLENGE,
   GRID_CARD,
+  KEYFILE,
   CHOOSE,
   SUCCESS,
   ERROR,
