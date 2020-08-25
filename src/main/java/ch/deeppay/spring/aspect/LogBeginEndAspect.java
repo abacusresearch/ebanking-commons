@@ -50,7 +50,7 @@ public class LogBeginEndAspect {
       String endMessageStringBuffer = "Finished method "
                                       + joinPoint.getSignature().getName()
                                       + "(..)";
-      log.debug(endMessageStringBuffer);
+      log.trace(endMessageStringBuffer);
     } catch (Throwable ex) {
       log.error(ex);
       throw ex;
