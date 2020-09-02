@@ -15,8 +15,8 @@ public class FileFormatValidator implements ConstraintValidator<FileFormatConstr
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
     try {
-      if (value == null) {
-        return false;
+      if (value == null || value.isEmpty()) {
+        return true;
       }
       FileFormat.valueOf(value.toUpperCase());
     } catch (IllegalArgumentException e) {
