@@ -4,11 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.logbook.BodyFilters;
 import org.zalando.logbook.Logbook;
+import org.zalando.logbook.QueryFilter;
 import org.zalando.logbook.QueryFilters;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.zalando.logbook.Conditions.exclude;
 import static org.zalando.logbook.Conditions.requestTo;
@@ -18,6 +21,8 @@ import static org.zalando.logbook.Conditions.requestTo;
  */
 @Configuration
 public class LogConfiguration {
+
+  final Pattern creditcard = Pattern.compile("(\\w*)\\b([0-9]{4})[0-9]{0,9}([0-9]{4})\\b(\\w*)");
 
   /**
    * Configured bean to mask sensitive log data for request and response
@@ -31,6 +36,7 @@ public class LogConfiguration {
         "clientSecret", "client_secret",
         "access_token", "accessToken",
         "refreshToken", "refresh_token",
+        "cardNumber", "card_number",
         "transportData"));
 
     return Logbook.builder()
@@ -47,9 +53,20 @@ public class LogConfiguration {
         .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
+        .queryFilter(cardNumber())
         .condition(exclude(requestTo("**/health"),
                            requestTo("/admin/**")))
         .build();
+  }
+
+  private QueryFilter cardNumber() {
+    return query -> {
+      final Matcher matcher = creditcard.matcher(query);
+      if (matcher.find()) {
+        return matcher.replaceFirst("$1*********$3$4");
+      }
+      return query;
+    };
   }
 
 }
