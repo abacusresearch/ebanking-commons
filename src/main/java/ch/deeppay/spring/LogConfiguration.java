@@ -53,6 +53,7 @@ public class LogConfiguration {
         .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
+        .queryFilter(QueryFilters.replaceQuery("contractId", "<secret>"))
         .queryFilter(cardNumber())
         .condition(exclude(requestTo("**/health"),
                            requestTo("/admin/**")))
