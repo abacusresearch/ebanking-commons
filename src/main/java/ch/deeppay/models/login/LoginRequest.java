@@ -26,6 +26,8 @@ public class LoginRequest {
   private String challenge = StringUtils.EMPTY;
   @Builder.Default
   private String passwordNew = StringUtils.EMPTY;
+  @Builder.Default
+  private String accessToken = StringUtils.EMPTY;
   private String bankId;
   @Builder.Default
   @LanguageConstraint
