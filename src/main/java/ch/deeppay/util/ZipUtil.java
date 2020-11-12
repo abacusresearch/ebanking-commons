@@ -1,7 +1,6 @@
 package ch.deeppay.util;
 
-import ch.deeppay.exception.GeneralException;
-import ch.deeppay.models.server.StringFile;
+import ch.deeppay.models.ebanking.server.StringFile;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -12,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -60,7 +60,7 @@ public class ZipUtil {
       return result;
     } catch (ZipException | IOException e) {
       LOGGER.warning(e.getMessage());
-      throw new GeneralException("Internal Server Error", "Creating of zip file failed.", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Creating of zip file failed.");
     }
   }
 

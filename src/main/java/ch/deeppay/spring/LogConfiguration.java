@@ -37,6 +37,7 @@ public class LogConfiguration {
         "access_token", "accessToken",
         "refreshToken", "refresh_token",
         "cardNumber", "card_number",
+        "file",
         "transportData"));
 
     return Logbook.builder()
@@ -54,6 +55,7 @@ public class LogConfiguration {
         .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("contractId", "<secret>"))
+        .queryFilter(QueryFilters.replaceQuery("file", "<secret>"))
         .queryFilter(cardNumber())
         .condition(exclude(requestTo("**/health"),
                            requestTo("/admin/**")))

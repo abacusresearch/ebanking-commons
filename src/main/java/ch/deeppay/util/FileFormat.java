@@ -1,8 +1,9 @@
 package ch.deeppay.util;
 
-import ch.deeppay.exception.ParameterException;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +78,7 @@ public enum FileFormat {
       }
       return format;
     } catch (IllegalArgumentException e) {
-      throw new ParameterException("fileFormat", "Actual fileFormat: [" + formatAsString.toUpperCase() + "]. Required: " + fileFormats);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Actual fileFormat: [" + formatAsString.toUpperCase() + "]. Required: " + fileFormats);
     }
   }
 }

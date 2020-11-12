@@ -1,7 +1,7 @@
 package ch.deeppay.controller;
 
-import ch.deeppay.models.ClientRequest;
-import ch.deeppay.models.logout.LogoutResponse;
+import ch.deeppay.models.ebanking.ClientRequest;
+import ch.deeppay.models.ebanking.logout.LogoutResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;

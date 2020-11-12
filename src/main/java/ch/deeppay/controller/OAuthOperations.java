@@ -1,8 +1,8 @@
 package ch.deeppay.controller;
 
-import ch.deeppay.models.oauth.AuthorizeRequest;
-import ch.deeppay.models.oauth.TokenRequest;
-import ch.deeppay.models.oauth.TokenResponse;
+import ch.deeppay.models.ebanking.oauth.AuthorizeRequest;
+import ch.deeppay.models.ebanking.oauth.TokenRequest;
+import ch.deeppay.models.ebanking.oauth.TokenResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;

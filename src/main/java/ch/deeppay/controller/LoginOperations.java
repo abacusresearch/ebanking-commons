@@ -1,7 +1,7 @@
 package ch.deeppay.controller;
 
-import ch.deeppay.models.login.LoginRequest;
-import ch.deeppay.models.login.LoginResponse;
+import ch.deeppay.models.ebanking.login.LoginRequest;
+import ch.deeppay.models.ebanking.login.LoginResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
