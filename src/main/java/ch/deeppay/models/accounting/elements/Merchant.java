@@ -1,5 +1,6 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting.elements;
 
+import ch.deeppay.models.accounting.elements.GeoPosition;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

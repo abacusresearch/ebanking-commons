@@ -1,8 +1,7 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting.elements;
 
-import ch.deeppay.util.serializer.MoneySerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +9,17 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * Detail position
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Amount {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class GeoPosition {
 
-  @JsonSerialize(using = MoneySerializer.class)
-  private BigDecimal value;
-  private String currency;
+  private BigDecimal lat;
+  private BigDecimal lon;
 }

@@ -1,5 +1,14 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting;
 
+import ch.deeppay.models.accounting.elements.Exchange;
+import ch.deeppay.models.accounting.elements.Institute;
+import ch.deeppay.models.accounting.elements.Merchant;
+import ch.deeppay.models.accounting.elements.Payout;
+import ch.deeppay.models.accounting.types.Amount;
+import ch.deeppay.models.accounting.types.BookingType;
+import ch.deeppay.models.accounting.types.CreditCard;
+import ch.deeppay.models.accounting.types.PaymentState;
+import ch.deeppay.models.accounting.types.StatementType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

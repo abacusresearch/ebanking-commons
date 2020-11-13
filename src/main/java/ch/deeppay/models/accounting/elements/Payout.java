@@ -1,4 +1,4 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting.elements;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

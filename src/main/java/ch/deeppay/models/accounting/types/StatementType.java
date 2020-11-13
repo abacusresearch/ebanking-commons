@@ -1,4 +1,4 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting.types;
 
 /**
  * Possible statement types

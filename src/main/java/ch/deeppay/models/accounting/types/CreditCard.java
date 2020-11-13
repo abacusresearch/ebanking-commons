@@ -1,9 +1,7 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting.types;
 
-import ch.deeppay.util.serializer.RateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Exchange {
+public class CreditCard {
 
-  private Amount fromAmount;
-  private Amount toAmount;
-  @JsonSerialize(using = RateSerializer.class)
-  private Double rate;
+  private String number;
+  private String firstName;
+  private String lastName;
+  private String phone;
+  private String type;
+  private String brand;
 }

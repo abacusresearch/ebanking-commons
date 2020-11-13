@@ -1,4 +1,4 @@
-package ch.deeppay.models.accounting;
+package ch.deeppay.models.accounting.login;
 
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;

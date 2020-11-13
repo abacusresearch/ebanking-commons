@@ -1,4 +1,4 @@
-package ch.deeppay.models.ebanking.statement.types;
+package ch.deeppay.models.accounting.types;
 
 /**
  * Possible fintech variations

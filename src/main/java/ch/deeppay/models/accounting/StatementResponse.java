@@ -1,6 +1,5 @@
 package ch.deeppay.models.accounting;
 
-import ch.deeppay.models.accounting.statement.Statement;
 import ch.deeppay.models.ebanking.ClientResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

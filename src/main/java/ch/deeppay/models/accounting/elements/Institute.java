@@ -1,6 +1,7 @@
-package ch.deeppay.models.accounting.statement;
+package ch.deeppay.models.accounting.elements;
 
-import ch.deeppay.models.ebanking.statement.types.FintechVariation;
+import ch.deeppay.models.accounting.types.InsituteVariation;
+import ch.deeppay.models.accounting.types.FintechVariation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
