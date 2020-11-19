@@ -34,6 +34,8 @@ public class LoginRequest {
   private String language = StringUtils.EMPTY;
   @Builder.Default
   private String transportData = StringUtils.EMPTY;
+  @Builder.Default
+  private String url = StringUtils.EMPTY;
 
   public void setLanguage(String language) {
     if (language != null) {
