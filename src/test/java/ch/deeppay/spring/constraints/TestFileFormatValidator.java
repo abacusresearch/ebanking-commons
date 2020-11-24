@@ -63,9 +63,7 @@ class TestFileFormatValidator {
   public void testInvalidFileFormatEmpty() {
     MyFileFormatTester tester = new MyFileFormatTester();
     final Set<ConstraintViolation<MyFileFormatTester>> result = validator.validate(tester);
-    assertEquals(1, result.size());
-    final ConstraintViolation<MyFileFormatTester> constraintViolation = result.iterator().next();
-    assertEquals("Invalid FileFormat.", constraintViolation.getMessage());
+    assertEquals(0, result.size());
   }
 
   private static class MyFileFormatTester {
