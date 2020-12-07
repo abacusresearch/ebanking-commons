@@ -1,6 +1,6 @@
 package ch.deeppay.controller;
 
-import ch.deeppay.models.ebanking.ClientRequest;
+import ch.deeppay.models.ebanking.logout.LogoutRequest;
 import ch.deeppay.models.ebanking.logout.LogoutResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public interface LogoutOperations {
 
   @PostMapping
   ResponseEntity<LogoutResponse> logout(@RequestHeader @NonNull final HttpHeaders headers,
-                                        @RequestBody @NonNull final @Valid ClientRequest clientRequest);
+                                        @RequestBody @NonNull final @Valid LogoutRequest logoutRequest);
 
 }
 

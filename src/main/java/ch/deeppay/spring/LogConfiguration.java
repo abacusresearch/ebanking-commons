@@ -41,7 +41,6 @@ public class LogConfiguration {
         "transportData"));
 
     return Logbook.builder()
-        .bodyFilter(BodyFilters.replaceJsonStringProperty(properties, "<secret>"))
         .bodyFilter(BodyFilters.replaceFormUrlEncodedProperty(properties, "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("clientid", "<secret>"))
         .queryFilter(QueryFilters.replaceQuery("client_id", "<secret>"))
