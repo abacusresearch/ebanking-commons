@@ -8,7 +8,7 @@ package ch.deeppay.util;
 public enum LoginState {
   CHANGE_PASSWORD,
   MOBILE_TAN,
-  PUSH_TAN,
+  EXT_APP,
   ONE_TIME_PASSWORD,
   OPTICAL_CHALLENGE,
   GRID_CARD,
