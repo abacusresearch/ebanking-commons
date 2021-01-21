@@ -1,17 +1,18 @@
 package ch.deeppay.spring;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.logbook.BodyFilters;
 import org.zalando.logbook.Logbook;
 import org.zalando.logbook.QueryFilter;
 import org.zalando.logbook.QueryFilters;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.zalando.logbook.json.JsonBodyFilters;
 
 import static org.zalando.logbook.Conditions.exclude;
 import static org.zalando.logbook.Conditions.requestTo;
@@ -41,24 +42,25 @@ public class LogConfiguration {
         "transportData"));
 
     return Logbook.builder()
-        .bodyFilter(BodyFilters.replaceFormUrlEncodedProperty(properties, "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("clientid", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("client_id", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("clientsecret", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("access_token", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("accessToken", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("password", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("passwort", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("passwordNew", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("contractId", "<secret>"))
-        .queryFilter(QueryFilters.replaceQuery("file", "<secret>"))
-        .queryFilter(cardNumber())
-        .condition(exclude(requestTo("**/health"),
-                           requestTo("/admin/**")))
-        .build();
+                  .bodyFilter(BodyFilters.replaceFormUrlEncodedProperty(properties, "<secret>"))
+                  .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("clientid", "<secret>"))/**/
+                  .queryFilter(QueryFilters.replaceQuery("client_id", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("clientsecret", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("access_token", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("accessToken", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("password", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("passwort", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("passwordNew", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("contractId", "<secret>"))
+                  .queryFilter(QueryFilters.replaceQuery("file", "<secret>"))
+                  .queryFilter(cardNumber())
+                  .condition(exclude(requestTo("**/health"),
+                                     requestTo("/admin/**")))
+                  .build();
   }
 
   private QueryFilter cardNumber() {
