@@ -23,4 +23,5 @@ public class PaymentResponse extends ClientResponse {
   private String file;
   private LoginState state;
   private Challenge challenge;
+  private String paymentReference;
 }
