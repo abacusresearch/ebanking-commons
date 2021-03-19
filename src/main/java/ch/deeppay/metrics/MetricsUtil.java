@@ -4,9 +4,6 @@ import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import ch.deeppay.util.FileFormat;
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
@@ -74,57 +71,5 @@ public class MetricsUtil {
     }
 
     return "";
-  }
-
-  public static void incrementStatementSuccessfulCounter(@Nonnull final MeterRegistry meterRegistry,
-                                                         @Nonnull final String bankId,
-                                                         @Nonnull final ClientType clientType,
-                                                         @Nonnull final String clientId,
-                                                         @Nonnull final FileFormat format) {
-    Counter.builder(MetricConst.STATEMENT_SUCCESSFUL_COUNTER)
-           .tag(MetricConst.BANK_ID, bankId)
-           .tag(MetricConst.CLIENT_TYPE, clientType.toString())
-           .tag(MetricConst.CLIENT_ID, clientId)
-           .tag(MetricConst.FORMAT, format.toString())
-           .description(MetricConst.STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
-           .register(meterRegistry).increment();
-  }
-
-  public static void incrementPaymentSuccessfulCounter(@Nonnull final MeterRegistry meterRegistry,
-                                                       @Nonnull final String bankId,
-                                                       @Nonnull final ClientType clientType,
-                                                       @Nonnull final String clientId,
-                                                       @Nonnull final FileFormat format) {
-    Counter.builder(MetricConst.PAYMENT_SUCCESSFUL_COUNTER)
-           .tag(MetricConst.BANK_ID, bankId)
-           .tag(MetricConst.CLIENT_TYPE, clientType.toString())
-           .tag(MetricConst.CLIENT_ID, clientId)
-           .tag(MetricConst.FORMAT, format.toString())
-           .description(MetricConst.PAYMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
-           .register(meterRegistry).increment();
-  }
-
-  public static void incrementLoginCounter(@Nonnull final MeterRegistry meterRegistry,
-                                           @Nonnull final String bankId,
-                                           @Nonnull final ClientType clientType,
-                                           @Nonnull final String clientId) {
-    Counter.builder(MetricConst.LOGIN_COUNTER)
-           .tag(MetricConst.BANK_ID, bankId)
-           .tag(MetricConst.CLIENT_TYPE, clientType.toString())
-           .tag(MetricConst.CLIENT_ID, clientId)
-           .description(MetricConst.LOGIN_COUNTER_DESCRIPTION)
-           .register(meterRegistry).increment();
-  }
-
-  public static void incrementLoginSuccessfulCounter(@Nonnull final MeterRegistry meterRegistry,
-                                                     @Nonnull final String bankId,
-                                                     @Nonnull final ClientType clientType,
-                                                     @Nonnull final String clientId) {
-    Counter.builder(MetricConst.LOGIN_SUCCESSFUL_COUNTER)
-           .tag(MetricConst.BANK_ID, bankId)
-           .tag(MetricConst.CLIENT_TYPE, clientType.toString())
-           .tag(MetricConst.CLIENT_ID, clientId)
-           .description(MetricConst.LOGIN_SUCCESSFUL_COUNTER_DESCRIPTION)
-           .register(meterRegistry).increment();
   }
 }
