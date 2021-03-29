@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 public class MetricsComponent {
 
   private static final String DEMO  = "Demo";
-  private static final String PRODUCTIVE  = "Productive";
 
   private final MeterRegistry meterRegistry;
 
@@ -79,7 +78,7 @@ public class MetricsComponent {
   }
 
   private String convertClientId(String clientId){
-    return Objects.nonNull(demoSet) && demoSet.contains(clientId) ? DEMO : PRODUCTIVE;
+    return Objects.nonNull(demoSet) && demoSet.contains(clientId) ? DEMO : StringUtils.EMPTY;
   }
 
   private String nonNull(ClientType clientType) {
