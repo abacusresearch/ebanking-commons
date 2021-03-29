@@ -40,7 +40,7 @@ public class MetricsComponent {
     Counter.builder(MetricConst.STATEMENT_SUCCESSFUL_COUNTER)
            .tag(MetricConst.BANK_ID, nonEmpty(bankId))
            .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, covertClientId(clientId))
+           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
            .tag(MetricConst.FORMAT, nonNull(format))
            .description(MetricConst.STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
@@ -53,7 +53,7 @@ public class MetricsComponent {
     Counter.builder(MetricConst.PAYMENT_SUCCESSFUL_COUNTER)
            .tag(MetricConst.BANK_ID, nonEmpty(bankId))
            .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, covertClientId(clientId))
+           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
            .tag(MetricConst.FORMAT, nonNull(format))
            .description(MetricConst.PAYMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
@@ -65,7 +65,7 @@ public class MetricsComponent {
     Counter.builder(MetricConst.LOGIN_COUNTER)
            .tag(MetricConst.BANK_ID, nonEmpty(bankId))
            .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, covertClientId(clientId))
+           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
            .description(MetricConst.LOGIN_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
   }
@@ -76,12 +76,12 @@ public class MetricsComponent {
     Counter.builder(MetricConst.LOGIN_SUCCESSFUL_COUNTER)
            .tag(MetricConst.BANK_ID, nonEmpty(bankId))
            .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, covertClientId(clientId))
+           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
            .description(MetricConst.LOGIN_SUCCESSFUL_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
   }
 
-  private String covertClientId(String clientId){
+  private String convertClientId(String clientId){
     return demoSet.contains(clientId) ? DEMO : StringUtils.EMPTY;
   }
 
