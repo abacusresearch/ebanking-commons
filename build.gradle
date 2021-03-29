@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.24'
+version = '0.1.25'
 
 sourceCompatibility = '1.8'
 
@@ -33,7 +33,6 @@ dependencies {
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'net.lingala.zip4j:zip4j:1.2.4'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
-    implementation 'commons-codec:commons-codec:1.10'
 
     implementation 'org.aspectj:aspectjrt:1.9.4'
     implementation 'org.aspectj:aspectjtools:1.9.4'
