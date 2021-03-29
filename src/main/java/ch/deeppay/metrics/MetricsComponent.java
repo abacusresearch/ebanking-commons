@@ -2,9 +2,6 @@ package ch.deeppay.metrics;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,17 +17,17 @@ import org.springframework.stereotype.Component;
 public class MetricsComponent {
 
   private static final String DEMO  = "Demo";
+  private static final String PRODUCTIVE  = "Productive";
 
   private final MeterRegistry meterRegistry;
-  private final Set<String> demoSet;
+
+  @Value("${ch.deeppay.metrics.demo_ids:17,18,77}")
+  private Set<String> demoSet;
+
 
   @Autowired
-  public MetricsComponent(final MeterRegistry meterRegistry,
-                          @Value("ch.deeppay.metrics.demo_ids:17,18,77") final String demoIds) {
+  public MetricsComponent(final MeterRegistry meterRegistry) {
     this.meterRegistry = meterRegistry;
-    this.demoSet = new HashSet<>(StringUtils.isBlank(demoIds)?
-                                     Collections.emptyList() :
-        Arrays.asList(demoIds.split(",")));
   }
 
   public void incrementStatementSuccessfulCounter(@Nonnull final String bankId,
@@ -82,7 +79,7 @@ public class MetricsComponent {
   }
 
   private String convertClientId(String clientId){
-    return demoSet.contains(clientId) ? DEMO : StringUtils.EMPTY;
+    return Objects.nonNull(demoSet) && demoSet.contains(clientId) ? DEMO : PRODUCTIVE;
   }
 
   private String nonNull(ClientType clientType) {
