@@ -16,5 +16,6 @@ public enum LoginState {
   CHOOSE,
   SUCCESS,
   ERROR,
-  NOT_SUPPORTED
+  NOT_SUPPORTED,
+  POLL
 }
