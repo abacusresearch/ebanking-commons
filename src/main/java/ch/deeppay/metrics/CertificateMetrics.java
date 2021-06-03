@@ -38,8 +38,8 @@ public class CertificateMetrics {
     this.meterRegistry = meterRegistry;
   }
 
-  public void register(Map<String, Secret> secrets){
-    for(Map.Entry<String,Secret> entry : secrets.entrySet()){
+  public void register(Map<String,? extends  Secret> secrets){
+    for(Map.Entry<String,? extends Secret> entry : secrets.entrySet()){
       register(entry.getKey(),entry.getValue().getCertificate());
       register(entry.getKey(),entry.getValue().getBankCertificate());
     }
