@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MetricsComponent {
+public class EBankingMetrics {
 
   private static final String DEMO  = "Demo";
 
@@ -25,7 +25,7 @@ public class MetricsComponent {
 
 
   @Autowired
-  public MetricsComponent(final MeterRegistry meterRegistry) {
+  public EBankingMetrics(final MeterRegistry meterRegistry) {
     this.meterRegistry = meterRegistry;
   }
 
@@ -34,10 +34,10 @@ public class MetricsComponent {
                                                   @Nonnull final String clientId,
                                                   @Nullable final FileFormat format) {
     Counter.builder(MetricConst.STATEMENT_SUCCESSFUL_COUNTER)
-           .tag(MetricConst.BANK_ID, nonEmpty(bankId))
-           .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
-           .tag(MetricConst.FORMAT, nonNull(format))
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_FORMAT, nonNull(format))
            .description(MetricConst.STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
   }
@@ -47,10 +47,10 @@ public class MetricsComponent {
                                                 @Nonnull final String clientId,
                                                 @Nullable final FileFormat format) {
     Counter.builder(MetricConst.PAYMENT_SUCCESSFUL_COUNTER)
-           .tag(MetricConst.BANK_ID, nonEmpty(bankId))
-           .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
-           .tag(MetricConst.FORMAT, nonNull(format))
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_FORMAT, nonNull(format))
            .description(MetricConst.PAYMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
   }
@@ -59,9 +59,9 @@ public class MetricsComponent {
                                     @Nullable final ClientType clientType,
                                     @Nonnull final String clientId) {
     Counter.builder(MetricConst.LOGIN_COUNTER)
-           .tag(MetricConst.BANK_ID, nonEmpty(bankId))
-           .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
            .description(MetricConst.LOGIN_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
   }
@@ -70,9 +70,9 @@ public class MetricsComponent {
                                               @Nullable final ClientType clientType,
                                               @Nonnull final String clientId) {
     Counter.builder(MetricConst.LOGIN_SUCCESSFUL_COUNTER)
-           .tag(MetricConst.BANK_ID, nonEmpty(bankId))
-           .tag(MetricConst.CLIENT_TYPE, nonNull(clientType))
-           .tag(MetricConst.CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
            .description(MetricConst.LOGIN_SUCCESSFUL_COUNTER_DESCRIPTION)
            .register(meterRegistry).increment();
   }
