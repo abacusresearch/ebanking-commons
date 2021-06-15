@@ -23,7 +23,8 @@ public enum FileFormat {
   CAMT054_ZA("CAMT054_ZA", ".xml", true, false),
 
   ESR("ESR", ".v11", true, false),
-  LSV("LSV", ".lsv", true, true),
+  LSV_CHL("LSV_CHL", ".lsv", false, true),
+  LSV_CLG("LSV_CLG", ".lsv", true, false),
   EDOC("EDOC", ".pdf", true, false),
 
   DTA("DTA", ".dta", false, true),
