@@ -67,8 +67,12 @@ class ZipUtilTest {
       ZipUtil.unzip(Base64.decode(b), tmpDirectory);
 
       File[] files = tmpDirectory.listFiles();
-      assertEquals(24, requireNonNull(files).length);
-      validateFileSize(files);
+      assertEquals(1, requireNonNull(files).length);
+
+      File[] subFolder = files[0].listFiles();
+      assertEquals(2, requireNonNull(subFolder).length);
+
+      validateFileSize(subFolder);
     } finally {
       assertTrue(FileUtils.deleteQuietly(tmpDirectory));
     }
