@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.28'
+version = '0.1.29'
 
 sourceCompatibility = '1.8'
 
@@ -31,6 +31,7 @@ dependencies {
 
     implementation 'javax.validation:validation-api:1.0.0.GA'
     implementation 'commons-lang:commons-lang:2.6'
+    implementation 'commons-io:commons-io:2.11.0'
     implementation 'net.lingala.zip4j:zip4j:1.2.4'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
 
