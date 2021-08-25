@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.29'
+version = '0.1.30'
 
 sourceCompatibility = '1.8'
 
@@ -25,9 +25,11 @@ test {
 dependencies {
     implementation 'org.springframework:spring-context:4.0.1.RELEASE'
     implementation 'org.springframework:spring-web:5.1.6.RELEASE'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:2.1.6.RELEASE'
     implementation 'org.springframework:spring-webmvc:5.2.1.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:2.1.6.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:2.1.6.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-brave:3.0.3'
+
 
     implementation 'javax.validation:validation-api:1.0.0.GA'
     implementation 'commons-lang:commons-lang:2.6'
