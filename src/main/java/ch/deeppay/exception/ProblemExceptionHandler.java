@@ -1,21 +1,30 @@
 package ch.deeppay.exception;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import brave.Span;
 import brave.Tracer;
+import brave.baggage.BaggageField;
 import brave.propagation.TraceContext;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.zalando.problem.Problem;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import org.zalando.problem.violations.Violation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import static org.springframework.http.ResponseEntity.status;
+import static org.zalando.problem.Problem.builder;
 
 /**
  * Load traceId from sleuth library and add it to all problems
@@ -24,45 +33,60 @@ import java.util.Optional;
 @ControllerAdvice
 public class ProblemExceptionHandler implements ProblemHandling {
 
-  private final Tracer tracer;
+  public final static String FIELD_TRACE_ID = "traceId";
+  public final static String FIELD_SESSION_TRACE_ID = "sessionTraceId";
+
+  private final Optional<Tracer> optionalTracer;
+  private final HttpServletRequest request;
+  private final Optional<BaggageField> optionalBaggageField;
 
   @Autowired
-  public ProblemExceptionHandler(Tracer tracer) {
-    this.tracer = tracer;
+  public ProblemExceptionHandler(@Nullable final Tracer tracer,@NonNull final HttpServletRequest request,@Nullable final BaggageField sessionTraceId) {
+    this.optionalTracer = Optional.ofNullable(tracer);
+    this.request = request;
+    this.optionalBaggageField = Optional.ofNullable(sessionTraceId);
   }
 
   @Override
   public ResponseEntity<Problem> process(ResponseEntity<Problem> entity) {
     Problem problem = entity.getBody();
-    if (problem != null) {
+    if (Objects.nonNull(problem)) {
 
       //defaults
       String detail = problem.getDetail();
 
       if (problem instanceof ConstraintViolationProblem) {
-        detail = getContrainViolationDetails((ConstraintViolationProblem) problem);
+        detail = getConstraintViolationDetails((ConstraintViolationProblem) problem);
       }
 
-      Problem traceIdProblem = Problem.builder()
+      Problem extendedProblem = builder()
+          .withType(problem.getType())
           .withTitle(problem.getTitle())
           .withDetail(detail)
           .withStatus(problem.getStatus())
-          .withInstance(problem.getInstance())
-          .with("id", getTraceId())
+          .withInstance(Objects.isNull(problem.getInstance()) ? getInstance() : problem.getInstance())
+          .with(FIELD_TRACE_ID, getTraceId())
+          .with(FIELD_SESSION_TRACE_ID, getSessionTraceId())
           .build();
 
-      return new ResponseEntity<>(traceIdProblem, entity.getStatusCode());
+      return status(entity.getStatusCode())
+          .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+          .body(extendedProblem);
     }
     return entity;
+  }
+
+  private URI getInstance() {
+    return Objects.isNull(request) ? null : URI.create(request.getRequestURI());
   }
 
   /**
    * List details in reponse details.
    *
-   * @param body b
+   * @param problem b
    * @return details as list of violations.
    */
-  private String getContrainViolationDetails(ConstraintViolationProblem problem) {
+  private String getConstraintViolationDetails(ConstraintViolationProblem problem) {
     String detail;
     final List<Violation> violations = problem.getViolations();
     List<String> details = new ArrayList<>();
@@ -73,10 +97,15 @@ public class ProblemExceptionHandler implements ProblemHandling {
 
   @NonNull
   private String getTraceId() {
-    return Optional.ofNullable(tracer)
-        .map(Tracer::currentSpan)
-        .map(Span::context)
-        .map(TraceContext::traceIdString)
-        .orElse(StringUtils.EMPTY);
+    return optionalTracer.map(Tracer::currentSpan)
+                         .map(Span::context)
+                         .map(TraceContext::traceIdString)
+                         .orElse(StringUtils.EMPTY);
+  }
+
+  @NonNull
+  private  String getSessionTraceId(){
+    return optionalBaggageField.map(BaggageField::getValue)
+                               .orElse(StringUtils.EMPTY);
   }
 }

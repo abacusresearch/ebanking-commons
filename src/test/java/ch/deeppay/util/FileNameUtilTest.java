@@ -8,38 +8,38 @@ public class FileNameUtilTest {
   @Test
   void getUploadFilename() {
     final String tooLongFileName = "qwertzuiopasdfghjklyxcvbnm.asdf";
-    final String uploadFilename = FileNameUtil.getUploadFilename(tooLongFileName, FileFormat.DTA, false, 24);
+    final String uploadFilename = FileUtil.getUploadFilename(tooLongFileName, FileFormat.DTA, false, 24);
     Assertions.assertEquals(24, uploadFilename.length());
     Assertions.assertTrue(uploadFilename.contains(FileFormat.DTA.getFileExtension().toUpperCase()));
   }
 
   @Test
   void removeExtension_none() {
-    final String name = FileNameUtil.removeExtension("abc");
+    final String name = FileUtil.removeExtension("abc");
     Assertions.assertEquals("abc", name);
   }
 
   @Test
   void removeExtension_oneDot() {
-    final String name = FileNameUtil.removeExtension("abc.c54.xml");
+    final String name = FileUtil.removeExtension("abc.c54.xml");
     Assertions.assertEquals("abc", name);
   }
 
   @Test
   void removeExtension_twoDots() {
-    final String name = FileNameUtil.removeExtension("abc.c54.xml");
+    final String name = FileUtil.removeExtension("abc.c54.xml");
     Assertions.assertEquals("abc", name);
   }
 
   @Test
   void removeExtension_hiddenOneDot() {
-    final String name = FileNameUtil.removeExtension(".abc.xml");
+    final String name = FileUtil.removeExtension(".abc.xml");
     Assertions.assertEquals(".abc", name);
   }
 
   @Test
   void removeExtension_hidden() {
-    final String name = FileNameUtil.removeExtension(".abc");
+    final String name = FileUtil.removeExtension(".abc");
     Assertions.assertEquals(".abc", name);
   }
 

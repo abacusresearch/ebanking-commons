@@ -1,4 +1,4 @@
-package ch.deeppay.spring;
+package ch.deeppay.spring.logging;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -6,9 +6,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.logbook.BodyFilters;
+import org.zalando.logbook.DefaultHttpLogFormatter;
+import org.zalando.logbook.DefaultSink;
 import org.zalando.logbook.Logbook;
 import org.zalando.logbook.QueryFilter;
 import org.zalando.logbook.QueryFilters;
@@ -21,6 +25,7 @@ import static org.zalando.logbook.Conditions.requestTo;
  * Contains beans used for configuring log files.
  */
 @Configuration
+@ConditionalOnProperty(value = "ch.deeppay.spring.logconfiguration.enabled", matchIfMissing = true)
 public class LogConfiguration {
 
   final Pattern creditcard = Pattern.compile("(\\w*)\\b([0-9]{4})[0-9]{0,9}([0-9]{4})\\b(\\w*)");
@@ -29,6 +34,7 @@ public class LogConfiguration {
    * Configured bean to mask sensitive log data for request and response
    */
   @Bean
+  @ConditionalOnMissingBean
   public Logbook getMaskSensitiveDataConfiguration() {
     final Set<String> properties = new HashSet<>(Arrays.asList(
         "password", "passwort", "passwordNew",
@@ -42,6 +48,7 @@ public class LogConfiguration {
         "transportData"));
 
     return Logbook.builder()
+                  .sink(new DefaultSink(new DefaultHttpLogFormatter(), new CustomizedHttpLogWriter()))
                   .bodyFilter(BodyFilters.replaceFormUrlEncodedProperty(properties, "<secret>"))
                   .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, "<secret>"))
                   .queryFilter(QueryFilters.replaceQuery("clientid", "<secret>"))/**/
@@ -59,6 +66,7 @@ public class LogConfiguration {
                   .queryFilter(QueryFilters.replaceQuery("file", "<secret>"))
                   .queryFilter(cardNumber())
                   .condition(exclude(requestTo("**/health"),
+                                     requestTo("/actuator/**"),
                                      requestTo("/admin/**")))
                   .build();
   }
