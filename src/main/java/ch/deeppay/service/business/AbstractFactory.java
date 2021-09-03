@@ -22,7 +22,7 @@ public abstract class AbstractFactory<T extends NamedService> {
   }
 
   public T getInstance(@Nonnull final FileFormat fileFormat) {
-    final var result = map.get(fileFormat);
+    final T result = map.get(fileFormat);
     if (Objects.isNull(result)) {
       throw DeepPayProblemException.createProblemException(DeepPayProblemType.INVALID_PARAMETER, String.format("Invalid format: [%s]", fileFormat.name()));
     } else {
