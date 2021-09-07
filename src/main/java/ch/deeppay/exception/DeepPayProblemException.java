@@ -1,58 +1,90 @@
 package ch.deeppay.exception;
 
+import javax.annotation.Nonnull;
 import java.net.URI;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.NonNull;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.spring.common.HttpStatusAdapter;
 
+/**
+ * This class defines a problem detail according to rfc7807 (https://datatracker.ietf.org/doc/html/rfc7807)
+ *
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DeepPayProblemException extends AbstractThrowableProblem {
 
-  DeepPayProblemException(@NonNull final HttpStatusCodeException e) {
+  DeepPayProblemException(@Nonnull final HttpStatusCodeException e) {
     super(null, null, new HttpStatusAdapter(e.getStatusCode()), e.getResponseBodyAsString());
   }
 
-  DeepPayProblemException(@NonNull final URI uri, @NonNull final String title, @NonNull final HttpStatus httpStatus, @NonNull final String detail) {
+  DeepPayProblemException(@Nonnull final URI uri, @Nonnull final String title, @Nonnull final HttpStatus httpStatus, @Nonnull final String detail) {
     super(uri, title, new HttpStatusAdapter(httpStatus), detail);
   }
 
-  DeepPayProblemException(@NonNull final String title, @NonNull final HttpStatus httpStatus, @NonNull final String detail) {
+  DeepPayProblemException(@Nonnull final String title, @Nonnull final HttpStatus httpStatus, @Nonnull final String detail) {
     super(null, title, new HttpStatusAdapter(httpStatus), detail); //TODO darf uri null sein
   }
 
-  DeepPayProblemException(@NonNull final URI uri,
-                          @NonNull final String title,
-                          @NonNull final HttpStatus httpStatus,
-                          @NonNull final String detail,
-                          @NonNull final URI instance) {
+  DeepPayProblemException(@Nonnull final URI uri,
+                          @Nonnull final String title,
+                          @Nonnull final HttpStatus httpStatus,
+                          @Nonnull final String detail,
+                          @Nonnull final URI instance) {
     super(uri, title, new HttpStatusAdapter(httpStatus), detail, instance);
   }
 
-  public static void throwProblemException(@NonNull final DeepPayProblemType problem, @NonNull final String detail) {
+  /**
+   * throws a DeepPayProblemException object
+   *
+   * @param problem of type DeepPayProblemTypeGetter
+   * @param detail message of the problem
+   */
+  public static void throwProblemException(@Nonnull final DeepPayProblemTypeGetter problem, @Nonnull final String detail) {
     throw new DeepPayProblemException(problem.getUri(), problem.getTitle(), problem.getHttpStatus(), detail);
   }
 
-  public static void throwProblemException(@NonNull final DeepPayProblemType problem, @NonNull final String detail, @NonNull final String instance) {
+  /**
+   * throws a DeepPayProblemException object
+   *
+   * @param problem of type DeepPayProblemTypeGetter
+   * @param detail message of the problem
+   * @param instance uri (subpath) of the the resource that was called
+   */
+  public static void throwProblemException(@Nonnull final DeepPayProblemTypeGetter problem, @Nonnull final String detail, @Nonnull final String instance) {
     throw new DeepPayProblemException(problem.getUri(), problem.getTitle(), problem.getHttpStatus(), detail, URI.create(instance));
   }
 
-  public static DeepPayProblemException createProblemException(@NonNull final DeepPayProblemType problem,
-                                                               @NonNull final String detail) {
+  /**
+   * Creates a new instance of a DeepPayProblemException
+   *
+   * @param problem of type DeepPayProblemTypeGetter
+   * @param detail message of the problem
+   * @return instance of DeepPayProblemException
+   */
+  public static DeepPayProblemException createProblemException(@Nonnull final DeepPayProblemTypeGetter problem,
+                                                               @Nonnull final String detail) {
     return new DeepPayProblemException(problem.getUri(),
                                        problem.getTitle(),
                                        problem.getHttpStatus(),
                                        detail);
   }
 
-  public static DeepPayProblemException createProblemException(@NonNull final DeepPayProblemType problem,
-                                                               @NonNull final String detail,
-                                                               @NonNull final Object... args) {
+  /**
+   * Creates a new instance of a DeepPayProblemException
+   *
+   * @param problem of type DeepPayProblemTypeGetter
+   * @param detail message of the problem
+   * @param args the passed arguments must be part of detail message (the format must be like {@link  String#format(String, Object...)})
+   * @return instance of DeepPayProblemException
+   */
+  public static DeepPayProblemException createProblemException(@Nonnull final DeepPayProblemTypeGetter problem,
+                                                               @Nonnull final String detail,
+                                                               @Nonnull final Object... args) {
     return new DeepPayProblemException(problem.getUri(),
                                        problem.getTitle(),
                                        problem.getHttpStatus(),
@@ -60,19 +92,26 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
   }
 
 
-  public static DeepPayProblemException createProblemException(@NonNull final DeepPayProblemType problem,
-                                                               @NonNull final HttpStatusCodeException exception) {
+  /**
+   * Creates a new instance of a DeepPayProblemException
+   *
+   * @param problem of type DeepPayProblemTypeGetter
+   * @param exception of type HttpStatusCodeException
+   * @return instance of DeepPayProblemException
+   */
+  public static DeepPayProblemException createProblemException(@Nonnull final DeepPayProblemTypeGetter problem,
+                                                               @Nonnull final HttpStatusCodeException exception) {
     return new DeepPayProblemException(problem.getUri(),
                                        problem.getTitle(),
                                        problem.getHttpStatus(),
                                        exception.getResponseBodyAsString());
   }
 
-  public static DeepPayProblemException createServerErrorProblemException(@NonNull final String detail) {
+  public static DeepPayProblemException createServerErrorProblemException(@Nonnull final String detail) {
     return new DeepPayProblemException("Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR, detail);
   }
 
-  public static DeepPayProblemException createProblemException(@NonNull final HttpStatusCodeException exception) {
+  public static DeepPayProblemException createProblemException(@Nonnull final HttpStatusCodeException exception) {
     return new DeepPayProblemException(exception);
   }
 }
