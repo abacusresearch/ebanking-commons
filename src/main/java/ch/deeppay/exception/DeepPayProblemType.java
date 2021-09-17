@@ -35,7 +35,13 @@ public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
                         "https://docs.api.deeppay.swiss/ebanking/interfaces/unexpected_api_answer"),
   INSTITUTE_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
                          "Server error at the institute api call",
-                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_server_error");
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_server_error"),
+  DUPLICATE_FILE(HttpStatus.BAD_REQUEST,
+                 "File already exists",
+                 "https://docs.api.deeppay.swiss/ebanking/interfaces/duplicate_file"),
+  VALIDATION_IN_PROGRESS(HttpStatus.NOT_FOUND,
+                         "Validation is in progress",
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/validation_in_progress");
 
   private final HttpStatus httpStatus;
   private final String title;

@@ -1,11 +1,10 @@
 package ch.deeppay.encryption;
 
-import javax.annotation.Nonnull;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 
 
 @Configuration()
@@ -15,8 +14,8 @@ public class EncryptionConfiguration {
   private final String secret;
   private final String salt;
 
-  public EncryptionConfiguration(@Value("${transportdata.encryption.secret}") @Nonnull final String secret,
-                                 @Value("${transportdata.encryption.salt}") @Nonnull final String salt) {
+  public EncryptionConfiguration(@Value("${transportdata.encryption.secret}") @NonNull final String secret,
+                                 @Value("${transportdata.encryption.salt}") @NonNull final String salt) {
     this.secret = secret;
     this.salt = salt;
   }

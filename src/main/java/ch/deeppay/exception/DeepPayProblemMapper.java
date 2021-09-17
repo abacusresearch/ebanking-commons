@@ -88,6 +88,32 @@ public class DeepPayProblemMapper extends AbstractThrowableProblem {
     return mapper.containsKey(apiErrorCode) ? createProblemException(mapper.get(apiErrorCode), detailMessage) : getFallbackProblem(detailMessage);
   }
 
+  /**
+   * Throws a {@code DeepPayProblemException} when the apiErrorCode matches a before registered error code. If a fallback problem is set
+   * a {@code DeepPayProblemException} will be thrown in any case.
+   *
+   * @param apiErrorCode  error code of an external api
+   * @param detailMessage detail message of the external error
+   */
+  public void throwIfExists(@Nonnull final String apiErrorCode, @Nonnull final String detailMessage){
+    if(mapper.containsKey(apiErrorCode) || Objects.nonNull(fallbackProblemType)){
+      throw create(apiErrorCode, detailMessage);
+    }
+  }
+
+  /**
+   * Throws a {@code DeepPayProblemException} when the HttpStatusCodeException matches a before registered exception. If a fallback problem is set
+   * a {@code DeepPayProblemException} will be thrown in any case.
+   *
+   * @param exception
+   */
+  public void throwIfExists(@Nonnull final HttpStatusCodeException exception){
+    String status = exception.getStatusCode().toString();
+    if(mapper.containsKey(status) || Objects.nonNull(fallbackProblemType)){
+      throw create(exception);
+    }
+  }
+
   @Nonnull
   private DeepPayProblemException getFallbackProblem(@Nonnull final String detailMessage) {
     return Objects.isNull(fallbackProblemType) ? createServerErrorProblemException(detailMessage) : createProblemException(fallbackProblemType, detailMessage);

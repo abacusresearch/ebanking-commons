@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.32'
+version = '0.1.33'
 
 sourceCompatibility = '1.8'
 
@@ -44,6 +44,7 @@ dependencies {
     implementation 'org.zalando:problem-spring-web:0.24.0'
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'commons-codec:commons-codec:1.13'
+    implementation 'com.google.guava:guava:30.1.1-jre'
 
     implementation 'org.joda:joda-money:1.0.1'
     implementation 'org.hibernate.validator:hibernate-validator:6.0.17.Final'

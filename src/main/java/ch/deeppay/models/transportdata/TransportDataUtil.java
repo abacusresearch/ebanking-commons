@@ -35,12 +35,17 @@ public class TransportDataUtil {
   }
 
   @Nonnull
-  public static String getKeyValuePair(@Nonnull String key, @Nullable String value) {
+  public static String getKeyValuePair(@Nonnull String key, @Nullable String value, boolean first) {
     if (StringUtils.isEmpty(value)) {
       return StringUtils.EMPTY;
     }
-    return SEPARATOR + key + '=' + value;
+
+    return (first ? StringUtils.EMPTY : SEPARATOR) + key + '=' + value;
   }
 
+  @Nonnull
+  public static String getKeyValuePair(@Nonnull String key, @Nullable String value) {
+    return getKeyValuePair(key, value, false);
+  }
 }
 
