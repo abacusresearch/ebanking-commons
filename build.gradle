@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework:spring-context:4.0.1.RELEASE'
     implementation 'org.springframework:spring-web:5.1.6.RELEASE'
     implementation 'org.springframework:spring-webmvc:5.2.1.RELEASE'
+    implementation 'org.springframework.vault:spring-vault-core:2.2.3.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:2.1.6.RELEASE'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:2.1.6.RELEASE'
     implementation 'org.springframework.cloud:spring-cloud-sleuth-brave:3.0.3'
