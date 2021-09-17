@@ -28,7 +28,7 @@ public class SecretConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public SecurityProvider secretProperties() {
+  public SecurityProvider securityProvider() {
     return new SecurityProvider(secretProperties,mtlsUtil);
   }
 }
