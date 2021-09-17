@@ -11,7 +11,7 @@ import java.util.List;
  * @param <A> Type of annotation
  * @param <C> Type of object that will be validated
  */
-abstract class AbstractContextValidator<A extends Annotation, C> implements ConstraintValidator<A, C> {
+public abstract class AbstractContextValidator<A extends Annotation, C> implements ConstraintValidator<A, C> {
 
   protected final List<SingleValidator<C>> validators = new ArrayList<>();
 
