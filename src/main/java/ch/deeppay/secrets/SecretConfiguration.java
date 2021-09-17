@@ -4,14 +4,11 @@ import javax.annotation.PostConstruct;
 
 import ch.deeppay.metrics.CertificateMetrics;
 import ch.deeppay.util.MtlsUtil;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.vault.config.EnvironmentVaultConfiguration;
 
 @Configuration()
-@ConditionalOnClass({EnvironmentVaultConfiguration.class})
 public class SecretConfiguration {
 
   private final SecretProperties secretProperties;
