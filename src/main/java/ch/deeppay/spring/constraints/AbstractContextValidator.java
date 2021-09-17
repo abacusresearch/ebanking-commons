@@ -41,7 +41,7 @@ public abstract class AbstractContextValidator<A extends Annotation, C> implemen
     return false;
   }
 
-  interface SingleValidator<C> {
+  public interface SingleValidator<C> {
 
     boolean isValid(ConstraintValidatorContext validatorContext, C value);
   }
