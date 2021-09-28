@@ -114,6 +114,24 @@ public class DeepPayProblemMapper extends AbstractThrowableProblem {
     }
   }
 
+  /**
+   * Returns true when error code is registered
+   * @param apiErrorCode error code
+   * @return true when error code is registered otherwise false
+   */
+  public boolean isRegistered(@Nonnull final String apiErrorCode){
+    return mapper.containsKey(apiErrorCode);
+  }
+
+  /**
+   * Returns true when {@code HttpStatus} is registered
+   * @param httpStatus http status code
+   * @return true when {@code HttpStatus} is registered otherwise false
+   */
+  public boolean isRegistered(@Nonnull final HttpStatus httpStatus){
+    return isRegistered(httpStatus.toString());
+  }
+
   @Nonnull
   private DeepPayProblemException getFallbackProblem(@Nonnull final String detailMessage) {
     return Objects.isNull(fallbackProblemType) ? createServerErrorProblemException(detailMessage) : createProblemException(fallbackProblemType, detailMessage);

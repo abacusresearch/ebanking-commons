@@ -1,13 +1,13 @@
 package ch.deeppay.spring.logging;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +17,7 @@ import org.zalando.logbook.BodyFilter;
 import org.zalando.logbook.DefaultHttpLogFormatter;
 import org.zalando.logbook.DefaultSink;
 import org.zalando.logbook.Logbook;
+import org.zalando.logbook.LogbookCreator;
 import org.zalando.logbook.QueryFilter;
 import org.zalando.logbook.QueryFilters;
 import org.zalando.logbook.common.MediaTypeQuery;
@@ -33,7 +34,45 @@ import static org.zalando.logbook.Conditions.requestTo;
 @ConditionalOnProperty(value = "ch.deeppay.spring.logconfiguration.enabled", matchIfMissing = true)
 public class LogConfiguration {
 
-  final Pattern creditcard = Pattern.compile("(\\w*)\\b([0-9]{4})[0-9]{0,9}([0-9]{4})\\b(\\w*)");
+  private final Pattern creditCard = Pattern.compile("(\\w*)\\b([0-9]{4})[0-9]{0,9}([0-9]{4})\\b(\\w*)");
+
+
+  private static final String DEFAULT_PROPERTIES = "password," +
+                                                   "passwort," +
+                                                   "passwordNew," +
+                                                   "challenge," +
+                                                   "clientId," +
+                                                   "client_id," +
+                                                   "clientSecret," +
+                                                   "client_secret," +
+                                                   "access_token," +
+                                                   "accessToken," +
+                                                   "refreshToken," +
+                                                   "refresh_token," +
+                                                   "cardNumber," +
+                                                   "card_number," +
+                                                   "file," +
+                                                   "transportData";
+
+  private static final String DEFAULT_QUERY_FILTER_NAMES = "clientid," +
+                                                           "client_id," +
+                                                           "clientsecret," +
+                                                           "access_token," +
+                                                           "accessToken," +
+                                                           "password," +
+                                                           "passwort," +
+                                                           "passwordNew," +
+                                                           "refreshToken," +
+                                                           "refresh_token," +
+                                                           "contractId," +
+                                                           "file," +
+                                                           "transportData";
+
+  @Value("${ch.deeppay.spring.logconfiguration.properties:" + DEFAULT_PROPERTIES + "}")
+  private Set<String> properties;
+
+  @Value("${ch.deeppay.spring.logconfiguration.query_filter_names:" + DEFAULT_QUERY_FILTER_NAMES + "}")
+  private List<String> queryFilterNames;
 
   /**
    * Configured bean to mask sensitive log data for request and response
@@ -41,35 +80,14 @@ public class LogConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public Logbook getMaskSensitiveDataConfiguration() {
-    final Set<String> properties = new HashSet<>(Arrays.asList(
-        "password", "passwort", "passwordNew",
-        "challenge",
-        "clientId", "client_id",
-        "clientSecret", "client_secret",
-        "access_token", "accessToken",
-        "refreshToken", "refresh_token",
-        "cardNumber", "card_number",
-        "file",
-        "transportData"));
+    LogbookCreator.Builder builder = Logbook.builder().sink(new DefaultSink(new DefaultHttpLogFormatter(), new CustomizedHttpLogWriter()))
+                                            .bodyFilter(replaceFormUrlEncodedProperty(properties, "<secret>"))
+                                            .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, "<secret>"));
+    for (String name : queryFilterNames) {
+      builder.queryFilter(QueryFilters.replaceQuery(name, "<secret>"));
+    }
 
-    return Logbook.builder()
-                  .sink(new DefaultSink(new DefaultHttpLogFormatter(), new CustomizedHttpLogWriter()))
-                  .bodyFilter(replaceFormUrlEncodedProperty(properties, "<secret>"))
-                  .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("clientid", "<secret>"))/**/
-                  .queryFilter(QueryFilters.replaceQuery("client_id", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("clientsecret", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("access_token", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("accessToken", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("password", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("passwort", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("passwordNew", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("refreshToken", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("refresh_token", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("transportData", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("contractId", "<secret>"))
-                  .queryFilter(QueryFilters.replaceQuery("file", "<secret>"))
-                  .queryFilter(cardNumber())
+    return builder.queryFilter(cardNumber())
                   .condition(exclude(requestTo("**/health"),
                                      requestTo("/actuator/**"),
                                      requestTo("/admin/**")))
@@ -78,7 +96,7 @@ public class LogConfiguration {
 
   private QueryFilter cardNumber() {
     return query -> {
-      final Matcher matcher = creditcard.matcher(query);
+      final Matcher matcher = creditCard.matcher(query);
       if (matcher.find()) {
         return matcher.replaceFirst("$1*********$3$4");
       }
@@ -103,7 +121,7 @@ public class LogConfiguration {
    * Code is copied from {@link org.zalando.logbook.QueryFilters#replaceQuery(String, String)}. Compare to the original code
    * the properties can be incasesensitive
    *
-   * @param predicate Predicate that decide if value has to be replaced
+   * @param predicate   Predicate that decide if value has to be replaced
    * @param replacement String to replace the properties values
    * @return QueryFilter
    */

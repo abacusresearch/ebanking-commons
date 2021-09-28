@@ -114,6 +114,10 @@ public class CookieUtil {
     return getCookiesAsList(cookies).toArray(EMPTY_ARRAY);
   }
 
+  public static String getCookiesAsString(@NonNull Map<String, String> cookies){
+    return String.join(",", getCookiesAsArray(cookies));
+  }
+
   private static String getCookieValuesAsString(@Nonnull final Map<String, String> result, final HttpHeaders headers) {
     if (Objects.nonNull(headers)) {
       //keep order -> set cookies are stronger than cookies
@@ -122,6 +126,10 @@ public class CookieUtil {
       result.putAll(getCookies(headers, HttpHeaders.SET_COOKIE2));
     }
     return String.join(",", getCookiesAsList(result));
+  }
+
+  public static String getCookieAsString(HttpHeaders headers) {
+    return getCookieValuesAsString(new HashMap<>(), headers);
   }
 
   /**
@@ -136,6 +144,17 @@ public class CookieUtil {
     }
     return StringUtils.split(cookieStr, ',');
   }
+
+  public static Map<String, String> getCookiesFromStrAsMap(final String cookieStr){
+    Map<String, String> result = new TreeMap<String, String>();
+    if (StringUtils.isNotBlank(cookieStr)) {
+      result.putAll(Splitter.on(",").withKeyValueSeparator("=").split(cookieStr));
+    }
+    return result;
+  }
+
+
+
 
 
 }

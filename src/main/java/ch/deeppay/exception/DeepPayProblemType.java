@@ -13,9 +13,9 @@ public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
   BLOCKED_CONTRACT(HttpStatus.FORBIDDEN, "Contract is blocked", "https://docs.api.deeppay.swiss/ebanking/interfaces/blocked_contract"),
   LOGIN_FAIlED(HttpStatus.UNAUTHORIZED, "Login has failed", "https://docs.api.deeppay.swiss/ebanking/interfaces/login_failed"),
   INVALID_SESSION(HttpStatus.UNAUTHORIZED, "Session is invalid", "https://docs.api.deeppay.swiss/ebanking/interfaces/invalid_session"),
-  REQUEST_REJECTED_BY_USER(HttpStatus.UNAUTHORIZED,
-                           "Request was rejected by the user",
-                           "https://docs.api.deeppay.swiss/ebanking/interfaces/request_rejected_by_user"),
+  REQUEST_REJECTED(HttpStatus.UNAUTHORIZED,
+                           "Request was rejected",
+                           "https://docs.api.deeppay.swiss/ebanking/interfaces/request_rejected"),
   PASSWORD_CHANGE_REQUIRED(HttpStatus.UNAUTHORIZED,
                            "Password has to be changed",
                            "https://docs.api.deeppay.swiss/ebanking/interfaces/password_change_required"),
@@ -30,18 +30,18 @@ public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
                   "The content of the request is invalid",
                   "https://docs.api.deeppay.swiss/ebanking/interfaces/invalid_content"), //TODO prüfen ob titel kürzer sein soll
   NO_DATA_AVAILABLE(HttpStatus.NOT_FOUND, "No data are available", "https://docs.api.deeppay.swiss/ebanking/interfaces/no_data_available"),
-  UNEXPECTED_API_ANSWER(HttpStatus.INTERNAL_SERVER_ERROR,
-                        "Unexpected answer of the institute api call",
-                        "https://docs.api.deeppay.swiss/ebanking/interfaces/unexpected_api_answer"),
-  INSTITUTE_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
-                         "Server error at the institute api call",
-                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_server_error"),
   DUPLICATE_FILE(HttpStatus.BAD_REQUEST,
                  "File already exists",
                  "https://docs.api.deeppay.swiss/ebanking/interfaces/duplicate_file"),
   VALIDATION_IN_PROGRESS(HttpStatus.NOT_FOUND,
                          "Validation is in progress",
-                         "https://docs.api.deeppay.swiss/ebanking/interfaces/validation_in_progress");
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/validation_in_progress"),
+  INSTITUTE_SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE,
+                         "Service of the institute is unavailable",
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_service_unavailable"),
+  INSTITUTE_SERVER_ERROR(HttpStatus.BAD_GATEWAY,
+                         "Server error at the institute api call",
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_server_error");
 
   private final HttpStatus httpStatus;
   private final String title;

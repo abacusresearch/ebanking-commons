@@ -6,6 +6,7 @@ public enum ClientType {
   POSTMAN,
   SWISS21,
   DEEPBOX,
+  ABASALARY,
   UNKNOWN;
 
   @Override

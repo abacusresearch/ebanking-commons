@@ -8,14 +8,14 @@ import org.springframework.lang.NonNull;
 
 
 @Configuration()
-@ConditionalOnProperty(value = "transportdata.encryption.enabled", matchIfMissing = false)
+@ConditionalOnProperty(value = "ch.deeppay.transportdata.encryption.enabled", matchIfMissing = false)
 public class EncryptionConfiguration {
 
   private final String secret;
   private final String salt;
 
-  public EncryptionConfiguration(@Value("${transportdata.encryption.secret}") @NonNull final String secret,
-                                 @Value("${transportdata.encryption.salt}") @NonNull final String salt) {
+  public EncryptionConfiguration(@Value("${ch.deeppay.transportdata.encryption.secret}") @NonNull final String secret,
+                                 @Value("${ch.deeppay.transportdata.encryption.salt}") @NonNull final String salt) {
     this.secret = secret;
     this.salt = salt;
   }
