@@ -20,13 +20,13 @@ public class TransportDataUtil {
   private static final int PATTERN_MATCHING_GROUP = 3;
 
   public static final String BANK_ID = "b";
-  public static final Pattern BANK_ID_PATTERN = Pattern.compile(format(PATTERN, BANK_ID));
+  public static final Pattern BANK_ID_PATTERN = createPattern(BANK_ID);
 
   public static final String LANGUAGE = "l";
-  public static final Pattern LANGUAGE_PATTERN = Pattern.compile(format(PATTERN, LANGUAGE));
+  public static final Pattern LANGUAGE_PATTERN = createPattern(LANGUAGE);
 
   public static final String SESSION = "s";
-  public static final Pattern SESSION_PATTERN = Pattern.compile(format(PATTERN, SESSION));
+  public static final Pattern SESSION_PATTERN = createPattern(SESSION);
 
   @Nonnull
   public static String getElement(@Nonnull Pattern pattern, @Nullable String transportData) {
@@ -51,6 +51,11 @@ public class TransportDataUtil {
   @Nonnull
   public static String getKeyValuePair(@Nonnull String key, @Nullable String value) {
     return getKeyValuePair(key, value, false);
+  }
+
+  @Nonnull
+  public static Pattern createPattern( @Nonnull String id){
+    return Pattern.compile(format(PATTERN, id));
   }
 }
 

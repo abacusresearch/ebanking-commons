@@ -39,9 +39,9 @@ public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
   INSTITUTE_SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE,
                          "Service of the institute is unavailable",
                          "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_service_unavailable"),
-  INSTITUTE_SERVER_ERROR(HttpStatus.BAD_GATEWAY,
-                         "Server error at the institute api call",
-                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_server_error");
+  INSTITUTE_API_ERROR(HttpStatus.BAD_GATEWAY,
+                         "Institute api error",
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_api_error");
 
   private final HttpStatus httpStatus;
   private final String title;
