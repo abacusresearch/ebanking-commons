@@ -109,5 +109,17 @@ class CookieUtilTest {
     Assertions.assertEquals("KEY2=VALUE2", result[1]);
   }
 
+  @Test
+  void testGetCookiesMultiValueMap() {
+    Map<String, String> cookies = new TreeMap<>();
+    MultiValueMap<String, String> result = CookieUtil.getCookiesAsMultiValueMap(cookies);
+    Assertions.assertEquals(0, result.size());
 
+    cookies.put("KEY1", "VALUE1");
+    cookies.put("KEY2", "VALUE2");
+    result = CookieUtil.getCookiesAsMultiValueMap(cookies);
+    Assertions.assertEquals(2, result.size());
+    Assertions.assertEquals("VALUE1", result.get("KEY1").get(0));
+    Assertions.assertEquals("VALUE2", result.get("KEY2").get(0));
+  }
 }

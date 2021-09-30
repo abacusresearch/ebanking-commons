@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.zalando.logbook.Logbook;
 import org.zalando.logbook.LogbookCreator;
 import org.zalando.logbook.QueryFilter;
 import org.zalando.logbook.QueryFilters;
+import org.zalando.logbook.autoconfigure.LogbookAutoConfiguration;
 import org.zalando.logbook.common.MediaTypeQuery;
 import org.zalando.logbook.json.JsonBodyFilters;
 
@@ -31,6 +33,7 @@ import static org.zalando.logbook.Conditions.requestTo;
  * Contains beans used for configuring log files.
  */
 @Configuration
+@ConditionalOnClass(LogbookAutoConfiguration.class)
 @ConditionalOnProperty(value = "ch.deeppay.spring.logconfiguration.enabled", matchIfMissing = true)
 public class LogConfiguration {
 

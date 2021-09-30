@@ -14,6 +14,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 /**
  * Utility class for cookie extraction.
@@ -110,6 +112,18 @@ public class CookieUtil {
    * @param cookies map to handle
    * @return string array
    */
+  public static MultiValueMap<String, String> getCookiesAsMultiValueMap(@NonNull Map<String, String> cookies) {
+    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+    cookies.forEach(map::add);
+    return map;
+  }
+
+  /**
+   * Transforms a given cookie map into a MultiValueMap.
+   *
+   * @param cookies map to handle
+   * @return string array
+   */
   public static String[] getCookiesAsArray(@Nonnull final Map<String, String> cookies) {
     return getCookiesAsList(cookies).toArray(EMPTY_ARRAY);
   }
@@ -152,9 +166,4 @@ public class CookieUtil {
     }
     return result;
   }
-
-
-
-
-
 }
