@@ -1,5 +1,7 @@
 package ch.deeppay.models.ebanking.statement;
 
+import java.time.Instant;
+
 import ch.deeppay.spring.constraints.FileFormatConstraint;
 import ch.deeppay.util.FileFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,9 +14,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.NotBlank;
-import java.time.Instant;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +22,7 @@ import java.time.Instant;
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class StatementRequest {
 
-  private @NotBlank(message = "TransportData cannot be blank.") String transportData;
+  private String transportData;
 
   @NonNull
   @FileFormatConstraint
@@ -47,6 +46,12 @@ public class StatementRequest {
   @SuppressWarnings("unused")
   public FileFormat getFormat() {
     return FileFormat.valueOf(format.toUpperCase());
+  }
+
+
+  @Nullable
+  public FileFormat getFormatNullable() {
+    return FileFormat.fromStr(format);
   }
 }
 

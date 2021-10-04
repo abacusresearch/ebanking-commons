@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -88,5 +89,19 @@ public enum FileFormat {
     } catch (IllegalArgumentException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Actual fileFormat: [" + formatAsString.toUpperCase() + "]. Required: " + fileFormats);
     }
+  }
+
+  @Nullable
+  public static FileFormat fromStr(@Nullable final String formatAsString){
+    if(StringUtils.isBlank(formatAsString)){
+      return null;
+    }
+
+    for(FileFormat fileFormat : values()){
+      if(fileFormat.name().equalsIgnoreCase(formatAsString)){
+        return fileFormat;
+      }
+    }
+    return null;
   }
 }

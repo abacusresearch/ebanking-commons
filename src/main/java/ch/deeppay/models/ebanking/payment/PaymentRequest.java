@@ -27,4 +27,9 @@ public class PaymentRequest {
   public FileFormat getFormat() {
     return FileFormat.valueOf(format);
   }
+
+  @Nullable
+  public FileFormat getFormatNullable() {
+    return FileFormat.fromStr(format);
+  }
 }
