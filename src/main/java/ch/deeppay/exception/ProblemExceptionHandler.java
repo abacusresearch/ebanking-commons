@@ -23,6 +23,7 @@ import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import org.zalando.problem.violations.Violation;
 
+import static ch.deeppay.exception.DeepPayProblemException.createProblemException;
 import static org.springframework.http.ResponseEntity.status;
 import static org.zalando.problem.Problem.builder;
 
@@ -50,28 +51,22 @@ public class ProblemExceptionHandler implements ProblemHandling {
   @Override
   public ResponseEntity<Problem> process(ResponseEntity<Problem> entity) {
     Problem problem = entity.getBody();
+    if (problem instanceof ConstraintViolationProblem) {
+      problem = createProblemException(DeepPayProblemType.INVALID_PARAMETER,  getConstraintViolationDetails((ConstraintViolationProblem) problem));
+    }
+
     if (Objects.nonNull(problem)) {
-
-      //defaults
-      String detail = problem.getDetail();
-
-      if (problem instanceof ConstraintViolationProblem) {
-        detail = getConstraintViolationDetails((ConstraintViolationProblem) problem);
-      }
-
-      Problem extendedProblem = builder()
-          .withType(problem.getType())
-          .withTitle(problem.getTitle())
-          .withDetail(detail)
-          .withStatus(problem.getStatus())
-          .withInstance(Objects.isNull(problem.getInstance()) ? getInstance() : problem.getInstance())
-          .with(FIELD_TRACE_ID, getTraceId())
-          .with(FIELD_SESSION_TRACE_ID, getSessionTraceId())
-          .build();
-
       return status(entity.getStatusCode())
           .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-          .body(extendedProblem);
+          .body(builder()
+                    .withType(problem.getType())
+                    .withTitle(problem.getTitle())
+                    .withDetail(problem.getDetail())
+                    .withStatus(problem.getStatus())
+                    .withInstance(Objects.isNull(problem.getInstance()) ? getInstance() : problem.getInstance())
+                    .with(FIELD_TRACE_ID, getTraceId())
+                    .with(FIELD_SESSION_TRACE_ID, getSessionTraceId())
+                    .build());
     }
     return entity;
   }
