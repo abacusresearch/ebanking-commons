@@ -1,6 +1,10 @@
 package ch.deeppay.models.transportdata;
 
 import javax.annotation.Nonnull;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,26 +40,57 @@ public class TransportDataUtil {
         return matcher.group(PATTERN_MATCHING_GROUP);
       }
     }
+    return getElement(pattern, transportData, false);
+  }
+
+  @Nonnull
+  public static String getElement(@Nonnull Pattern pattern, @Nullable String transportData, boolean isDecodeValue) {
+    if (isNotEmpty(transportData)) {
+      Matcher matcher = pattern.matcher(transportData);
+      if (matcher.find()) {
+        String element = matcher.group(PATTERN_MATCHING_GROUP);
+        return isDecodeValue ? decode(element) : element;
+      }
+    }
     return StringUtils.EMPTY;
   }
 
   @Nonnull
-  public static String getKeyValuePair(@Nonnull String key, @Nullable String value, boolean first) {
+  public static String getKeyValuePair(@Nonnull String key, @Nullable String value, boolean first, boolean isEncodeValue) {
     if (StringUtils.isEmpty(value)) {
       return StringUtils.EMPTY;
     }
 
-    return (first ? StringUtils.EMPTY : SEPARATOR) + key + '=' + value;
+    return (first ? StringUtils.EMPTY : SEPARATOR) + key + '=' + (isEncodeValue ? encode(value) : value);
+  }
+
+  private static String encode(String value) {
+    try {
+      return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  private static String decode(String value) {
+    try {
+      return URLDecoder.decode(value, StandardCharsets.UTF_8.toString());
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   @Nonnull
   public static String getKeyValuePair(@Nonnull String key, @Nullable String value) {
-    return getKeyValuePair(key, value, false);
+    return getKeyValuePair(key, value, false, false);
   }
 
+
   @Nonnull
-  public static Pattern createPattern( @Nonnull String id){
+  public static Pattern createPattern(@Nonnull String id) {
     return Pattern.compile(format(PATTERN, id));
   }
+
+
 }
 

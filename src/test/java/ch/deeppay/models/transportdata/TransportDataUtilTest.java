@@ -27,7 +27,19 @@ public class TransportDataUtilTest {
   void testGetKeyValuePair(){
     Assertions.assertEquals("", getKeyValuePair(BANK_ID, ""));
     Assertions.assertEquals("!b=VALUE", getKeyValuePair(BANK_ID, "VALUE"));
-    Assertions.assertEquals("!b=VALUE", getKeyValuePair(BANK_ID, "VALUE",false));
-    Assertions.assertEquals("b=VALUE", getKeyValuePair(BANK_ID, "VALUE",true));
+    Assertions.assertEquals("!b=VALUE", getKeyValuePair(BANK_ID, "VALUE",false,false));
+    Assertions.assertEquals("b=VALUE", getKeyValuePair(BANK_ID, "VALUE",true,false));
   }
+
+
+  @Test
+  void testGetKeyValuePairEncoded(){
+    Assertions.assertEquals("b=Test%3Dabcd%21efg%24%C3%A4%21%C3%A8%26%25%C3%A7f", getKeyValuePair(BANK_ID, "Test=abcd!efg$ä!è&%çf",true,true));
+  }
+
+  @Test
+  void testGetElementDecode(){
+    Assertions.assertEquals("Test=abcd!efg$ä!è&%çf", getElement(BANK_ID_PATTERN, "b=Test%3Dabcd%21efg%24%C3%A4%21%C3%A8%26%25%C3%A7f",true));
+  }
+  
 }
