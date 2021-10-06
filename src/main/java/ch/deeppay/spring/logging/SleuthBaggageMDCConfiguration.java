@@ -6,11 +6,11 @@ import brave.propagation.CurrentTraceContext;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import static brave.baggage.CorrelationScopeConfig.SingleCorrelationField.newBuilder;
 
-@Configuration
+@Component
 @ConditionalOnProperty(value = "ch.deeppay.spring.sessiontrace.enabled", matchIfMissing = true)
 public class SleuthBaggageMDCConfiguration {
 
