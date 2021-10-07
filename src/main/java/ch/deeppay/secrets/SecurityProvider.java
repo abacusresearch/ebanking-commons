@@ -33,14 +33,14 @@ public class SecurityProvider {
 
   @Nullable
   public SSLContext getSSLContext(@Nonnull final String bankId) {
-    if (hasSecrets(bankId)) {
+    if (useMtlsConnection(bankId)) {
       return getProperties(bankId).map(secret -> mtlsUtil.getSSLContext(secret, "secret")).orElse(null);
     }
     return null;
   }
 
-  private boolean hasSecrets(@Nonnull final String bankId) {
-    return getProperties(bankId).map(Secret::isValid).orElse(false);
+  private boolean useMtlsConnection(@Nonnull final String bankId) {
+    return getProperties(bankId).map(Secret::hasCertificate).orElse(false);
   }
 
 }

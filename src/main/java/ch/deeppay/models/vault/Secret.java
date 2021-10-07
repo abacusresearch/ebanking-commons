@@ -15,7 +15,11 @@ public class Secret {
   private String certificate;
   private String bankCertificate;
 
-  public boolean isValid(){
+  private String clientId;
+  private String clientSecret;
+  private String contact;
+
+  public boolean hasCertificate(){
     return isNotBlank(getBankCertificate()) &&
     isNotBlank(getCertificate()) &&
     isNotBlank(getPrivateKey());

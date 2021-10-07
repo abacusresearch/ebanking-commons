@@ -6,7 +6,7 @@ import java.net.URI;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientResponseException;
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.spring.common.HttpStatusAdapter;
 
@@ -18,8 +18,8 @@ import org.zalando.problem.spring.common.HttpStatusAdapter;
 @EqualsAndHashCode(callSuper = true)
 public class DeepPayProblemException extends AbstractThrowableProblem {
 
-  DeepPayProblemException(@Nonnull final HttpStatusCodeException e) {
-    super(null, null, new HttpStatusAdapter(e.getStatusCode()), e.getResponseBodyAsString());
+  DeepPayProblemException(@Nonnull final RestClientResponseException e) {
+    super(null, null, new HttpStatusAdapter(HttpStatus.valueOf(e.getRawStatusCode())), e.getResponseBodyAsString());
   }
 
   DeepPayProblemException(@Nonnull final URI uri, @Nonnull final String title, @Nonnull final HttpStatus httpStatus, @Nonnull final String detail) {
@@ -100,7 +100,7 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
    * @return instance of DeepPayProblemException
    */
   public static DeepPayProblemException createProblemException(@Nonnull final DeepPayProblemTypeGetter problem,
-                                                               @Nonnull final HttpStatusCodeException exception) {
+                                                               @Nonnull final RestClientResponseException exception) {
     return new DeepPayProblemException(problem.getUri(),
                                        problem.getTitle(),
                                        problem.getHttpStatus(),
@@ -111,7 +111,7 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
     return new DeepPayProblemException("Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR, detail);
   }
 
-  public static DeepPayProblemException createProblemException(@Nonnull final HttpStatusCodeException exception) {
+  public static DeepPayProblemException createProblemException(@Nonnull final RestClientResponseException exception) {
     return new DeepPayProblemException(exception);
   }
 }
