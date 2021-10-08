@@ -13,6 +13,7 @@ import brave.baggage.BaggageField;
 import brave.propagation.TraceContext;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -42,7 +43,7 @@ public class ProblemExceptionHandler implements ProblemHandling {
   private final Optional<BaggageField> optionalBaggageField;
 
   @Autowired
-  public ProblemExceptionHandler(@Nullable final Tracer tracer,@NonNull final HttpServletRequest request,@Nullable final BaggageField sessionTraceId) {
+  public ProblemExceptionHandler(@Nullable final Tracer tracer,@NonNull final HttpServletRequest request,@Nullable @Qualifier("sessionTraceId") final BaggageField sessionTraceId) {
     this.optionalTracer = Optional.ofNullable(tracer);
     this.request = request;
     this.optionalBaggageField = Optional.ofNullable(sessionTraceId);
