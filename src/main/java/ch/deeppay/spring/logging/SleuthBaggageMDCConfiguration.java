@@ -19,13 +19,13 @@ public class SleuthBaggageMDCConfiguration {
   public static final String X_CLIENT_TYPE = "X-ClientType";
   public static final String CLIENT_TYPE_MDC_NAME = "clientType";
 
-  @Bean
+  @Bean(name = "BaggageFieldClientType")
   @ConditionalOnMissingBean
   BaggageField clientType() {
     return BaggageField.create(X_CLIENT_TYPE);
   }
 
-  @Bean
+  @Bean(name = "BaggageFieldSessionTraceId")
   @ConditionalOnMissingBean
   BaggageField sessionTraceId() {
     return BaggageField.create(X_B3_SESSION_TRACE_ID);

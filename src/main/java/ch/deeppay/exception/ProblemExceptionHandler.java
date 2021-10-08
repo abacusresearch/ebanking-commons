@@ -43,7 +43,7 @@ public class ProblemExceptionHandler implements ProblemHandling {
   private final Optional<BaggageField> optionalBaggageField;
 
   @Autowired
-  public ProblemExceptionHandler(@Nullable final Tracer tracer,@NonNull final HttpServletRequest request,@Nullable @Qualifier("sessionTraceId") final BaggageField sessionTraceId) {
+  public ProblemExceptionHandler(@Nullable final Tracer tracer,@NonNull final HttpServletRequest request,@Nullable @Qualifier("BaggageFieldSessionTraceId") final BaggageField sessionTraceId) {
     this.optionalTracer = Optional.ofNullable(tracer);
     this.request = request;
     this.optionalBaggageField = Optional.ofNullable(sessionTraceId);
