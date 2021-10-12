@@ -24,6 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import ch.deeppay.exception.DeepPayProblemException;
 import ch.deeppay.models.ebanking.server.StringFile;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -32,10 +33,8 @@ import net.lingala.zip4j.util.Zip4jConstants;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-import org.springframework.web.server.ResponseStatusException;
 
 @SuppressWarnings("unused")
 public class ZipUtil {
@@ -51,8 +50,8 @@ public class ZipUtil {
       // create dir for all files
       final File tmpDirectory = Files.createTempDirectory("base64").toFile();
       try {
+        int filenumber = 0;
         for (StringFile file : files) {
-          int filenumber = 0;
           final File current = generateFile(file, tmpDirectory, ++filenumber);
           writeToFile(current, file.getFileContent());
         }
@@ -68,7 +67,7 @@ public class ZipUtil {
       }
     } catch (ZipException | IOException e) {
       LOGGER.warning(e.getMessage());
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Creating of zip file failed.");
+      throw DeepPayProblemException.createServerErrorProblemException("Creating of zip file failed.");
     }
   }
 
@@ -199,10 +198,17 @@ public class ZipUtil {
       try (ZipOutputStream zs = new ZipOutputStream(out)) {
         List<Path> paths = Files.walk(dir).collect(Collectors.toList());
         for (Path path : paths) {
+          Path relativePath = dir.relativize(path);
+
           if (Files.isDirectory(path)) {
-            zs.putNextEntry(new ZipEntry(dir.relativize(path).toString() + "/"));
+            //skip root path element. php does not ignore it
+            if("".equals(relativePath.toString())){
+              continue;
+            }
+
+            zs.putNextEntry(new ZipEntry(relativePath + "/"));
           } else {
-            ZipEntry zipEntry = new ZipEntry(dir.relativize(path).toString());
+            ZipEntry zipEntry = new ZipEntry(relativePath.toString());
             zs.putNextEntry(zipEntry);
             Files.copy(path, zs);
             zs.closeEntry();

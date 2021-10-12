@@ -23,23 +23,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ZipUtilTest {
 
-
-
   @Test
-  void test() {
+  void testDeleteDirectory() {
     final File parentFolder = getParentTempDirectory();
     File[] files = parentFolder.listFiles((dir, name) -> name.startsWith("base64"));
     for(File f : files) {
       ZipUtil.deleteDirectory(f);
     }
 
+    files = parentFolder.listFiles((dir, name) -> name.startsWith("base64"));
+    Assertions.assertEquals(0,files.length);
+  }
+
+  @Test
+  void testGetBase64Zip(){
     ZipUtil zipUtil = new ZipUtil();
     StringFile file1 = new StringFile("FILE_CONTENT1", FileFormat.PAIN002.name(),"FILEN_NAME1");
     StringFile file2 = new StringFile("FILE_CONTENT2", FileFormat.PAIN002.name(),"FILEN_NAME2");
     String base64 = zipUtil.getBase64Zip(Arrays.asList(file1,file2));
-
-    files = parentFolder.listFiles((dir, name) -> name.startsWith("base64"));
-    Assertions.assertEquals(0,files.length);
+    Assertions.assertNotNull(base64);
+    Assertions.assertNotNull(Base64.decode(base64));
   }
 
   private File getParentTempDirectory(){
@@ -113,6 +116,30 @@ class ZipUtilTest {
         validateFileSize(requireNonNull(files[0].listFiles()));
         assertEquals(2, requireNonNull(files[1].listFiles()).length);
         validateFileSize(requireNonNull(files[1].listFiles()));
+      } finally {
+        assertTrue(FileUtils.deleteQuietly(folder));
+      }
+    } finally {
+      assertTrue(FileUtils.deleteQuietly(tmpDirectory));
+    }
+  }
+
+  @Test
+  void testZipSingleFile() throws URISyntaxException, IOException {
+    URL resource = getClass().getResource("blank.pdf");
+    byte[] b = IOUtils.toByteArray(Files.newInputStream(Paths.get(resource.toURI())));
+
+    File tmpDirectory = Files.createTempDirectory("tmp").toFile();
+    try {
+      FileUtils.writeByteArrayToFile(new File(tmpDirectory, "camt053.txt"),b);
+      byte[] zippedFolder = ZipUtil.zip(tmpDirectory.toPath());
+
+      //validate zipped file
+      final File folder = Files.createTempDirectory("folder").toFile();
+      try {
+        ZipUtil.unzip(zippedFolder, folder);
+        File[] files = folder.listFiles();
+        assertEquals(1, requireNonNull(files).length);
       } finally {
         assertTrue(FileUtils.deleteQuietly(folder));
       }
