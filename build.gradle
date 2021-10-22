@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.37'
+version = '0.1.38'
 
 sourceCompatibility = '1.8'
 
@@ -23,13 +23,13 @@ test {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-context:4.0.1.RELEASE'
-    implementation 'org.springframework:spring-web:5.1.6.RELEASE'
-    implementation 'org.springframework:spring-webmvc:5.2.1.RELEASE'
-    implementation 'org.springframework.vault:spring-vault-core:2.2.3.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.1.6.RELEASE'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:2.1.6.RELEASE'
-    implementation 'org.springframework.cloud:spring-cloud-sleuth-brave:3.0.3'
+    implementation 'org.springframework:spring-context:5.3.11'
+    implementation 'org.springframework:spring-web:5.3.11'
+    implementation 'org.springframework:spring-webmvc:5.3.11'
+    implementation 'org.springframework.vault:spring-vault-core:2.3.2'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.5.5'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.0.4'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-brave:3.0.4'
 
     implementation 'javax.validation:validation-api:1.0.0.GA'
     implementation 'commons-lang:commons-lang:2.6'
@@ -43,7 +43,7 @@ dependencies {
     implementation 'org.zalando:problem-spring-web:0.27.0'
     implementation 'org.zalando:logbook-spring-boot-starter:2.13.0'
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'commons-codec:commons-codec:1.13'
+    implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.google.guava:guava:30.1.1-jre'
 
     implementation 'org.joda:joda-money:1.0.1'
