@@ -1,13 +1,14 @@
 package ch.deeppay.spring.controller;
 
+import javax.annotation.Nonnull;
+import java.net.UnknownHostException;
+
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.health.Status;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Nonnull;
-import java.net.UnknownHostException;
 
 /**
  * This is controller for a custom health point. We run the actuator routes on a different port.
@@ -15,6 +16,7 @@ import java.net.UnknownHostException;
  * But it should be possible to check whether the services can be reached via the Api-Gateway.
  */
 @RestController
+@ConditionalOnProperty(value = "ch.deeppay.spring.custom-health-controller.enabled", matchIfMissing = true)
 public class CustomHealthController {
 
   private final HealthEndpoint healthEndpoint;

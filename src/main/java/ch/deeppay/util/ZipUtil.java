@@ -86,11 +86,11 @@ public class ZipUtil {
     }
   }
 
-  public boolean isZipFile(@NonNull final String fileContent) {
+  public static boolean isZipFile(@NonNull final String fileContent) {
     return isZipFile(fileContent.getBytes(Charsets.UTF_8));
   }
 
-  public boolean isZipFile(@NonNull final byte[] fileContent) {
+  public static boolean isZipFile(@NonNull final byte[] fileContent) {
     try (ByteArrayInputStream is = new ByteArrayInputStream(fileContent)) {
       return new ZipInputStream(is).getNextEntry() != null;
     } catch (IOException e) {
