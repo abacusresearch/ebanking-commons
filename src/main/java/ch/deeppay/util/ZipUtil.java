@@ -41,7 +41,7 @@ public class ZipUtil {
 
   private static final Logger LOGGER = Logger.getLogger(ZipUtil.class.getName());
 
-  public String getBase64Zip(@NonNull final List<StringFile> files) {
+  public static String getBase64Zip(@NonNull final List<StringFile> files) {
     if (files.isEmpty()) {
       return StringUtils.EMPTY;
     }
@@ -98,7 +98,7 @@ public class ZipUtil {
     }
   }
 
-  private File createZipFile(@NonNull final File tmpDirectory) throws ZipException {
+  private static File createZipFile(@NonNull final File tmpDirectory) throws ZipException {
     // DO not use -> File.createTempFile -> does not work with ZipFile library
     File zipFile = new File(System.getProperty("java.io.tmpdir"), UUID.randomUUID() + ".zip");
     ZipFile myZipFile = new ZipFile(zipFile);
@@ -110,7 +110,7 @@ public class ZipUtil {
   }
 
   @Nullable
-  private String encodeFileToString(@NonNull final String filepath) {
+  private static String encodeFileToString(@NonNull final String filepath) {
     final File originalFile = new File(filepath);
     String encodedBase64 = null;
     try {
@@ -126,7 +126,7 @@ public class ZipUtil {
     return encodedBase64;
   }
 
-  private void writeToFile(@NonNull final File temp, @NonNull final String fileContent) throws IOException {
+  private static void writeToFile(@NonNull final File temp, @NonNull final String fileContent) throws IOException {
     try (FileWriter file = new FileWriter(temp)) {
       try (BufferedWriter bf = new BufferedWriter(file)) {
         bf.write(fileContent);
@@ -134,7 +134,7 @@ public class ZipUtil {
     }
   }
 
-  private File generateFile(@NonNull StringFile file,
+  private static File generateFile(@NonNull StringFile file,
                             @NonNull final File tmpDirectory,
                             final int count) throws IOException {
     return Objects.nonNull(file.getFileName())
