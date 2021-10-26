@@ -37,10 +37,9 @@ class ZipUtilTest {
 
   @Test
   void testGetBase64Zip(){
-    ZipUtil zipUtil = new ZipUtil();
     StringFile file1 = new StringFile("FILE_CONTENT1", FileFormat.PAIN002.name(),"FILEN_NAME1");
     StringFile file2 = new StringFile("FILE_CONTENT2", FileFormat.PAIN002.name(),"FILEN_NAME2");
-    String base64 = zipUtil.getBase64Zip(Arrays.asList(file1,file2));
+    String base64 = ZipUtil.getBase64Zip(Arrays.asList(file1,file2));
     Assertions.assertNotNull(base64);
     Assertions.assertNotNull(Base64.decode(base64));
   }

@@ -26,10 +26,10 @@ import java.util.zip.ZipOutputStream;
 
 import ch.deeppay.exception.DeepPayProblemException;
 import ch.deeppay.models.ebanking.server.StringFile;
-import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
-import net.lingala.zip4j.util.Zip4jConstants;
+import net.lingala.zip4j.model.enums.CompressionMethod;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
@@ -65,7 +65,7 @@ public class ZipUtil {
       } finally {
         deleteDirectory(tmpDirectory);
       }
-    } catch (ZipException | IOException e) {
+    } catch (IOException e) {
       LOGGER.warning(e.getMessage());
       throw DeepPayProblemException.createServerErrorProblemException("Creating of zip file failed.");
     }
@@ -104,7 +104,7 @@ public class ZipUtil {
     ZipFile myZipFile = new ZipFile(zipFile);
 
     ZipParameters parameters = new ZipParameters();
-    parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+    parameters.setCompressionMethod(CompressionMethod.DEFLATE);
     myZipFile.addFolder(tmpDirectory, parameters);
     return zipFile;
   }

@@ -3,6 +3,7 @@ package ch.deeppay.metrics;
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -10,39 +11,41 @@ import org.springframework.util.CollectionUtils;
 
 import static ch.deeppay.metrics.ClientType.ABACUS_G4;
 import static ch.deeppay.metrics.ClientType.ABANINJA;
-import static ch.deeppay.metrics.ClientType.POSTMAN;
 import static ch.deeppay.metrics.ClientType.UNKNOWN;
 
 public class MetricsUtil {
 
-  private static final String HTTP_HEADER_ABANINJA = "x-abaninja-info-account";
-  private static final String HTTP_HEADER_ABACUS = "x-abacus-info-product";
-  private static final String HTTP_HEADER_ABACUS_LICENSE = "x-abacus-info-license";
+  static final String HTTP_HEADER_ABANINJA = "x-abaninja-info-account";
+  static final String HTTP_HEADER_ABACUS = "x-abacus-info-product";
+  static final String HTTP_HEADER_ABACUS_LICENSE = "x-abacus-info-license";
 
-  public static ClientType get(@Nonnull HttpServletRequest request) {
-    if (StringUtils.isNotEmpty(request.getHeader(HTTP_HEADER_ABANINJA))) {
-      return ABANINJA;
-    } else if (StringUtils.isNotEmpty(request.getHeader(HTTP_HEADER_ABACUS))) {
-      return ABACUS_G4;
+  public static ClientType getClientType(@Nonnull HttpServletRequest request) {
+    final String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
+    final ClientType clientType = ClientType.get(userAgent);
+    if (Objects.nonNull(clientType)) {
+      return clientType;
     } else {
-      final String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
-      if (StringUtils.isNotEmpty(userAgent) && userAgent.startsWith("PostmanRuntime")) {
-        return POSTMAN;
+      if (StringUtils.isNotEmpty(request.getHeader(HTTP_HEADER_ABANINJA))) {
+        return ABANINJA;
+      } else if (StringUtils.isNotEmpty(request.getHeader(HTTP_HEADER_ABACUS))) {
+        return ABACUS_G4;
       } else {
         return UNKNOWN;
       }
     }
+
   }
 
-  public static ClientType get(@Nonnull HttpHeaders headers) {
-    if (headers.containsKey(HTTP_HEADER_ABANINJA)) {
-      return ABANINJA;
-    } else if (headers.containsKey(HTTP_HEADER_ABACUS)) {
-      return ABACUS_G4;
-    } else {
-      List<String> values = headers.get(HttpHeaders.USER_AGENT);
-      if (!CollectionUtils.isEmpty(values) && values.get(0).startsWith("PostmanRuntime")) {
-        return POSTMAN;
+  public static ClientType getClientType(@Nonnull HttpHeaders headers) {
+    List<String> userAgents = headers.get(HttpHeaders.USER_AGENT);
+    final ClientType clientType = CollectionUtils.isEmpty(userAgents) ? null : ClientType.get(userAgents.get(0));
+    if (Objects.nonNull(clientType)) {
+      return clientType;
+    }else {
+      if (headers.containsKey(HTTP_HEADER_ABANINJA)) {
+        return ABANINJA;
+      } else if (headers.containsKey(HTTP_HEADER_ABACUS)) {
+        return ABACUS_G4;
       } else {
         return UNKNOWN;
       }
