@@ -37,7 +37,7 @@ class TestMetricsUtil {
     HttpHeaders headers = new HttpHeaders();
     Assertions.assertEquals(ClientType.UNKNOWN,MetricsUtil.getClientType(headers));
 
-    headers.put(HttpHeaders.USER_AGENT, Arrays.asList("ABACUS_G4/2021"));
+    headers.put(HttpHeaders.USER_AGENT, Arrays.asList("ABACUS-G4/2021"));
     Assertions.assertEquals(ClientType.ABACUS_G4,MetricsUtil.getClientType(headers));
 
     headers.put(HttpHeaders.USER_AGENT, Arrays.asList("ABANINJA1234"));
