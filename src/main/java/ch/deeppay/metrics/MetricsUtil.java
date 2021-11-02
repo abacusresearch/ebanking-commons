@@ -21,7 +21,7 @@ public class MetricsUtil {
 
   public static ClientType getClientType(@Nonnull HttpServletRequest request) {
     final String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
-    final ClientType clientType = ClientType.get(userAgent);
+    final ClientType clientType = ClientType.fromUserAgent(userAgent);
     if (Objects.nonNull(clientType)) {
       return clientType;
     } else {
@@ -38,7 +38,7 @@ public class MetricsUtil {
 
   public static ClientType getClientType(@Nonnull HttpHeaders headers) {
     List<String> userAgents = headers.get(HttpHeaders.USER_AGENT);
-    final ClientType clientType = CollectionUtils.isEmpty(userAgents) ? null : ClientType.get(userAgents.get(0));
+    final ClientType clientType = CollectionUtils.isEmpty(userAgents) ? null : ClientType.fromUserAgent(userAgents.get(0));
     if (Objects.nonNull(clientType)) {
       return clientType;
     }else {

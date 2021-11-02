@@ -36,13 +36,48 @@ class ZipUtilTest {
   }
 
   @Test
-  void testGetBase64Zip(){
-    StringFile file1 = new StringFile("FILE_CONTENT1", FileFormat.PAIN002.name(),"FILEN_NAME1");
-    StringFile file2 = new StringFile("FILE_CONTENT2", FileFormat.PAIN002.name(),"FILEN_NAME2");
+  void testGetBase64Zip() throws IOException {
+    StringFile file1 = new StringFile("FILE_CONTENT1", FileFormat.PAIN002.name(),"FILE_NAME1");
+    StringFile file2 = new StringFile("FILE_CONTENT2", FileFormat.PAIN002.name(),"FILE_NAME2");
     String base64 = ZipUtil.getBase64Zip(Arrays.asList(file1,file2));
     Assertions.assertNotNull(base64);
-    Assertions.assertNotNull(Base64.decode(base64));
+
+    final File tmpDirectory = Files.createTempDirectory("tmp").toFile();
+    try {
+      ZipUtil.unzip(Base64.decode(base64), tmpDirectory);
+      File[] files = tmpDirectory.listFiles();
+      Assertions.assertEquals(1,files.length);
+
+      files = files[0].listFiles();
+      Assertions.assertEquals(2,files.length);
+      Assertions.assertEquals("FILE_NAME1",files[0].getName());
+      Assertions.assertEquals("FILE_NAME2",files[1].getName());
+    }finally {
+      FileUtils.deleteDirectory(tmpDirectory);
+    }
   }
+
+//  @Test
+//  void testGetBase64ZipWithEmptyFilesNames() throws IOException {
+//    StringFile file1 = new StringFile("FILE_CONTENT1", FileFormat.PAIN002.name(),"");
+//    StringFile file2 = new StringFile("FILE_CONTENT2", FileFormat.PAIN002.name(),"");
+//    String base64 = ZipUtil.getBase64Zip(Arrays.asList(file1,file2));
+//    Assertions.assertNotNull(base64);
+//
+//    final File tmpDirectory = Files.createTempDirectory("tmp").toFile();
+//    try {
+//      ZipUtil.unzip(Base64.decode(base64), tmpDirectory);
+//      File[] files = tmpDirectory.listFiles();
+//      Assertions.assertEquals(1,files.length);
+//
+//      files = files[0].listFiles();
+//      Assertions.assertEquals(2,files.length);
+//      Assertions.assertEquals("PAIN002_2021-11-02-11-12-24_1",files[0].getName());
+//      Assertions.assertEquals("FILE_NAME2",files[1].getName());
+//    }finally {
+//      FileUtils.deleteDirectory(tmpDirectory);
+//    }
+//  }
 
   private File getParentTempDirectory(){
     try {
@@ -50,7 +85,7 @@ class ZipUtilTest {
       try{
         return tmpDirectory.getParentFile();
       }finally {
-        Files.delete(tmpDirectory.toPath());
+        FileUtils.deleteDirectory(tmpDirectory);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -155,6 +190,15 @@ class ZipUtilTest {
     byte[] validate = ZipUtil.unzip(result);
     Assertions.assertArrayEquals(content,validate);
   }
+
+//  @Test
+//  void testGenerateFile() throws IOException {
+//    String fileName = "PAIN001.xml";
+//    File file = new File(fileName);
+//    file.createNewFile();
+//    final File folder = Files.createTempDirectory("folder").toFile();
+//    File file = File.createTempFile(FilenameUtils.getBaseName(fileName), FilenameUtils.getExtension(fileName));
+//  }
 
 
 

@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.model.enums.CompressionMethod;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -48,7 +50,7 @@ public class ZipUtil {
 
     try {
       // create dir for all files
-      final File tmpDirectory = Files.createTempDirectory("base64").toFile();
+      final File tmpDirectory = Files.createTempDirectory("folder").toFile();
       try {
         int filenumber = 0;
         for (StringFile file : files) {
@@ -136,19 +138,19 @@ public class ZipUtil {
 
   private static File generateFile(@NonNull StringFile file,
                             @NonNull final File tmpDirectory,
-                            final int count) throws IOException {
-    return Objects.nonNull(file.getFileName())
-        ? File.createTempFile(file.getFileName(), "", tmpDirectory)
+                            final int count) {
+    return StringUtils.isNotBlank(file.getFileName())
+        ? new File(tmpDirectory,file.getFileName())
         : generateFile(file.getFormat(), tmpDirectory, count);
   }
 
   public static File generateFile(@NonNull String fileFormat,
                                   @NonNull final File tmpDirectory,
-                                  final int count) throws IOException {
+                                  final int count) {
     Date date = new Date();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     String name = fileFormat + '_' + dateFormat.format(date) + '_' + count;
-    return File.createTempFile(name, "", tmpDirectory);
+    return new File(tmpDirectory,name);
   }
 
 
@@ -178,7 +180,9 @@ public class ZipUtil {
         }
       } else {
         // if the entry is a file, extracts it
-        Files.copy(zipIn, Paths.get(filePath));
+        Path path = Paths.get(filePath);
+        FileUtils.createParentDirectories(path.toFile());
+        Files.copy(zipIn, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
       }
       zipIn.closeEntry();
       entry = zipIn.getNextEntry();
