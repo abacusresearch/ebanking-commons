@@ -343,6 +343,15 @@ public class ZipUtil {
     return Base64.encodeBase64String(zip(entries));
   }
 
+  public static byte[] getDecodedUnzippedContent(byte[] content){
+    if(ArrayUtils.isEmpty(content)){
+      return ArrayUtils.EMPTY_BYTE_ARRAY;
+    }
+
+    byte[] b = Base64.isBase64(content) ? Base64.decodeBase64(content) : content;
+    return isZipFile(b) ? unzip(b) : b;
+  }
+
   @Builder
   @AllArgsConstructor
   @Data

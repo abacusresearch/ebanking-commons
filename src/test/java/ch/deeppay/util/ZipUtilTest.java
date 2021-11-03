@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -14,11 +13,13 @@ import java.util.Date;
 import ch.deeppay.models.ebanking.server.StringFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.bouncycastle.util.encoders.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static ch.deeppay.util.ZipUtil.EntryData.builder;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -190,7 +191,7 @@ class ZipUtilTest {
 
   @Test
   void testZipContent() {
-    byte[] content = "CONTENT".getBytes(StandardCharsets.UTF_8);
+    byte[] content = "CONTENT".getBytes(UTF_8);
     byte[] result = ZipUtil.zip(content);
     assertNotNull(result);
     byte[] validate = ZipUtil.unzip(result);
@@ -199,7 +200,7 @@ class ZipUtilTest {
 
   @Test
   void testZipWithFileName() throws IOException {
-    byte[] content = "CONTENT".getBytes(StandardCharsets.UTF_8);
+    byte[] content = "CONTENT".getBytes(UTF_8);
     byte[] result = ZipUtil.zip(content, "MyFile.txt");
     assertNotNull(result);
 
@@ -216,7 +217,7 @@ class ZipUtilTest {
 
   @Test
   void testZipWithSubFolderAndSingleFile() throws IOException {
-    byte[] content = "CONTENT".getBytes(StandardCharsets.UTF_8);
+    byte[] content = "CONTENT".getBytes(UTF_8);
     byte[] result = ZipUtil.zip(content, "subfolder1234/MyFile.txt");
     assertNotNull(result);
 
@@ -239,11 +240,11 @@ class ZipUtilTest {
   @Test
   void testZipWithSubFolderAndFiles() throws IOException {
     byte[] result = ZipUtil.zip(Arrays.asList(builder()
-                                                  .content("CONTENT_1".getBytes(StandardCharsets.UTF_8))
+                                                  .content("CONTENT_1".getBytes(UTF_8))
                                                   .fileName("subfolder1234/MyFile1.txt")
                                                   .build(),
                                               builder()
-                                                  .content("CONTENT_12".getBytes(StandardCharsets.UTF_8))
+                                                  .content("CONTENT_12".getBytes(UTF_8))
                                                   .fileName("subfolder1234/MyFile2.txt")
                                                   .build()));
     assertNotNull(result);
@@ -267,10 +268,10 @@ class ZipUtilTest {
   @Test
   void testZipWithoutFileName() throws IOException {
     byte[] result = ZipUtil.zip(Arrays.asList(builder()
-                                                  .content("CONTENT_1".getBytes(StandardCharsets.UTF_8))
+                                                  .content("CONTENT_1".getBytes(UTF_8))
                                                   .build(),
                                               builder()
-                                                  .content("CONTENT_12".getBytes(StandardCharsets.UTF_8))
+                                                  .content("CONTENT_12".getBytes(UTF_8))
                                                   .build()));
     assertNotNull(result);
 
@@ -290,11 +291,11 @@ class ZipUtilTest {
   @Test
   void testBase64EncodedZipWithMixedContent() throws IOException {
     String result = ZipUtil.getBase64EncodedZip(Arrays.asList(builder()
-                                                                  .content(Base64.encode("CONTENT_1".getBytes(StandardCharsets.UTF_8)))
+                                                                  .content(Base64.encode("CONTENT_1".getBytes(UTF_8)))
                                                                   .fileName("MyFile1.txt")
                                                                   .build(),
                                                               builder()
-                                                                  .content(ZipUtil.zip("CONTENT_12".getBytes(StandardCharsets.UTF_8)))
+                                                                  .content(ZipUtil.zip("CONTENT_12".getBytes(UTF_8)))
                                                                   .fileName("MyFile2.txt")
                                                                   .build()));
     final File folder = Files.createTempDirectory("tmp").toFile();
@@ -304,9 +305,9 @@ class ZipUtilTest {
       assertEquals(2, requireNonNull(files).length);
 
       assertEquals("MyFile1.txt", files[0].getName());
-      assertEquals("CONTENT_1", FileUtils.readFileToString(files[0], StandardCharsets.UTF_8));
+      assertEquals("CONTENT_1", FileUtils.readFileToString(files[0], UTF_8));
       assertEquals("MyFile2.txt", files[1].getName());
-      assertEquals("CONTENT_12", FileUtils.readFileToString(files[1], StandardCharsets.UTF_8));
+      assertEquals("CONTENT_12", FileUtils.readFileToString(files[1], UTF_8));
     } finally {
       FileUtils.deleteDirectory(folder);
     }
@@ -317,7 +318,7 @@ class ZipUtilTest {
     Assertions.assertFalse(ZipUtil.isZipFile((String) null));
     Assertions.assertFalse(ZipUtil.isZipFile((byte[]) null));
     Assertions.assertFalse(ZipUtil.isZipFile("zip"));
-    Assertions.assertFalse(ZipUtil.isZipFile("zip".getBytes(StandardCharsets.UTF_8)));
+    Assertions.assertFalse(ZipUtil.isZipFile("zip".getBytes(UTF_8)));
   }
 
   @Test
@@ -327,5 +328,25 @@ class ZipUtilTest {
     Assertions.assertTrue(ZipUtil.isZipFile(b));
   }
 
+  @Test
+  void testGetDecodedUnzippedContentWithPlainStr(){
+    String content = "<TEST></TEST>";
+    Assertions.assertEquals(ArrayUtils.EMPTY_BYTE_ARRAY, ZipUtil.getDecodedUnzippedContent(null));
+    Assertions.assertEquals(content, new String(ZipUtil.getDecodedUnzippedContent(content.getBytes(UTF_8)), UTF_8));
+  }
+
+  @Test
+  void testGetDecodedUnzippedContentWithBase64Str(){
+    String content = "<TEST></TEST>";
+    Assertions.assertEquals(ArrayUtils.EMPTY_BYTE_ARRAY, ZipUtil.getDecodedUnzippedContent(null));
+    Assertions.assertEquals(content, new String(ZipUtil.getDecodedUnzippedContent(Base64.encode(content.getBytes(UTF_8))), UTF_8));
+  }
+
+  @Test
+  void testGetDecodedUnzippedContentZip(){
+    String content = "<TEST></TEST>";
+    Assertions.assertEquals(ArrayUtils.EMPTY_BYTE_ARRAY, ZipUtil.getDecodedUnzippedContent(null));
+    Assertions.assertEquals(content, new String(ZipUtil.getDecodedUnzippedContent(ZipUtil.zip(content.getBytes(UTF_8))), UTF_8));
+  }
 
 }
