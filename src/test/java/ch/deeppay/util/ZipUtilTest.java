@@ -329,24 +329,77 @@ class ZipUtilTest {
   }
 
   @Test
-  void testGetDecodedUnzippedContentWithPlainStr(){
+  void testGetDecodedUnzippedContentWithPlainStr() {
     String content = "<TEST></TEST>";
     Assertions.assertEquals(ArrayUtils.EMPTY_BYTE_ARRAY, ZipUtil.getDecodedUnzippedContent(null));
     Assertions.assertEquals(content, new String(ZipUtil.getDecodedUnzippedContent(content.getBytes(UTF_8)), UTF_8));
   }
 
   @Test
-  void testGetDecodedUnzippedContentWithBase64Str(){
+  void testGetDecodedUnzippedContentWithBase64Str() {
     String content = "<TEST></TEST>";
     Assertions.assertEquals(ArrayUtils.EMPTY_BYTE_ARRAY, ZipUtil.getDecodedUnzippedContent(null));
     Assertions.assertEquals(content, new String(ZipUtil.getDecodedUnzippedContent(Base64.encode(content.getBytes(UTF_8))), UTF_8));
   }
 
   @Test
-  void testGetDecodedUnzippedContentZip(){
+  void testGetDecodedUnzippedContentZip() {
     String content = "<TEST></TEST>";
     Assertions.assertEquals(ArrayUtils.EMPTY_BYTE_ARRAY, ZipUtil.getDecodedUnzippedContent(null));
     Assertions.assertEquals(content, new String(ZipUtil.getDecodedUnzippedContent(ZipUtil.zip(content.getBytes(UTF_8))), UTF_8));
   }
+
+
+  @Test
+  void testWriteDecodedUnzippedContent() throws IOException {
+    final File tmpDirectory = Files.createTempDirectory("tmp").toFile();
+    try {
+      String content = "<TEST></TEST>";
+      ZipUtil.writeDecodedUnzippedContent(content.getBytes(UTF_8), tmpDirectory, "TEST_FILE_NAME");
+
+      File[] files = tmpDirectory.listFiles();
+      Assertions.assertEquals(1, files.length);
+      Assertions.assertEquals("TEST_FILE_NAME", files[0].getName());
+      Assertions.assertEquals("<TEST></TEST>", FileUtils.readFileToString(files[0], UTF_8));
+    } finally {
+      FileUtils.deleteDirectory(tmpDirectory);
+    }
+  }
+
+  @Test
+  void testWriteDecodedUnzippedContentFromZip() throws IOException, URISyntaxException {
+    final File tmpDirectory = Files.createTempDirectory("tmp").toFile();
+    try {
+      URL resource = requireNonNull(getClass().getResource("TestFile.zip"));
+      byte[] b = IOUtils.toByteArray(Files.newInputStream(Paths.get(resource.toURI())));
+      ZipUtil.writeDecodedUnzippedContent(b, tmpDirectory, "TEST_FILE_NAME");
+      validateTestFile(tmpDirectory.listFiles());
+    } finally {
+      FileUtils.deleteDirectory(tmpDirectory);
+    }
+  }
+
+  private void validateTestFile(File[] files) throws IOException {
+    Assertions.assertEquals(2, files.length);
+    Assertions.assertEquals("file1.txt", files[0].getName());
+    Assertions.assertEquals("file2.txt", files[1].getName());
+    Assertions.assertEquals("CONTENT_1", FileUtils.readFileToString(files[0], UTF_8));
+    Assertions.assertEquals("CONTENT_2", FileUtils.readFileToString(files[1], UTF_8));
+  }
+
+
+  @Test
+  void testWriteDecodedUnzippedContentFromBase64Zip() throws IOException, URISyntaxException {
+    final File tmpDirectory = Files.createTempDirectory("tmp").toFile();
+    try {
+      URL resource = requireNonNull(getClass().getResource("TestFile.zip"));
+      byte[] b = IOUtils.toByteArray(Files.newInputStream(Paths.get(resource.toURI())));
+      ZipUtil.writeDecodedUnzippedContent(Base64.encode(b), tmpDirectory, "TEST_FILE_NAME");
+      validateTestFile(tmpDirectory.listFiles());
+    } finally {
+      FileUtils.deleteDirectory(tmpDirectory);
+    }
+  }
+
 
 }

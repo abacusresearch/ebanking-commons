@@ -95,7 +95,7 @@ public class ZipUtil {
   }
 
   public static boolean isZipFile(@Nullable final String fileContent) {
-    if(StringUtils.isEmpty(fileContent)){
+    if (StringUtils.isEmpty(fileContent)) {
       return false;
     }
 
@@ -103,7 +103,7 @@ public class ZipUtil {
   }
 
   public static boolean isZipFile(@Nullable final byte[] fileContent) {
-    if(ArrayUtils.isEmpty(fileContent)){
+    if (ArrayUtils.isEmpty(fileContent)) {
       return false;
     }
 
@@ -343,13 +343,41 @@ public class ZipUtil {
     return Base64.encodeBase64String(zip(entries));
   }
 
-  public static byte[] getDecodedUnzippedContent(byte[] content){
-    if(ArrayUtils.isEmpty(content)){
+  /**
+   * This method decodes a base64 encoded or zipped byte array if required.
+   *
+   * @param content
+   * @return decoded and unzipped (if required) content
+   */
+  public static byte[] getDecodedUnzippedContent(@Nullable final byte[] content) {
+    if (ArrayUtils.isEmpty(content)) {
       return ArrayUtils.EMPTY_BYTE_ARRAY;
     }
 
     byte[] b = Base64.isBase64(content) ? Base64.decodeBase64(content) : content;
     return isZipFile(b) ? unzip(b) : b;
+  }
+
+  /**
+   * This method writes a content to the passed folder. The content can be base64 encoded, plain or zipped.
+   * If the passed content is plain text of only base64encoded the filename will be used to store the content.
+   *
+   * @param content
+   * @param folder   passed content is placed into this folder
+   * @param fileName needed when content is not zipped (uuid as filename is used when passed filename is null)
+   * @throws IOException
+   */
+  public static void writeDecodedUnzippedContent(@Nullable final byte[] content, @Nonnull final File folder, @Nullable final String fileName) throws
+                                                                                                                                              IOException {
+    if (ArrayUtils.isNotEmpty(content)) {
+      byte[] b = Base64.isBase64(content) ? Base64.decodeBase64(content) : content;
+      if (isZipFile(b)) {
+        unzip(b, folder);
+      } else {
+        String name = StringUtils.isBlank(fileName) ? UUID.randomUUID().toString() : fileName;
+        FileUtils.writeByteArrayToFile(new File(folder, name), b);
+      }
+    }
   }
 
   @Builder
