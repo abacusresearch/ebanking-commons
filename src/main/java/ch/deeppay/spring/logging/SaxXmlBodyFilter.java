@@ -25,6 +25,8 @@ import org.zalando.logbook.BodyFilter;
 @Log4j2
 public class SaxXmlBodyFilter implements BodyFilter {
 
+  private final String XML_DECLARATION = "<?xml version=\"1.0\"";
+
 
   private final String replacement;
   private final Set<String> fields;
@@ -68,19 +70,19 @@ public class SaxXmlBodyFilter implements BodyFilter {
       DocumentBuilder docBuilder = documentBuilderFactory.newDocumentBuilder();
       Document document = docBuilder.parse(new InputSource(new StringReader(body)));
       maskElements(document.getDocumentElement());
-      return toXmlString(document);
+      return toXmlString(document,StringUtils.startsWith(body,XML_DECLARATION));
     } catch (Exception e) {
       log.error(e);
     }
     return body;
   }
 
-  private String toXmlString(Document document) throws TransformerException {
+  private String toXmlString(Document document, boolean hasXmlDeclaration) throws TransformerException {
     DOMSource source = new DOMSource(document);
     StringWriter strWriter = new StringWriter(); //close not needed
     StreamResult result = new StreamResult(strWriter);
     Transformer transformer = transformerFactory.newTransformer();
-    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, hasXmlDeclaration ? "no" : "yes");
     transformer.transform(source, result);
     return strWriter.getBuffer().toString();
   }
