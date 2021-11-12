@@ -54,6 +54,7 @@ public class LogConfiguration {
                                                    "refresh_token," +
                                                    "cardNumber," +
                                                    "card_number," +
+                                                   "file," +
                                                    "transportData";
 
   private static final String DEFAULT_QUERY_FILTER_NAMES = "clientid," +
