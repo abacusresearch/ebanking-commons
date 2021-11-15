@@ -24,6 +24,7 @@ public class LoginRequest {
   private String challenge;
   private String passwordNew;
   private String accessToken;
+  private String refreshToken;
   private String bankId;
   @LanguageConstraint
   private String language;

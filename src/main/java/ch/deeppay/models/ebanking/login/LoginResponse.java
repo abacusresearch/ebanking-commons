@@ -22,5 +22,7 @@ public class LoginResponse extends ClientResponse {
   private LoginState state;
   private Challenge challenge;
   private String sessionId;
+  private String accessToken;
+  private String refreshToken;
 
 }
