@@ -17,6 +17,10 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static org.apache.commons.lang.StringUtils.indexOf;
+import static org.apache.commons.lang.StringUtils.substring;
+import static org.apache.commons.lang.StringUtils.trim;
+
 /**
  * Utility class for cookie extraction.
  */
@@ -87,11 +91,17 @@ public class CookieUtil {
 
     //add old cookies before the new ones
     if (StringUtils.isNotBlank(oldCookieList)) {
-      result.putAll(Splitter.on(",").withKeyValueSeparator("=").split(oldCookieList));
+      String[] splittedCookies = StringUtils.split(oldCookieList,",");
+      if(ArrayUtils.isNotEmpty(splittedCookies)){
+        //cookie value might contain '='. first occurance of '=' must be key value separator
+        for(String str : splittedCookies){
+          int first = indexOf(str,"=");
+          result.put(trim(substring(str, 0, first)), trim(substring(str, first + 1)));
+        }
+      }
     }
     return getCookieValuesAsString(result, headers);
   }
-
 
   /**
    * Creates a list of Cookies.

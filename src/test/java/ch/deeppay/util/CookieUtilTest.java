@@ -65,8 +65,17 @@ class CookieUtilTest {
     clientCookies.add(HttpHeaders.COOKIE, "key1=old_value_1; Path=/; HttpOnly");
     HttpHeaders clientHeaders = new HttpHeaders(clientCookies);
 
-    String result = CookieUtil.mergeCookies(clientHeaders, "key1=value1,key2=value2");
+    String result = CookieUtil.mergeCookies(clientHeaders, "key1=value1,key2=value2 ");
     Assertions.assertEquals("key1=new_value_1,key2=value2", result);
+  }
+
+  @Test
+  void testMergeCookiesWithEmptyHeader2() {
+    MultiValueMap<String, String> clientCookies = new LinkedMultiValueMap<>();
+    HttpHeaders clientHeaders = new HttpHeaders(clientCookies);
+
+    String result = CookieUtil.mergeCookies(clientHeaders, " AL_SESS-S=AfrE5CMu4wW50jEaTrvJY6F7oJxieplSSz7QiEW!CHt8xnolz5cWZdvE0nxZdQXXMmPw, CLX_EB_LOGIN_INFO=$xc/fmcLQ3L4bWJHEJ4Ah3an=mjYkyAJGhEdfUqRO7OThNGgMLkruols39P4I4EnrDM6Ephjss2QV0eT917JEeX2JbqoOSiesr5jtSKnke!K35oa8OKz0Q7ClMHME3Bwy_LF98DybTSktyKwM7!umOZMPUF6jjr0=");
+    Assertions.assertEquals("AL_SESS-S=AfrE5CMu4wW50jEaTrvJY6F7oJxieplSSz7QiEW!CHt8xnolz5cWZdvE0nxZdQXXMmPw,CLX_EB_LOGIN_INFO=$xc/fmcLQ3L4bWJHEJ4Ah3an=mjYkyAJGhEdfUqRO7OThNGgMLkruols39P4I4EnrDM6Ephjss2QV0eT917JEeX2JbqoOSiesr5jtSKnke!K35oa8OKz0Q7ClMHME3Bwy_LF98DybTSktyKwM7!umOZMPUF6jjr0=", result);
   }
 
   @Test
