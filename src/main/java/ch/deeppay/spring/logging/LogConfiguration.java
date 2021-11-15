@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -32,6 +33,7 @@ import static org.zalando.logbook.Conditions.requestTo;
 /**
  * Contains beans used for configuring log files.
  */
+@Log4j2
 @Configuration
 @ConditionalOnClass(LogbookAutoConfiguration.class)
 @ConditionalOnProperty(value = "ch.deeppay.spring.logconfiguration.enabled", matchIfMissing = true)
@@ -89,6 +91,8 @@ public class LogConfiguration {
     for (String name : queryFilterNames) {
       builder.queryFilter(QueryFilters.replaceQuery(name, "<secret>"));
     }
+
+    log.debug("Body properties: {}\nQuery filter names: {}", properties, queryFilterNames);
 
     return builder.queryFilter(cardNumber())
                   .condition(exclude(requestTo("**/health"),
