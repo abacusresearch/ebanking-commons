@@ -17,5 +17,7 @@ public enum LoginState {
   SUCCESS,
   ERROR,
   NOT_SUPPORTED,
-  POLL
+  POLL,
+  OAUTH_AUTHORIZE,
+  OAUTH_POLL
 }
