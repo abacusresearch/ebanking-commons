@@ -3,6 +3,7 @@ package ch.deeppay.spring.openapi;
 public interface OpenApiTextConst {
 
   String RESPONSE_CODE_OK = "200";
+  String RESPONSE_CODE_CREATED = "201";
   String RESPONSE_CODE_NO_CONTENT = "204";
 
   String RESPONSE_CODE_BAD_REQUEST = "400";
@@ -14,6 +15,8 @@ public interface OpenApiTextConst {
 
   String RESPONSE_CODE_FORBIDDEN = "403";
   String FORBIDDEN_DESCRIPTION = "Missing access rights";
+
+  String RESPONSE_CODE_INTERNAL_SERVER_ERROR = "500";
 
   String RESPONSE_CODE_BAD_GATEWAY = "502";
   String BAD_GATEWAY_DESCRIPTION = "API method from the Institute has returned an error.";
@@ -35,5 +38,5 @@ public interface OpenApiTextConst {
   String HEADER_X_SESSION_TRACE_ID_DESCRIPTION = "Trace id for a session";
 
   String HEADER_COOKIE_SESSION_TRACE_ID = "DeepPaySessionTraceId";
-  String HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION = "This cookie is used for session tracing. It will be in the response of the login step 1";
+  String HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION = "This cookie is used for session tracing. It will be returned in the response of the login step 1";
 }
