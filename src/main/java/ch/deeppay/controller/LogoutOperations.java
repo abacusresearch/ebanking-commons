@@ -4,8 +4,8 @@ import javax.validation.Valid;
 
 import ch.deeppay.models.ebanking.logout.LogoutRequest;
 import ch.deeppay.models.ebanking.logout.LogoutResponse;
-import ch.deeppay.spring.openapi.ebanking.OpenApiDeepPayProblem;
-import ch.deeppay.spring.openapi.ebanking.OpenApiTextConst;
+import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
+import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -29,17 +29,17 @@ import static ch.deeppay.metrics.UserAgentConst.ABASALARY;
 import static ch.deeppay.metrics.UserAgentConst.DEEPBOX;
 import static ch.deeppay.metrics.UserAgentConst.POSTMAN;
 import static ch.deeppay.metrics.UserAgentConst.SWISS21;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.BAD_REQUEST_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_COOKIE_SESSION_TRACE_ID;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OK_LOGOUT_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OPERATION_LOGOUT_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OPERATION_LOGOUT_SUMMARY;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_BAD_REQUEST;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_OK;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_UNAUTHORIZED;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.TAG_NAME_E_BANKING;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.UNAUTHORIZED_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.BAD_REQUEST_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_COOKIE_SESSION_TRACE_ID;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OK_LOGOUT_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_LOGOUT_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_LOGOUT_SUMMARY;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_BAD_REQUEST;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_OK;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_UNAUTHORIZED;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.TAG_NAME_E_BANKING;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.UNAUTHORIZED_DESCRIPTION;
 
 /**
  * Rest endpoints for logout.
@@ -63,7 +63,7 @@ public interface LogoutOperations {
              required = true,
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
-                              example = OpenApiTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
+                              example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
   @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
   @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true,
                                                         content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

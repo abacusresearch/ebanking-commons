@@ -3,7 +3,7 @@ package ch.deeppay.spring.openapi.ebanking;
 import ch.deeppay.util.LoginState;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
 
 @Schema(name="PaymentResponseSimple")
 public interface OpenApiPaymentResponseSimple {

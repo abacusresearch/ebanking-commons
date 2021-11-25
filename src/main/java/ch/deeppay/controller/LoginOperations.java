@@ -4,14 +4,12 @@ import javax.validation.Valid;
 
 import ch.deeppay.models.ebanking.login.LoginRequest;
 import ch.deeppay.models.ebanking.login.LoginResponse;
-import ch.deeppay.spring.openapi.ebanking.OpenApiDeepPayProblem;
-import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestCertificate;
+import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
+import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestChallenge;
-import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestOAuth;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestPassword;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginResponseStep1;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginResponseStep2;
-import ch.deeppay.spring.openapi.ebanking.OpenApiTextConst;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,25 +41,27 @@ import static ch.deeppay.metrics.UserAgentConst.ABASALARY;
 import static ch.deeppay.metrics.UserAgentConst.DEEPBOX;
 import static ch.deeppay.metrics.UserAgentConst.POSTMAN;
 import static ch.deeppay.metrics.UserAgentConst.SWISS21;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.BAD_GATEWAY_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.BAD_REQUEST_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.FORBIDDEN_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_X_REQUEST_TRACE_ID;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_X_REQUEST_TRACE_ID_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_X_SESSION_TRACE_ID;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_X_SESSION_TRACE_ID_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.LOGIN_REQUEST_BODY_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OK_LOGIN_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OPERATION_LOGIN_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OPERATION_LOGIN_SUMMARY;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_BAD_GATEWAY;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_BAD_REQUEST;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_FORBIDDEN;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_OK;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_UNAUTHORIZED;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.TAG_DESCRIPTION_E_BANKING;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.TAG_NAME_E_BANKING;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.UNAUTHORIZED_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.BAD_GATEWAY_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.BAD_REQUEST_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.FORBIDDEN_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_COOKIE_SESSION_TRACE_ID;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_X_REQUEST_TRACE_ID;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_X_REQUEST_TRACE_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_X_SESSION_TRACE_ID;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_X_SESSION_TRACE_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.LOGIN_REQUEST_BODY_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OK_LOGIN_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_LOGIN_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_LOGIN_SUMMARY;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_BAD_GATEWAY;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_BAD_REQUEST;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_FORBIDDEN;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_OK;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_UNAUTHORIZED;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.TAG_DESCRIPTION_E_BANKING;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.TAG_NAME_E_BANKING;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.UNAUTHORIZED_DESCRIPTION;
 
 @SecuritySchemes(value = {
     @SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer", bearerFormat = "JWT"),
@@ -70,9 +70,9 @@ import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.UNAUTHORIZED_D
 //OpenAPIDefinition does not work in package-info.java class.
 @OpenAPIDefinition(info = @Info(title = "Rest endpoints for e-banking service",
                                 description = "This section describes all available endpoints of the e-banking rest interface"),
-                   servers = {@Server(url = OpenApiTextConst.SERVER_DEV_URL, description = OpenApiTextConst.SERVER_DEV_URL_DESCRIPTION),
-                              @Server(url = OpenApiTextConst.SERVER_INT_URL, description = OpenApiTextConst.SERVER_INT_URL_DESCRIPTION),
-                              @Server(url = OpenApiTextConst.SERVER_PROD_URL, description = OpenApiTextConst.SERVER_PROD_URL_DESCRIPTION)},
+                   servers = {@Server(url = OpenApiBankingTextConst.SERVER_DEV_URL, description = OpenApiBankingTextConst.SERVER_DEV_URL_DESCRIPTION),
+                              @Server(url = OpenApiBankingTextConst.SERVER_INT_URL, description = OpenApiBankingTextConst.SERVER_INT_URL_DESCRIPTION),
+                              @Server(url = OpenApiBankingTextConst.SERVER_PROD_URL, description = OpenApiBankingTextConst.SERVER_PROD_URL_DESCRIPTION)},
                    tags = {@Tag(name = TAG_NAME_E_BANKING, description = TAG_DESCRIPTION_E_BANKING)})
 @RestController
 @RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -104,12 +104,11 @@ public interface LoginOperations {
              required = true,
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
-                              example = OpenApiTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
+                              example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
+  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = LOGIN_REQUEST_BODY_DESCRIPTION, required = true,
                                                         content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                                                            schema = @Schema(oneOf = {OpenApiLoginRequestPassword.class,
-                                                                                                     OpenApiLoginRequestCertificate.class,
-                                                                                                     OpenApiLoginRequestOAuth.class,
                                                                                                      OpenApiLoginRequestChallenge.class})))
   @PostMapping
   ResponseEntity<LoginResponse> login(@RequestHeader @NonNull final HttpHeaders headers,

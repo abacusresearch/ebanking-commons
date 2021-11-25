@@ -4,8 +4,8 @@ import ch.deeppay.models.ebanking.login.Challenge;
 import ch.deeppay.util.LoginState;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.SCHEMA_CHALLENGE_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_CHALLENGE_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
 
 @Schema(name = "LoginResponseStep1", description = "Login response after the first login step")
 public interface OpenApiLoginResponseStep1 {

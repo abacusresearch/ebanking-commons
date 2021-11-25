@@ -1,4 +1,4 @@
-package ch.deeppay.spring.openapi.ebanking;
+package ch.deeppay.spring.openapi;
 
 import java.net.URI;
 

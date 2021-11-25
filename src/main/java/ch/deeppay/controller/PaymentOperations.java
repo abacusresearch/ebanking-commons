@@ -5,9 +5,9 @@ import javax.validation.Valid;
 import ch.deeppay.models.ebanking.payment.PaymentRequest;
 import ch.deeppay.models.ebanking.payment.PaymentResponse;
 import ch.deeppay.spring.openapi.ebanking.OpenAPiPaymentRequest;
-import ch.deeppay.spring.openapi.ebanking.OpenApiDeepPayProblem;
+import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
 import ch.deeppay.spring.openapi.ebanking.OpenApiPaymentResponseSimple;
-import ch.deeppay.spring.openapi.ebanking.OpenApiTextConst;
+import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -35,21 +35,21 @@ import static ch.deeppay.metrics.UserAgentConst.ABASALARY;
 import static ch.deeppay.metrics.UserAgentConst.DEEPBOX;
 import static ch.deeppay.metrics.UserAgentConst.POSTMAN;
 import static ch.deeppay.metrics.UserAgentConst.SWISS21;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.BAD_GATEWAY_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.BAD_REQUEST_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.FORBIDDEN_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_COOKIE_SESSION_TRACE_ID;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OK_PAYMENT_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OPERATION_PAYMENT_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.OPERATION_PAYMENT_SUMMARY;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_BAD_GATEWAY;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_BAD_REQUEST;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_FORBIDDEN;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_OK;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.RESPONSE_CODE_UNAUTHORIZED;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.TAG_NAME_E_BANKING;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.UNAUTHORIZED_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.BAD_GATEWAY_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.BAD_REQUEST_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.FORBIDDEN_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_COOKIE_SESSION_TRACE_ID;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OK_PAYMENT_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_PAYMENT_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_PAYMENT_SUMMARY;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_BAD_GATEWAY;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_BAD_REQUEST;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_FORBIDDEN;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_OK;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_CODE_UNAUTHORIZED;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.TAG_NAME_E_BANKING;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.UNAUTHORIZED_DESCRIPTION;
 
 /**
  * Rest endpoints for uploading payment files.
@@ -74,12 +74,12 @@ public interface PaymentOperations {
                    content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = OpenApiDeepPayProblem.class))}),
       @ApiResponse(responseCode = RESPONSE_CODE_BAD_GATEWAY,
                    description = BAD_GATEWAY_DESCRIPTION,
-                   content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, examples = {@ExampleObject(value = OpenApiTextConst.BAD_REQUEST_EXAMPLE)}, schema = @Schema(implementation = OpenApiDeepPayProblem.class))})})
+                   content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, examples = {@ExampleObject(value = OpenApiBankingTextConst.BAD_REQUEST_EXAMPLE)}, schema = @Schema(implementation = OpenApiDeepPayProblem.class))})})
   @Parameter(in = ParameterIn.HEADER,
              required = true,
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
-                              example = OpenApiTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
+                              example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
   @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
   @RequestBody(required = true,
                content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,

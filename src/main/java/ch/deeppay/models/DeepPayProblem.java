@@ -2,7 +2,7 @@ package ch.deeppay.models;
 
 import java.net.URI;
 
-import ch.deeppay.spring.openapi.ebanking.OpenApiDeepPayProblem;
+import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

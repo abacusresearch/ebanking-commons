@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

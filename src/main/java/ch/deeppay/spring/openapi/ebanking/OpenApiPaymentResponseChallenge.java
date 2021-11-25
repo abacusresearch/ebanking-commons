@@ -13,7 +13,7 @@ public interface OpenApiPaymentResponseChallenge {
   @Schema(description = "Might contain a challenge object (e.g an image of a photo tan).")
   Challenge getChallenge();
 
-  @Schema(description = OpenApiTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION,required = true)
+  @Schema(description = OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION, required = true)
   String getTransportData();
 
 

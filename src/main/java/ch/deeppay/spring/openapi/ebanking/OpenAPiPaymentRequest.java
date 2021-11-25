@@ -4,7 +4,7 @@ import ch.deeppay.util.FileFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.lang.Nullable;
 
-import static ch.deeppay.spring.openapi.ebanking.OpenApiTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
 
 @Schema(name = "SimplePaymentRequest", description = "Request to upload a payment file")
 public interface OpenAPiPaymentRequest {
