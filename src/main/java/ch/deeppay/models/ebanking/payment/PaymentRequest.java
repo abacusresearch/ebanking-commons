@@ -1,6 +1,8 @@
 package ch.deeppay.models.ebanking.payment;
 
 import ch.deeppay.spring.constraints.FileFormatConstraint;
+import ch.deeppay.spring.openapi.ebanking.OpenAPiPaymentChallengeRequest;
+import ch.deeppay.spring.openapi.ebanking.OpenAPiPaymentRequest;
 import ch.deeppay.util.FileFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,7 +18,7 @@ import org.springframework.lang.Nullable;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-public class PaymentRequest {
+public class PaymentRequest implements OpenAPiPaymentRequest, OpenAPiPaymentChallengeRequest {
 
   private String transportData;
   @FileFormatConstraint private String format;

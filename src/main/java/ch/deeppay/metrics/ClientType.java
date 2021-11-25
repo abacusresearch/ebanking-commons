@@ -4,13 +4,17 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * Check OpenAPI documentation definition at ch.deeppay.spring.openapi.* when values are updated
+ */
 public enum ClientType {
-  ABACUS_G4("Abacus-G4"),
-  ABANINJA("AbaNinja"),
-  POSTMAN("Postman"),
-  SWISS21("Swiss21"),
-  DEEPBOX("DeepBox"),
-  ABASALARY("AbaSalary"),
+
+  ABACUS_G4(UserAgentConst.ABACUS_G4),
+  ABANINJA(UserAgentConst.ABANINJA),
+  POSTMAN(UserAgentConst.POSTMAN),
+  SWISS21(UserAgentConst.SWISS21),
+  DEEPBOX(UserAgentConst.DEEPBOX),
+  ABASALARY(UserAgentConst.ABASALARY),
   UNKNOWN("");
 
   private final String userAgent;

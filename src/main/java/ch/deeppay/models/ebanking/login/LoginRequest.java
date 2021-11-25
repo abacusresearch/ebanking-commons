@@ -1,6 +1,10 @@
 package ch.deeppay.models.ebanking.login;
 
 import ch.deeppay.spring.constraints.LanguageConstraint;
+import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestCertificate;
+import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestChallenge;
+import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestOAuth;
+import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestPassword;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -17,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-public class LoginRequest {
+public class LoginRequest implements OpenApiLoginRequestCertificate, OpenApiLoginRequestPassword, OpenApiLoginRequestChallenge, OpenApiLoginRequestOAuth {
 
   private String contractId;
   private String password;
