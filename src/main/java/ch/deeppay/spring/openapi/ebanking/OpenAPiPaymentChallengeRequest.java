@@ -5,7 +5,7 @@ import org.springframework.lang.Nullable;
 
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
 
-@Schema(name = "PaymentRequest", description = "Request to submit the challenge value to confirm the payment")
+@Schema(name = "ChallengePaymentRequest", description = "Request to submit the challenge value to confirm the payment")
 public interface OpenAPiPaymentChallengeRequest {
 
   @Schema(description = SCHEMA_TRANSPORT_DATA_DESCRIPTION, required = true)

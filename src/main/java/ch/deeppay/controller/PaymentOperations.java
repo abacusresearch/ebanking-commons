@@ -4,10 +4,12 @@ import javax.validation.Valid;
 
 import ch.deeppay.models.ebanking.payment.PaymentRequest;
 import ch.deeppay.models.ebanking.payment.PaymentResponse;
-import ch.deeppay.spring.openapi.ebanking.OpenAPiPaymentRequest;
 import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
-import ch.deeppay.spring.openapi.ebanking.OpenApiPaymentResponseSimple;
+import ch.deeppay.spring.openapi.ebanking.OpenAPiPaymentChallengeRequest;
+import ch.deeppay.spring.openapi.ebanking.OpenAPiPaymentRequest;
 import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
+import ch.deeppay.spring.openapi.ebanking.OpenApiPaymentResponseChallenge;
+import ch.deeppay.spring.openapi.ebanking.OpenApiPaymentResponseSimple;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -62,7 +64,8 @@ public interface PaymentOperations {
   @ApiResponses(value = {
       @ApiResponse(responseCode = RESPONSE_CODE_OK,
                    description = OK_PAYMENT_DESCRIPTION,
-                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(oneOf = {OpenApiPaymentResponseSimple.class}))}),
+                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(oneOf = {OpenApiPaymentResponseSimple.class,
+                                                                                                               OpenApiPaymentResponseChallenge.class}))}),
       @ApiResponse(responseCode = RESPONSE_CODE_BAD_REQUEST,
                    description = BAD_REQUEST_DESCRIPTION,
                    content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = OpenApiDeepPayProblem.class))}),
@@ -83,7 +86,7 @@ public interface PaymentOperations {
   @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
   @RequestBody(required = true,
                content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                                  schema=@Schema(implementation = OpenAPiPaymentRequest.class)))
+                                  schema=@Schema(oneOf = {OpenAPiPaymentRequest.class, OpenAPiPaymentChallengeRequest.class})))
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   ResponseEntity<PaymentResponse> uploadPayment(@RequestHeader @NonNull final HttpHeaders httpHeaders,

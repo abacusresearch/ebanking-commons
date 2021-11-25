@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Interface is only used for open api doc's
  */
-@Schema(name="RequestPassword", description = "Password login request for step1")
+@Schema(name="PasswordLoginRequest", description = "Password login request for step1")
 public interface OpenApiLoginRequestPassword {
   @Schema(description = "ContractId that is given by the financial institute e-banking contract",required = true, example = "700-1234-5678")
   String getContractId();

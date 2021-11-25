@@ -7,7 +7,7 @@ import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_
 /**
  * Interface is only used for open api doc's
  */
-@Schema(name= "RequestChallenge", description = "Challenge request for the login step 2")
+@Schema(name= "ChallengeLoginRequest", description = "Challenge request for the login step 2")
 public interface OpenApiLoginRequestChallenge {
   @Schema(description = "Challenge value that was entered by the user",required = true)
   String getChallenge();

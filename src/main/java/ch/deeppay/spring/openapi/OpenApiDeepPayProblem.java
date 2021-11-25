@@ -4,7 +4,7 @@ import java.net.URI;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "DeepPayProblem1", description = "Uniform formatting of the error of a response according to https://datatracker.ietf.org/doc/html/rfc7807 be implemented.")
+@Schema(name = "DeepPayProblem", description = "Uniform formatting of the error of a response according to https://datatracker.ietf.org/doc/html/rfc7807 be implemented.")
 public interface OpenApiDeepPayProblem {
 
   @Schema(description = "Uri reference that identifies the problem type", example = "https://docs.api.deeppay.swiss/ebanking/interfaces/some_error")

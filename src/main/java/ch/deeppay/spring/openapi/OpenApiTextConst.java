@@ -35,5 +35,5 @@ public interface OpenApiTextConst {
   String HEADER_X_SESSION_TRACE_ID_DESCRIPTION = "Trace id for a session";
 
   String HEADER_COOKIE_SESSION_TRACE_ID = "DeepPaySessionTraceId";
-  String HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION = "This cookie is used for session tracing";
+  String HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION = "This cookie is used for session tracing. It will be in the response of the login step 1";
 }

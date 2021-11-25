@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_TRANSPORT_DATA_DESCRIPTION;
 
-@Schema(name="PaymentResponseSimple")
+@Schema(name="PaymentResponse_")
 public interface OpenApiPaymentResponseSimple {
 
   @Schema(description = "The variable contains a zipped and base64 encoded file. If a pain001 was uploaded it contains in the most cases a pain002 file.",required = true)

@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Interface is only used for open api doc's
  */
-@Schema(name = "CertificateRequest", description = "Certificate login request for step11111")
+@Schema(name = "CertificateLoginRequest", description = "Certificate login request for step11111")
 public interface OpenApiLoginRequestCertificate {
 
   @Schema(description = "ContractId that is given by the financial institute e-banking contract",required = true)
