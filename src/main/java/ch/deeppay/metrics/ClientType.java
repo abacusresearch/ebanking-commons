@@ -1,7 +1,5 @@
 package ch.deeppay.metrics;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -32,14 +30,13 @@ public enum ClientType {
     return name().toLowerCase();
   }
 
-  @Nullable
   public static ClientType fromUserAgent(String userAgent){
     for(ClientType type : ClientType.values()){
       if(StringUtils.startsWithIgnoreCase(userAgent, type.getUserAgent())){
         return type;
       }
     }
-    return null;
+    return UNKNOWN;
   }
 
 }

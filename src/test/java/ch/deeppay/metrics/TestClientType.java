@@ -12,6 +12,8 @@ public class TestClientType {
     Assertions.assertEquals(ClientType.ABACUS_G4, ClientType.fromUserAgent("abacus-g4/1234"));
     Assertions.assertEquals(ClientType.ABANINJA, ClientType.fromUserAgent("abaninja/v1.2"));
     Assertions.assertEquals(ClientType.POSTMAN, ClientType.fromUserAgent("postman 1.2"));
+    Assertions.assertEquals(ClientType.UNKNOWN, ClientType.fromUserAgent("GuzzleHttp/7"));
+    Assertions.assertEquals(ClientType.UNKNOWN, ClientType.fromUserAgent(""));
   }
 
 }
