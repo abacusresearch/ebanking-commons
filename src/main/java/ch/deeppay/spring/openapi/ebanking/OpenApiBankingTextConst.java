@@ -16,7 +16,22 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
   String TAG_DESCRIPTION_E_BANKING = "Uniform interface to all Swiss financial institutions.";
 
   String OPERATION_LOGIN_SUMMARY = "Method to perform the login at the institute. The login might have 2 steps that has to be performed.";
-  String OPERATION_LOGIN_DESCRIPTION = "This route is the starting point of the login flow. After each request to this route the state parameter of the response must be reacted to.\nHow to react to this parameter is described in the following See [Login flow](#/loginFlow).";
+  String OPERATION_LOGIN_DESCRIPTION = "This route is the starting point of the login flow. After each request to this route the state parameter of the response must be reacted to." +
+                                       "For the most services the login flow consists of 2 steps. The first step usually involves entering a contract id and a password. The login method of the 2 step varies according to the contract and the institute." +
+                                       "The type of the login methode is returned in the response of the login step 1.\n" +
+                                       "### Possible login states after step 1\n" +
+                                       "*Note: Login types must be handled on client side. The same states (except CHANGE_PASSWORD) might also be returned when a payment has to be confirmed*\n" +
+                                       "\n" +
+                                       "| Login state        | Description |\n" +
+                                       "| ------------------ | ------------|\n" +
+                                       "| MOBILE_TAN         | Is a tan that was sent by the institute to the registered mobile device. The user has to enter to tan into a login field and the value has be send back.|\n" +
+                                       "| PUSH_TAN           | The tan is sent in the challenge field. The same tan value is sent by the institute to a registered mobile device. The user has to compare the values and confirm it on the mobile device|\n" +
+                                       "| GRID_CARD          | The text is found under the key 'value'|\n" +
+                                       "| CHOOSE             | Is a list of challenge options; the items are the keys (or values)|\n" +
+                                       "| KEYFILE            | Is a text which needs to be signed; the text is found under the key 'value'|\n" +
+                                       "| POLL               | The /login route has to be polled until the user confirms the login at the mobile device|\n" +
+                                       "| OPTICAL_CHALLENGE  | Is a BASE64 encoded image (PNG format); the data is found under the key 'value'|\n" +
+                                       "| CHANGE_PASSWORD    | The field 'passwordNew' must be sent to the server with the user's input.|\n";
 
   String OPERATION_PAYMENT_SUMMARY = "Method to upload a payment file in Pain001 format.";
   String OPERATION_PAYMENT_DESCRIPTION = "This route is used to upload payment files. The format of the file must be defined according to the pain001 specification. The file may contain one or more payments and can be uploaded as plain text. The file is zipped and base64 encoded.";
