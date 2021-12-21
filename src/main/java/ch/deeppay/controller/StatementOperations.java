@@ -97,11 +97,11 @@ public interface StatementOperations {
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
                               example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
-  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
+  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,schema = @Schema(implementation = String.class))
   @Parameter(in = ParameterIn.QUERY, required = true, name = QUERY_FORMAT_NAME, description = QUERY_FORMAT_DESCRIPTION, example = QUERY_FORMAT_EXAMPLE, schema = @Schema(implementation = FileFormat.class))
   @Parameter(in = ParameterIn.QUERY, name = QUERY_DATE_FROM_NAME,description = QUERY_DATE_FROM_DESCRIPTION, example = QUERY_DATE_FROM_EXAMPLE, schema = @Schema(implementation = Instant.class))
   @Parameter(in = ParameterIn.QUERY, name = QUERY_DATE_TO_NAME, description = QUERY_DATE_TO_DESCRIPTION, example = QUERY_DATE_TO_EXAMPLE,schema = @Schema(implementation = Instant.class))
-  @Parameter(in = ParameterIn.QUERY, name = QUERY_ACCOUNT_NAME, description = QUERY_ACCOUNT_DESCRIPTION, example = QUERY_ACCOUNT_EXAMPLE)
+  @Parameter(in = ParameterIn.QUERY, name = QUERY_ACCOUNT_NAME, description = QUERY_ACCOUNT_DESCRIPTION, example = QUERY_ACCOUNT_EXAMPLE,schema = @Schema(type = "string"))
   @GetMapping
   ResponseEntity<StatementResponse> downloadStatements(
       @RequestHeader @NonNull final HttpHeaders httpHeaders,
@@ -132,12 +132,12 @@ public interface StatementOperations {
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
                               example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
-  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
+  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,schema = @Schema(type = "string"))
   @Parameter(in = ParameterIn.PATH,required = true, name = PATH_STATEMENT_ID_NAME, schema = @Schema(description = PATH_STATEMENT_ID_DESCRIPTION, example = PATH_STATEMENT_ID_EXAMPLE))
   @Parameter(in = ParameterIn.QUERY, required = true, name = QUERY_FORMAT_NAME, description = QUERY_FORMAT_DESCRIPTION, example = QUERY_FORMAT_EXAMPLE, schema = @Schema(implementation = FileFormat.class))
   @Parameter(in = ParameterIn.QUERY, name = QUERY_DATE_FROM_NAME,description = QUERY_DATE_FROM_DESCRIPTION, example = QUERY_DATE_FROM_EXAMPLE, schema = @Schema(implementation = Instant.class))
   @Parameter(in = ParameterIn.QUERY, name = QUERY_DATE_TO_NAME, description = QUERY_DATE_TO_DESCRIPTION, example = QUERY_DATE_TO_EXAMPLE,schema = @Schema(implementation = Instant.class))
-  @Parameter(in = ParameterIn.QUERY, name = QUERY_ACCOUNT_NAME, description = QUERY_ACCOUNT_DESCRIPTION, example = QUERY_ACCOUNT_EXAMPLE)
+  @Parameter(in = ParameterIn.QUERY, name = QUERY_ACCOUNT_NAME, description = QUERY_ACCOUNT_DESCRIPTION, example = QUERY_ACCOUNT_EXAMPLE,schema = @Schema(type = "string"))
   @GetMapping(value = "/{statementId}")
   ResponseEntity<StatementResponse> downloadStatement(
       @RequestHeader @NonNull final HttpHeaders httpHeaders,

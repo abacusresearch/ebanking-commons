@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -64,12 +65,13 @@ import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.TAG_NAM
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.UNAUTHORIZED_DESCRIPTION;
 
 @SecuritySchemes(value = {
-    @SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer", bearerFormat = "JWT"),
-    @SecurityScheme(type = SecuritySchemeType.APIKEY, name = "x-api-key")
+    @SecurityScheme(type = SecuritySchemeType.HTTP, scheme = "Bearer", bearerFormat = "JWT", in = SecuritySchemeIn.HEADER),
+    @SecurityScheme(type = SecuritySchemeType.APIKEY, name = "x-api-key", in = SecuritySchemeIn.HEADER)
 })
 //OpenAPIDefinition does not work in package-info.java class.
 @OpenAPIDefinition(info = @Info(title = "Rest endpoints for e-banking service",
-                                description = "This section describes all available endpoints of the e-banking rest interface"),
+                                description = "This section describes all available endpoints of the e-banking rest interface",
+                                version = "1.0"),
                    servers = {@Server(url = OpenApiBankingTextConst.SERVER_DEV_URL, description = OpenApiBankingTextConst.SERVER_DEV_URL_DESCRIPTION),
                               @Server(url = OpenApiBankingTextConst.SERVER_INT_URL, description = OpenApiBankingTextConst.SERVER_INT_URL_DESCRIPTION),
                               @Server(url = OpenApiBankingTextConst.SERVER_PROD_URL, description = OpenApiBankingTextConst.SERVER_PROD_URL_DESCRIPTION)},
@@ -105,7 +107,7 @@ public interface LoginOperations {
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
                               example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
-  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION)
+  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,schema = @Schema(type = "string"))
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = LOGIN_REQUEST_BODY_DESCRIPTION, required = true,
                                                         content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                                                            schema = @Schema(oneOf = {OpenApiLoginRequestPassword.class,

@@ -9,6 +9,7 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
   String OK_LOGOUT_DESCRIPTION = "Logout was successfully.";
   String OK_STATEMENT_DESCRIPTION = "Statement file exists.";
   String OK_HEALTH_DESCRIPTION = "Health status of the service.";
+  String OK_TOKEN_DESCRIPTION = "Tokens successfully retrieved.";
 
   String NO_CONTENT_STATEMENT_DESCRIPTION = "No account statements exists.";
 
@@ -42,6 +43,16 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
   String OPERATION_STATEMENT_SUMMARY = "Method to download an accounting file.";
   String OPERATION_STATEMENT_DESCRIPTION = "This route is used to download a file. The returned file content format depends on the format request parameter that is passed. The file is zipped and base64 encoded.";
 
+  String OPERATION_AUTHORIZE_SUMMARY = "This endpoint is used to interact with the resource owner and get the authorization to access the protected resource.";
+  String OPERATION_AUTHORIZE_DESCRIPTION = "This is the starting point of the oauth login flow. The result of this endpoint redirects you to a consent screen of the institute, where you will be asked to authorize the service to access some of your data (protected resources)";
+
+  String OPERATION_TOKEN_SUMMARY = "This endpoint is used to get an access- or a refresh token";
+  String OPERATION_TOKEN_DESCRIPTION = "The endpoint is called to get the tokens after the /authorize method was called. In this case the grandtype is 'authorizationcode'. To get a new access token after it was expired the grandtype in the request has to be set to 'refreshToken'.";
+
+  String RESPONSE_AUTHORIZE_REDIRECT_DESCRIPTION = "Redirect url to a consent screen, where the user will be asked to authorize the service to get access to the data";
+
+  String AUTHORIZE_REQUEST_BODY_DESCRIPTION = "Authorize request";
+
   String LOGIN_REQUEST_BODY_DESCRIPTION = "Login request";
 
   String SCHEMA_TRANSPORT_DATA_DESCRIPTION = "The transport data value contains session information and must be passed with the next request.";
@@ -67,5 +78,10 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
   String PATH_STATEMENT_ID_NAME = "statementId";
   String PATH_STATEMENT_ID_DESCRIPTION = "Reference id of a payment";
   String PATH_STATEMENT_ID_EXAMPLE = "asd324fgasdt6436lbs";
+
+  String SCHEMA_BANK_ID_DESCRIPTION = "The bankId is the bank identification received by the discovery route. It is used to forward the request to the right bank.";
+  String SCHEMA_LANGUAGE_DESCRIPTION = "Language that might be used for result message.";
+  String SCHEMA_CLIENT_ID_DESCRIPTION = "The Identifier of the application that asks for authorization.";
+  String SCHEMA_REFRESH_TOKEN_DESCRIPTION = "The refresh token is used to get a new access token when the current token expires";
 
 }

@@ -5,6 +5,7 @@ public interface OpenApiTextConst {
   String RESPONSE_CODE_OK = "200";
   String RESPONSE_CODE_CREATED = "201";
   String RESPONSE_CODE_NO_CONTENT = "204";
+  String RESPONSE_CODE_REDIRECT = "303";
 
   String RESPONSE_CODE_BAD_REQUEST = "400";
   String BAD_REQUEST_DESCRIPTION = "Some parameters were invalid";
@@ -15,6 +16,8 @@ public interface OpenApiTextConst {
 
   String RESPONSE_CODE_FORBIDDEN = "403";
   String FORBIDDEN_DESCRIPTION = "Missing access rights";
+
+
 
   String RESPONSE_CODE_INTERNAL_SERVER_ERROR = "500";
 
