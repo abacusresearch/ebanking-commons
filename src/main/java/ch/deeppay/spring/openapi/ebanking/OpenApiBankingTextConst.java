@@ -81,7 +81,20 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
 
   String SCHEMA_BANK_ID_DESCRIPTION = "The bankId is the bank identification received by the discovery route. It is used to forward the request to the right bank.";
   String SCHEMA_LANGUAGE_DESCRIPTION = "Language that might be used for result message.";
-  String SCHEMA_CLIENT_ID_DESCRIPTION = "The Identifier of the application that asks for authorization.";
   String SCHEMA_REFRESH_TOKEN_DESCRIPTION = "The refresh token is used to get a new access token when the current token expires";
+  String SCHEMA_CLIENT_ID_DESCRIPTION = "The Identifier of the application that asks for authorization.";
+
+  String QUERY_BANK_ID_NAME = "bankId";
+  String QUERY_BANK_ID_DESCRIPTION = SCHEMA_BANK_ID_DESCRIPTION;
+  String QUERY_BANK_ID_EXAMPLE = "6300";
+
+  String QUERY_CLIENT_ID_NAME = "ClientId";
+  String QUERY_CLIENT_ID_DESCRIPTION = SCHEMA_CLIENT_ID_DESCRIPTION;
+
+  String QUERY_STATE_NAME = "state";
+  String QUERY_STATE_DESCRIPTION = "An opaque value, used for security purposes. Can be used to retrieve information on the clients application.";
+
+  String QUERY_REDIRECT_URL_NAME = "redirectUrl";
+  String QUERY_REDIRECT_URL_DESCRIPTION = "The URL to which the Server will send (through a redirect) the Authorization code, after the user login.";
 
 }

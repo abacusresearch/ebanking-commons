@@ -4,10 +4,7 @@ import ch.deeppay.models.ebanking.oauth.AuthorizeRequest;
 import ch.deeppay.models.ebanking.oauth.TokenRequest;
 import ch.deeppay.models.ebanking.oauth.TokenResponse;
 import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
-import ch.deeppay.spring.openapi.ebanking.OpenApiAuthorizeRequest;
 import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
-import ch.deeppay.spring.openapi.ebanking.OpenApiLoginResponseStep1;
-import ch.deeppay.spring.openapi.ebanking.OpenApiLoginResponseStep2;
 import ch.deeppay.spring.openapi.ebanking.OpenApiTokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -53,6 +50,14 @@ import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATI
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_AUTHORIZE_SUMMARY;
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_TOKEN_DESCRIPTION;
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.OPERATION_TOKEN_SUMMARY;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_BANK_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_BANK_ID_NAME;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_CLIENT_ID_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_CLIENT_ID_NAME;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_REDIRECT_URL_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_REDIRECT_URL_NAME;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_STATE_DESCRIPTION;
+import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.QUERY_STATE_NAME;
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.RESPONSE_AUTHORIZE_REDIRECT_DESCRIPTION;
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.TAG_NAME_E_BANKING;
 
@@ -71,7 +76,7 @@ public interface OAuthOperations {
                                       description = HEADER_X_SESSION_TRACE_ID_DESCRIPTION,
                                       schema = @Schema(type = "string"))},
                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                       schema = @Schema(oneOf = {OpenApiLoginResponseStep1.class, OpenApiLoginResponseStep2.class}))}),
+                                       schema = @Schema(implementation = ModelAndView.class))}),
       @ApiResponse(responseCode = RESPONSE_CODE_BAD_REQUEST,
                    description = BAD_REQUEST_DESCRIPTION,
                    content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = OpenApiDeepPayProblem.class))}),
@@ -91,22 +96,33 @@ public interface OAuthOperations {
              name = HEADER_COOKIE_SESSION_TRACE_ID,
              description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,
              schema = @Schema(type = "string"))
-  @io.swagger.v3.oas.annotations.parameters.RequestBody(description = AUTHORIZE_REQUEST_BODY_DESCRIPTION, required = true,
-                                                        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                                                           schema = @Schema(implementation = OpenApiAuthorizeRequest.class)))
+  @Parameter(in = ParameterIn.QUERY,
+             required = true,
+             name = QUERY_BANK_ID_NAME,
+             description = QUERY_BANK_ID_DESCRIPTION,
+             example = "6300",
+             schema = @Schema(type = "string"))
+  @Parameter(in = ParameterIn.QUERY,
+             required = true,
+             name = QUERY_CLIENT_ID_NAME,
+             description = QUERY_CLIENT_ID_DESCRIPTION,
+             example = "abaninja",
+             schema = @Schema(type = "string"))
+  @Parameter(in = ParameterIn.QUERY,
+             required = true,
+             name = QUERY_STATE_NAME,
+             description = QUERY_STATE_DESCRIPTION,
+             example = "2ac3eb63-328c-4ac0-a1b4-27f5c8a2543d",
+             schema = @Schema(type = "string"))
+  @Parameter(in = ParameterIn.QUERY,
+             required = true,
+             name = QUERY_REDIRECT_URL_NAME,
+             description = QUERY_REDIRECT_URL_DESCRIPTION,
+             example = "https://app.abaninja.ch/finances/banking/authorization",
+             schema = @Schema(type = "string"))
   @GetMapping(path = "/authorize")
   ModelAndView handleAuthorize(@NonNull final AuthorizeRequest oAuthAuthorizeRequest);
 
-  /**
-   * @param grandType    The grant type of the request, must be refresh_token when refreshing an access token.
-   *                     Must be authorization_code for the initial request to get the access and refresh tokens.
-   * @param code         The code parameter returned to your redirect URI when the user authorized your app.
-   * @param clientId     The Client ID of your app.
-   * @param clientSecret The Client Secret of your app.
-   * @param refreshToken The refresh token obtained when initially authenticating your OAuth integration.
-   * @param redirectUrl  The redirect URI that was used when the user authorized your app. This must exactly match the redirect_uri used when intiating the OAuth 2.0 connection.
-   * @return TokenResponse
-   */
 
   @Operation(summary = OPERATION_TOKEN_SUMMARY,
              description = OPERATION_TOKEN_DESCRIPTION,

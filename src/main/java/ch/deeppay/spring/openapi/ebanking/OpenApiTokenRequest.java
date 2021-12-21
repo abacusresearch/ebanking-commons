@@ -3,7 +3,6 @@ package ch.deeppay.spring.openapi.ebanking;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_BANK_ID_DESCRIPTION;
-import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_CLIENT_ID_DESCRIPTION;
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_LANGUAGE_DESCRIPTION;
 import static ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst.SCHEMA_REFRESH_TOKEN_DESCRIPTION;
 
@@ -22,7 +21,7 @@ public interface OpenApiTokenRequest {
   @Schema(description = "The code parameter returned to your redirect URI when the user authorized your app", example = "adcfdse", required = true)
   String getCode();
 
-  @Schema(description = SCHEMA_CLIENT_ID_DESCRIPTION, example = "0oa2hl2inow5Uqc6c357", required = true)
+  @Schema(description = "The Identifier of the application that asks for authorization.", example = "0oa2hl2inow5Uqc6c357", required = true)
   String getClientId();
 
   @Schema(description = "The client secret it's like a password. it's a secret known only to the application and the authorization server.", example = "269d98e4922fb3895e9ae2108cbb5064", required = true)

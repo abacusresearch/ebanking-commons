@@ -17,8 +17,6 @@ public interface OpenApiTextConst {
   String RESPONSE_CODE_FORBIDDEN = "403";
   String FORBIDDEN_DESCRIPTION = "Missing access rights";
 
-
-
   String RESPONSE_CODE_INTERNAL_SERVER_ERROR = "500";
 
   String RESPONSE_CODE_BAD_GATEWAY = "502";
@@ -42,4 +40,5 @@ public interface OpenApiTextConst {
 
   String HEADER_COOKIE_SESSION_TRACE_ID = "DeepPaySessionTraceId";
   String HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION = "This cookie is used for session tracing. It will be returned in the response of the login step 1";
+
 }
