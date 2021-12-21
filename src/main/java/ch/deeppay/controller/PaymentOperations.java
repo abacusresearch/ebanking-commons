@@ -77,16 +77,22 @@ public interface PaymentOperations {
                    content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = OpenApiDeepPayProblem.class))}),
       @ApiResponse(responseCode = RESPONSE_CODE_BAD_GATEWAY,
                    description = BAD_GATEWAY_DESCRIPTION,
-                   content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, examples = {@ExampleObject(value = OpenApiBankingTextConst.BAD_REQUEST_EXAMPLE)}, schema = @Schema(implementation = OpenApiDeepPayProblem.class))})})
+                   content = {@Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                                       examples = {@ExampleObject(value = OpenApiBankingTextConst.BAD_REQUEST_EXAMPLE)},
+                                       schema = @Schema(implementation = OpenApiDeepPayProblem.class))})})
   @Parameter(in = ParameterIn.HEADER,
              required = true,
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
                               example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
-  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,schema = @Schema(type = "string"))
+  @Parameter(in = ParameterIn.COOKIE,
+             required = true,
+             name = HEADER_COOKIE_SESSION_TRACE_ID,
+             description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,
+             schema = @Schema(type = "string"))
   @RequestBody(required = true,
                content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                                  schema=@Schema(oneOf = {OpenAPiPaymentRequest.class, OpenAPiPaymentChallengeRequest.class})))
+                                  schema = @Schema(oneOf = {OpenAPiPaymentRequest.class, OpenAPiPaymentChallengeRequest.class})))
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   ResponseEntity<PaymentResponse> uploadPayment(@RequestHeader @NonNull final HttpHeaders httpHeaders,

@@ -4,8 +4,8 @@ import javax.validation.Valid;
 
 import ch.deeppay.models.ebanking.login.LoginRequest;
 import ch.deeppay.models.ebanking.login.LoginResponse;
-import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
 import ch.deeppay.spring.openapi.OpenApiDeepPayProblem;
+import ch.deeppay.spring.openapi.ebanking.OpenApiBankingTextConst;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestChallenge;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginRequestPassword;
 import ch.deeppay.spring.openapi.ebanking.OpenApiLoginResponseStep1;
@@ -86,8 +86,10 @@ public interface LoginOperations {
   @ApiResponses(value = {
       @ApiResponse(responseCode = RESPONSE_CODE_OK,
                    description = OK_LOGIN_DESCRIPTION,
-                   headers = {@Header(name = HEADER_X_REQUEST_TRACE_ID, description = HEADER_X_REQUEST_TRACE_ID_DESCRIPTION),
-                              @Header(name = HEADER_X_SESSION_TRACE_ID, description = HEADER_X_SESSION_TRACE_ID_DESCRIPTION)},
+                   headers = {@Header(name = HEADER_X_REQUEST_TRACE_ID, description = HEADER_X_REQUEST_TRACE_ID_DESCRIPTION, schema = @Schema(type = "string")),
+                              @Header(name = HEADER_X_SESSION_TRACE_ID,
+                                      description = HEADER_X_SESSION_TRACE_ID_DESCRIPTION,
+                                      schema = @Schema(type = "string"))},
                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                        schema = @Schema(oneOf = {OpenApiLoginResponseStep1.class, OpenApiLoginResponseStep2.class}))}),
       @ApiResponse(responseCode = RESPONSE_CODE_BAD_REQUEST,
@@ -107,7 +109,11 @@ public interface LoginOperations {
              name = HttpHeaders.USER_AGENT,
              schema = @Schema(allowableValues = {ABACUS_G4, ABANINJA, ABASALARY, POSTMAN, DEEPBOX, SWISS21},
                               example = OpenApiBankingTextConst.SCHEMA_CLIENT_TYPE_EXAMPLE))
-  @Parameter(in = ParameterIn.COOKIE, required = true, name = HEADER_COOKIE_SESSION_TRACE_ID, description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,schema = @Schema(type = "string"))
+  @Parameter(in = ParameterIn.COOKIE,
+             required = true,
+             name = HEADER_COOKIE_SESSION_TRACE_ID,
+             description = HEADER_COOKIE_SESSION_TRACE_ID_DESCRIPTION,
+             schema = @Schema(type = "string"))
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = LOGIN_REQUEST_BODY_DESCRIPTION, required = true,
                                                         content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                                                            schema = @Schema(oneOf = {OpenApiLoginRequestPassword.class,
