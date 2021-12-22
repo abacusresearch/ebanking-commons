@@ -35,7 +35,7 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
                                        "| CHANGE_PASSWORD    | The field 'passwordNew' must be sent to the server with the user's input.|\n";
 
   String OPERATION_PAYMENT_SUMMARY = "Method to upload a payment file in Pain001 format.";
-  String OPERATION_PAYMENT_DESCRIPTION = "This route is used to upload payment files. The format of the file must be defined according to the pain001 specification. The file may contain one or more payments and can be uploaded as plain text. The file is zipped and base64 encoded.";
+  String OPERATION_PAYMENT_DESCRIPTION = "This route is used to upload payment files. The format of the file must be defined according to the pain001 specification. The file may contain one or more payments and can be uploaded as plain text. If a pain001 is upload the result might contain a pain002 file that is zipped and base64 encoded.";
 
   String OPERATION_LOGOUT_SUMMARY = "Method to perform a logout at the institute.";
   String OPERATION_LOGOUT_DESCRIPTION = "This route is used to logout the current session at the institute. The transport data can not be used anymore after logout was called.";
