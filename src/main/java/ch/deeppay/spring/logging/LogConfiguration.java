@@ -1,6 +1,7 @@
 package ch.deeppay.spring.logging;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -18,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.zalando.logbook.BodyFilter;
 import org.zalando.logbook.DefaultHttpLogFormatter;
 import org.zalando.logbook.DefaultSink;
+import org.zalando.logbook.HeaderFilters;
 import org.zalando.logbook.Logbook;
 import org.zalando.logbook.LogbookCreator;
 import org.zalando.logbook.QueryFilter;
@@ -41,6 +43,7 @@ public class LogConfiguration {
 
   private final Pattern creditCard = Pattern.compile("(\\w*)\\b([0-9]{4})[0-9]{0,9}([0-9]{4})\\b(\\w*)");
 
+  public static final String SECRET = "<secret>";
 
   private static final String DEFAULT_PROPERTIES = "password," +
                                                    "passwort," +
@@ -79,6 +82,9 @@ public class LogConfiguration {
   @Value("${ch.deeppay.spring.logconfiguration.query_filter_names:" + DEFAULT_QUERY_FILTER_NAMES + "}")
   private List<String> queryFilterNames;
 
+  @Value("${ch.deeppay.spring.logconfiguration.header.cookies:}")
+  private Set<String> cookieNames;
+
   /**
    * Configured bean to mask sensitive log data for request and response
    */
@@ -86,13 +92,17 @@ public class LogConfiguration {
   @ConditionalOnMissingBean
   public Logbook getMaskSensitiveDataConfiguration() {
     LogbookCreator.Builder builder = Logbook.builder().sink(new DefaultSink(new DefaultHttpLogFormatter(), new CustomizedHttpLogWriter()))
-                                            .bodyFilter(replaceFormUrlEncodedProperty(properties, "<secret>"))
-                                            .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, "<secret>"));
+                                            .bodyFilter(replaceFormUrlEncodedProperty(properties, SECRET))
+                                            .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, SECRET));
     for (String name : queryFilterNames) {
-      builder.queryFilter(QueryFilters.replaceQuery(name, "<secret>"));
+      builder.queryFilter(QueryFilters.replaceQuery(name, SECRET));
     }
 
-    log.debug("Body properties: {}\nQuery filter names: {}", properties, queryFilterNames);
+    if(Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
+      builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(StringUtils.lowerCase(s)), SECRET));
+    }
+
+    log.debug("Body properties: {}\nQuery filter names: {}\nCookie names: {}", properties, queryFilterNames,cookieNames);
 
     return builder.queryFilter(cardNumber())
                   .condition(exclude(requestTo("**/health"),
