@@ -77,6 +77,20 @@ public class EBankingMetrics {
            .register(meterRegistry).increment();
   }
 
+  public void incrementEventSuccessfulCounter(@Nonnull final String bankId,
+                                                @Nullable final ClientType clientType,
+                                                @Nonnull final String clientId,
+                                                @Nullable final FileFormat format) {
+    Counter.builder(MetricConst.EVENT_SUCCESSFUL_COUNTER)
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_FORMAT, nonNull(format))
+           .description(MetricConst.EVENT_SUCCESSFUL_COUNTER_DESCRIPTION)
+           .register(meterRegistry).increment();
+  }
+
+
   private String convertClientId(String clientId){
     return Objects.nonNull(demoSet) && demoSet.contains(clientId) ? DEMO : StringUtils.EMPTY;
   }

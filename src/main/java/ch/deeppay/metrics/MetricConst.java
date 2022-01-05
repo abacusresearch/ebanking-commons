@@ -25,6 +25,9 @@ public interface MetricConst {
   String STATEMENT_SUCCESSFUL_COUNTER = "ebanking.statement.successful.counter";
   String STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful downloaded statements";
 
+  String EVENT_SUCCESSFUL_COUNTER = "ebanking.event.successful.counter";
+  String EVENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful invoked (external) event requests";
+
   //
   //Definition for certificate metrics
   String CERT_EXPIRES_IN_SECONDS = "cert.expires.in.seconds";
