@@ -27,4 +27,10 @@ public interface OpenApiLoginRequestPassword {
   @Schema(description = "Optional path to connect to an institution. If this parameter is omitted, the bankId parameter is used to identify the institution path.", example = "https://test.bank.ch")
   String getUrl();
 
+  @Schema(description = "Optional participant id if supported.", example = "555673AB")
+  String getParticipantId();
+
+  @Schema(description = "Optional access method if supported.", example = "MobileSignature|PFID|FIDO-Push for E-Finance")
+  String getAccessMethod();
+
 }
