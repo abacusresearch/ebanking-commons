@@ -76,13 +76,15 @@ public class LogConfiguration {
                                                            "file," +
                                                            "transportData";
 
+  private static final String DEFAULT_COOKIES = "*";
+
   @Value("${ch.deeppay.spring.logconfiguration.properties:" + DEFAULT_PROPERTIES + "}")
   private Set<String> properties;
 
   @Value("${ch.deeppay.spring.logconfiguration.query_filter_names:" + DEFAULT_QUERY_FILTER_NAMES + "}")
   private List<String> queryFilterNames;
 
-  @Value("${ch.deeppay.spring.logconfiguration.header.cookies:}")
+  @Value("${ch.deeppay.spring.logconfiguration.header.cookies: " + DEFAULT_COOKIES + "}")
   private Set<String> cookieNames;
 
   /**
@@ -99,7 +101,7 @@ public class LogConfiguration {
     }
 
     if(Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
-      builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(StringUtils.lowerCase(s)), SECRET));
+      builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(DEFAULT_COOKIES) || cookieNames.contains(StringUtils.lowerCase(s)), SECRET));
     }
 
     log.debug("Body properties: {}\nQuery filter names: {}\nCookie names: {}", properties, queryFilterNames,cookieNames);
