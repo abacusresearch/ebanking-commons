@@ -106,15 +106,15 @@ public class LogConfiguration {
       builder.queryFilter(QueryFilters.replaceQuery(name, SECRET));
     }
 
-    if(Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
+    if (Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
       builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(DEFAULT_COOKIES) || cookieNames.contains(StringUtils.lowerCase(s)), SECRET));
     }
 
-    if(Objects.nonNull(headerNames) && !headerNames.isEmpty()) {
+    if (Objects.nonNull(headerNames) && !headerNames.isEmpty()) {
       builder.headerFilter(HeaderFilters.replaceHeaders(headerNames, SECRET));
     }
 
-    log.debug("Body properties: {}\nQuery filter names: {}\nCookie names: {}", properties, queryFilterNames,cookieNames);
+    log.debug("Body properties: {}\nQuery filter names: {}\nCookie names: {}\nheader names: {}", properties, queryFilterNames, cookieNames, headerNames);
 
     return builder.queryFilter(cardNumber())
                   .condition(exclude(requestTo("**/health"),
