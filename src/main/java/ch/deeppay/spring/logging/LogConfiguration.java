@@ -103,7 +103,7 @@ public class LogConfiguration {
                                             .bodyFilter(replaceFormUrlEncodedProperty(properties, SECRET))
                                             .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, SECRET));
     for (String name : queryFilterNames) {
-      builder.queryFilter(QueryFilters.replaceQuery(name, SECRET));
+      builder.queryFilter(QueryFilters.replaceQuery(name::equalsIgnoreCase, SECRET));
     }
 
     if (Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
