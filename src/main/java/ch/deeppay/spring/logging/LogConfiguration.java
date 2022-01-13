@@ -60,6 +60,7 @@ public class LogConfiguration {
                                                    "cardNumber," +
                                                    "card_number," +
                                                    "file," +
+                                                   "contractId," +
                                                    "transportData";
 
   private static final String DEFAULT_QUERY_FILTER_NAMES = "clientid," +
@@ -78,6 +79,8 @@ public class LogConfiguration {
 
   private static final String DEFAULT_COOKIES = "*";
 
+  private static final String DEFAULT_HEADERS = "x-api-key, authorization";
+
   @Value("${ch.deeppay.spring.logconfiguration.properties:" + DEFAULT_PROPERTIES + "}")
   private Set<String> properties;
 
@@ -86,6 +89,9 @@ public class LogConfiguration {
 
   @Value("${ch.deeppay.spring.logconfiguration.header.cookies: " + DEFAULT_COOKIES + "}")
   private Set<String> cookieNames;
+
+  @Value("${ch.deeppay.spring.logconfiguration.header: " + DEFAULT_HEADERS + "}")
+  private Set<String> headerNames;
 
   /**
    * Configured bean to mask sensitive log data for request and response
@@ -102,6 +108,10 @@ public class LogConfiguration {
 
     if(Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
       builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(DEFAULT_COOKIES) || cookieNames.contains(StringUtils.lowerCase(s)), SECRET));
+    }
+
+    if(Objects.nonNull(headerNames) && !headerNames.isEmpty()) {
+      builder.headerFilter(HeaderFilters.replaceHeaders(headerNames, SECRET));
     }
 
     log.debug("Body properties: {}\nQuery filter names: {}\nCookie names: {}", properties, queryFilterNames,cookieNames);
