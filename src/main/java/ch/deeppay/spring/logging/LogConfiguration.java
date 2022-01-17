@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -122,7 +121,7 @@ public class LogConfiguration {
     }
 
     if (Objects.nonNull(cookieNames) && !cookieNames.isEmpty()) {
-      builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(DEFAULT_COOKIES) || cookieNames.contains(StringUtils.lowerCase(s)), SECRET));
+      builder.headerFilter(HeaderFilters.replaceCookies(s -> cookieNames.contains(DEFAULT_COOKIES) || cookieNames.contains(s), SECRET));
     }
 
     if (Objects.nonNull(headerNames) && !headerNames.isEmpty()) {
