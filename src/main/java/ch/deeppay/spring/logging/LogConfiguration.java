@@ -84,10 +84,10 @@ public class LogConfiguration {
   @Value("${ch.deeppay.spring.logconfiguration.json_properties:" + DEFAULT_PROPERTIES + "}")
   private Set<String> jsonProperties;
 
-  @Value("${ch.deeppay.spring.logconfiguration.form_url_encoded_properties}")
+  @Value("${ch.deeppay.spring.logconfiguration.form_url_encoded_properties:}")
   private Set<String> formUrlEncodedProperties;
 
-  @Value("${ch.deeppay.spring.logconfiguration.xml_properties}")
+  @Value("${ch.deeppay.spring.logconfiguration.xml_properties:}")
   private Set<String> xmlProperties;
 
   @Value("${ch.deeppay.spring.logconfiguration.query_filter_names:" + DEFAULT_QUERY_FILTER_NAMES + "}")
