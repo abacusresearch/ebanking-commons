@@ -26,11 +26,11 @@ import org.zalando.logbook.QueryFilter;
 import org.zalando.logbook.QueryFilters;
 import org.zalando.logbook.autoconfigure.LogbookAutoConfiguration;
 import org.zalando.logbook.common.MediaTypeQuery;
-import org.zalando.logbook.json.JsonBodyFilters;
 
 import static java.util.regex.Pattern.compile;
 import static org.zalando.logbook.Conditions.exclude;
 import static org.zalando.logbook.Conditions.requestTo;
+import static org.zalando.logbook.json.JsonBodyFilters.replaceJsonStringProperty;
 
 /**
  * Contains beans used for configuring log files.
@@ -81,8 +81,14 @@ public class LogConfiguration {
 
   private static final String DEFAULT_HEADERS = "x-api-key, authorization";
 
-  @Value("${ch.deeppay.spring.logconfiguration.properties:" + DEFAULT_PROPERTIES + "}")
-  private Set<String> properties;
+  @Value("${ch.deeppay.spring.logconfiguration.json_properties:" + DEFAULT_PROPERTIES + "}")
+  private Set<String> jsonProperties;
+
+  @Value("${ch.deeppay.spring.logconfiguration.form_url_encoded_properties}")
+  private Set<String> formUrlEncodedProperties;
+
+  @Value("${ch.deeppay.spring.logconfiguration.xml_properties}")
+  private Set<String> xmlProperties;
 
   @Value("${ch.deeppay.spring.logconfiguration.query_filter_names:" + DEFAULT_QUERY_FILTER_NAMES + "}")
   private List<String> queryFilterNames;
@@ -99,9 +105,18 @@ public class LogConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public Logbook getMaskSensitiveDataConfiguration() {
+
     LogbookCreator.Builder builder = Logbook.builder().sink(new DefaultSink(new DefaultHttpLogFormatter(), new CustomizedHttpLogWriter()))
-                                            .bodyFilter(replaceFormUrlEncodedProperty(properties, SECRET))
-                                            .bodyFilter(JsonBodyFilters.replaceJsonStringProperty(properties, SECRET));
+                                            .bodyFilter(replaceJsonStringProperty(jsonProperties, SECRET));
+
+    if (Objects.nonNull(formUrlEncodedProperties) && !formUrlEncodedProperties.isEmpty()) {
+      builder.bodyFilter(replaceFormUrlEncodedProperty(formUrlEncodedProperties, SECRET));
+    }
+
+    if (Objects.nonNull(xmlProperties) && !xmlProperties.isEmpty()) {
+      builder.bodyFilter(new SaxXmlBodyFilter(SECRET,xmlProperties));
+    }
+
     for (String name : queryFilterNames) {
       builder.queryFilter(QueryFilters.replaceQuery(name::equalsIgnoreCase, SECRET));
     }
@@ -113,8 +128,6 @@ public class LogConfiguration {
     if (Objects.nonNull(headerNames) && !headerNames.isEmpty()) {
       builder.headerFilter(HeaderFilters.replaceHeaders(headerNames, SECRET));
     }
-
-    log.debug("Body properties: {}\nQuery filter names: {}\nCookie names: {}\nheader names: {}", properties, queryFilterNames, cookieNames, headerNames);
 
     return builder.queryFilter(cardNumber())
                   .condition(exclude(requestTo("**/health"),
@@ -140,7 +153,7 @@ public class LogConfiguration {
    * @param replacement String to replace the properties values
    * @return BodyFilter
    */
-  public BodyFilter replaceFormUrlEncodedProperty(final Set<String> properties, final String replacement) {
+  public static BodyFilter replaceFormUrlEncodedProperty(final Set<String> properties, final String replacement) {
     final Predicate<String> formUrlEncoded = MediaTypeQuery.compile(MediaType.APPLICATION_FORM_URLENCODED_VALUE);
     final QueryFilter delegate = replaceQuery(properties::contains, replacement);
     return (contentType, body) -> formUrlEncoded.test(contentType) ? delegate.filter(body) : body;
@@ -154,7 +167,7 @@ public class LogConfiguration {
    * @param replacement String to replace the properties values
    * @return QueryFilter
    */
-  public QueryFilter replaceQuery(final Predicate<String> predicate, final String replacement) {
+  public static QueryFilter replaceQuery(final Predicate<String> predicate, final String replacement) {
 
     final Pattern pattern = compile("(?<name>[^&]*?)=(?:[^&]*)");
 
@@ -163,7 +176,7 @@ public class LogConfiguration {
       final StringBuffer result = new StringBuffer(query.length());
 
       while (matcher.find()) {
-        if (predicate.test(StringUtils.lowerCase(matcher.group("name")))) {
+        if (predicate.test(matcher.group("name"))) {
           matcher.appendReplacement(result, "${name}");
           result.append('=');
           result.append(replacement);
