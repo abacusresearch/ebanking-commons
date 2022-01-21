@@ -7,5 +7,6 @@ public enum FintechVariation {
   REVOLUT,
   TRANSFERWISE,
   SUMUP,
-  CORNER
+  CORNER,
+  YAPEAL
 }
