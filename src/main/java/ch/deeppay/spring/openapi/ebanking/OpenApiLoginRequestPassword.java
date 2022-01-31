@@ -33,4 +33,7 @@ public interface OpenApiLoginRequestPassword {
   @Schema(description = "Optional access method if supported.", example = "MobileSignature|PFID|FIDO-Push for E-Finance")
   String getAccessMethod();
 
+  @Schema(description = "Optional value to change the default login type", example = "true")
+  boolean isChangeLoginType();
+
 }

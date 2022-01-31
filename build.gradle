@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.51'
+version = '0.1.52'
 
 sourceCompatibility = '1.8'
 

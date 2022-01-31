@@ -36,10 +36,13 @@ public class LoginRequest implements OpenApiLoginRequestCertificate, OpenApiLogi
   private String url;
   private String participantId;
   private String accessMethod;
+  private boolean isChangeLoginType;
 
   public void setLanguage(String language) {
     if (language != null) {
       this.language = language.toLowerCase();
     }
   }
+
+
 }
