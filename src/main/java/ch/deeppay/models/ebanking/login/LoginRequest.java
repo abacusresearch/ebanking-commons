@@ -23,6 +23,8 @@ import lombok.NoArgsConstructor;
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class LoginRequest implements OpenApiLoginRequestCertificate, OpenApiLoginRequestPassword, OpenApiLoginRequestChallenge, OpenApiLoginRequestOAuth {
 
+  public static final String ACCESS_METHOD_CHOOSE = "CHOOSE";
+
   private String contractId;
   private String password;
   private String challenge;
