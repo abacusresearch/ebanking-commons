@@ -30,7 +30,10 @@ public interface OpenApiLoginRequestPassword {
   @Schema(description = "Optional participant id if supported.", example = "555673AB")
   String getParticipantId();
 
-  @Schema(description = "Optional access method if supported. If the interface does support to change the login type, CHOOSE can be set at the login step 1 to get back a list of possible login types. The selected login type has to be passed back in this field", example = "MobileSignature|PFID|FIDO-Push for E-Finance")
+  @Schema(description = "Optional access method if supported.", example = "MobileSignature|PFID|FIDO-Push for E-Finance")
   String getAccessMethod();
+
+  @Schema(description = "Optional flag to force that the login type is changed. If the value is true at the login step 1 a list of possible login types is returned as a challenge object. The selected login type must be returned in the challenge field")
+  boolean isChangeAccessMethod();
 
 }

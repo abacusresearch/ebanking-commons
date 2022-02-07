@@ -56,7 +56,7 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
   String LOGIN_REQUEST_BODY_DESCRIPTION = "Login request";
 
   String SCHEMA_TRANSPORT_DATA_DESCRIPTION = "The transport data value contains session information and must be passed with the next request.";
-  String SCHEMA_CHALLENGE_DESCRIPTION = "Might contain a challenge object (e.g an image of a photo tan).";
+  String SCHEMA_CHALLENGE_DESCRIPTION = "Might contain a challenge object (e.g an image of a photo tan) that is used for a second factor authentication. The challenge object is also used to change the login method. In this case a list of possible login method in return. The result of the challenge must be return in the challenge field";
   String SCHEMA_CLIENT_TYPE_EXAMPLE = "Abacus-G4";
 
   String QUERY_FORMAT_NAME = "format";
