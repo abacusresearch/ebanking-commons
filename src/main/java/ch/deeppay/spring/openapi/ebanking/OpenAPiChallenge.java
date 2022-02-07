@@ -5,7 +5,7 @@ import java.util.Map;
 import ch.deeppay.util.DownloadFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "Challenge", description = "Challenge object that contains different types of challenges")
+@Schema(name = "Challenge_", description = "Challenge object that contains different types of challenges")
 public interface OpenAPiChallenge {
 
   @Schema(description = "Id of the challenge", example = "MOBILE_TAN", required = true)
