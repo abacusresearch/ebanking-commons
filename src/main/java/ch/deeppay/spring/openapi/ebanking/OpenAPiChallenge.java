@@ -14,7 +14,8 @@ public interface OpenAPiChallenge {
   @Schema(description = "Type of the download format", required = true)
   DownloadFormat getFormat();
 
-  @Schema(description = "If download format is BASE64 or TEXT, the conent object contains a key with the name 'value' that contains the value of the challenge. If the download format is LIST the content object contains several key values pairs", example = "\"value\": \"1236\"", required = true)
+  @Schema(description = "If download format is BASE64 or TEXT, the content object contains a key with the name 'value' that contains the value of the challenge. If the download format is LIST the content object contains several key values pairs",
+          example = "\"value\": \"1236\"", required = true)
   Map<String, String> getContent();
 
 
