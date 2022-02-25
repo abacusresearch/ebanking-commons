@@ -1,5 +1,6 @@
 package ch.deeppay.exception;
 
+import ch.deeppay.models.DeepPayProblem;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import java.net.URI;
 
 /**
  * This class defines a problem detail according to rfc7807 (https://datatracker.ietf.org/doc/html/rfc7807)
- *
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -47,7 +47,7 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
    * throws a DeepPayProblemException object
    *
    * @param problem of type DeepPayProblemTypeGetter
-   * @param detail  message of the problem
+   * @param detail message of the problem
    */
   public static void throwProblemException(@Nonnull final DeepPayProblemTypeGetter problem, @Nonnull final String detail) {
     throw new DeepPayProblemException(problem.getUri(), problem.getTitle(), problem.getHttpStatus(), detail);
@@ -56,8 +56,8 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
   /**
    * throws a DeepPayProblemException object
    *
-   * @param problem  of type DeepPayProblemTypeGetter
-   * @param detail   message of the problem
+   * @param problem of type DeepPayProblemTypeGetter
+   * @param detail message of the problem
    * @param instance uri (subpath) of the the resource that was called
    */
   public static void throwProblemException(@Nonnull final DeepPayProblemTypeGetter problem, @Nonnull final String detail, @Nonnull final String instance) {
@@ -68,7 +68,7 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
    * Creates a new instance of a DeepPayProblemException
    *
    * @param problem of type DeepPayProblemTypeGetter
-   * @param detail  message of the problem
+   * @param detail message of the problem
    * @return instance of DeepPayProblemException
    */
   public static DeepPayProblemException createProblemException(@Nonnull final DeepPayProblemTypeGetter problem,
@@ -83,8 +83,8 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
    * Creates a new instance of a DeepPayProblemException
    *
    * @param problem of type DeepPayProblemTypeGetter
-   * @param detail  message of the problem
-   * @param args    the passed arguments must be part of detail message (the format must be like {@link  String#format(String, Object...)})
+   * @param detail message of the problem
+   * @param args the passed arguments must be part of detail message (the format must be like {@link  String#format(String, Object...)})
    * @return instance of DeepPayProblemException
    */
   public static DeepPayProblemException createProblemException(@Nonnull final DeepPayProblemTypeGetter problem,
@@ -99,7 +99,7 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
   /**
    * Creates a new instance of a DeepPayProblemException
    *
-   * @param problem   of type DeepPayProblemTypeGetter
+   * @param problem of type DeepPayProblemTypeGetter
    * @param exception of type HttpStatusCodeException
    * @return instance of DeepPayProblemException
    */
@@ -121,6 +121,10 @@ public class DeepPayProblemException extends AbstractThrowableProblem {
 
   public static DeepPayProblemException createProblemException(@Nonnull final WebClientResponseException exception) {
     return new DeepPayProblemException(exception);
+  }
+
+  public static DeepPayProblemException createProblemExceptionForRethrow(@Nonnull final DeepPayProblem problem) {
+    return new DeepPayProblemException(problem.getType(), problem.getTitle(), HttpStatus.valueOf(problem.getStatus()), problem.getDetail(), URI.create(problem.getInstance()));
   }
 
 }
