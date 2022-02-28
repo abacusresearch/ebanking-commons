@@ -1,9 +1,9 @@
 package ch.deeppay.models.accounting;
 
+import java.util.Date;
+
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
 
 /**
  * Nimmt die Parameter eines Statementrequests vom Client zu Revolut entgegen. Das Transportdata wird vom Client nur
@@ -22,4 +22,5 @@ public class StatementRequest {
   private String updateCardBrand;
   private Integer limit;
   private String mail;
+  private String internalAccountId;
 }
