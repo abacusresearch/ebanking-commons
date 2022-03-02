@@ -26,6 +26,7 @@ public class PaymentRequest implements OpenAPiPaymentRequest, OpenAPiPaymentChal
   @Nullable private Boolean details;
   @Nullable private String deviceNote;
 
+  @Override
   public FileFormat getFormat() {
     return FileFormat.valueOf(format);
   }
@@ -33,5 +34,10 @@ public class PaymentRequest implements OpenAPiPaymentRequest, OpenAPiPaymentChal
   @Nullable
   public FileFormat getFormatNullable() {
     return FileFormat.fromStr(format);
+  }
+
+  @Nullable
+  public String getFormatString() {
+    return format;
   }
 }

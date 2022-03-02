@@ -1,11 +1,19 @@
 package ch.deeppay.spring.constraints;
 
 import ch.deeppay.util.FileFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class FileFormatValidator implements ConstraintValidator<FileFormatConstraint, String> {
+
+  @Autowired(required = false)
+  private final ExtendedFileFormatValidatorInterface extendedFileFormatValidator;
+
+  public FileFormatValidator(ExtendedFileFormatValidatorInterface extendedFileFormatValidator) {
+    this.extendedFileFormatValidator = extendedFileFormatValidator;
+  }
 
   @Override
   public void initialize(FileFormatConstraint constraintAnnotation) {
@@ -14,6 +22,11 @@ public class FileFormatValidator implements ConstraintValidator<FileFormatConstr
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
+    if(extendedFileFormatValidator != null){
+      return extendedFileFormatValidator.isValid(value, context);
+    }
+
+    //Default case, no external validator available.
     try {
       if (value == null || value.isEmpty()) {
         return true;

@@ -1,7 +1,5 @@
 package ch.deeppay.models.ebanking.statement;
 
-import java.time.Instant;
-
 import ch.deeppay.spring.constraints.FileFormatConstraint;
 import ch.deeppay.util.FileFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+
+import java.time.Instant;
 
 @Data
 @Builder
@@ -52,6 +52,11 @@ public class StatementRequest {
   @Nullable
   public FileFormat getFormatNullable() {
     return FileFormat.fromStr(format);
+  }
+
+  @Nullable
+  public String getFormatString() {
+    return format;
   }
 }
 
