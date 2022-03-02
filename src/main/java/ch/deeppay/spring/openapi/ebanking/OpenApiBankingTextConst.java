@@ -32,6 +32,8 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
                                        "| KEYFILE            | Is a text which needs to be signed; the text is found under the key 'value'|\n" +
                                        "| POLL               | The /login route has to be polled until the user confirms the login at the mobile device|\n" +
                                        "| OPTICAL_CHALLENGE  | Is a BASE64 encoded image (PNG format); the data is found under the key 'value'|\n" +
+                                       "| OAUTH_AUTHORIZE    | Is an url that needs to be opened in a new tab; send empty challenge; the url is found under the key 'value'|\n" +
+                                       "| OAUTH_POLL         | The /login route has to be polled until the user authorized Deeppay; send empty challenge; the url is found under the key 'value'|\n" +
                                        "| CHANGE_PASSWORD    | The field 'passwordNew' must be sent to the server with the user's input.|\n";
 
   String OPERATION_PAYMENT_SUMMARY = "Method to upload a payment file in Pain001 format.";
