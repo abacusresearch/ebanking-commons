@@ -1,9 +1,8 @@
 package ch.deeppay.exception;
 
+import org.springframework.http.HttpStatus;
 
 import java.net.URI;
-
-import org.springframework.http.HttpStatus;
 
 public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
 
@@ -14,8 +13,8 @@ public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
   LOGIN_FAIlED(HttpStatus.UNAUTHORIZED, "Login has failed", "https://docs.api.deeppay.swiss/ebanking/interfaces/login_failed"),
   INVALID_SESSION(HttpStatus.UNAUTHORIZED, "Session is invalid", "https://docs.api.deeppay.swiss/ebanking/interfaces/invalid_session"),
   REQUEST_REJECTED(HttpStatus.UNAUTHORIZED,
-                           "Request was rejected",
-                           "https://docs.api.deeppay.swiss/ebanking/interfaces/request_rejected"),
+                   "Request was rejected",
+                   "https://docs.api.deeppay.swiss/ebanking/interfaces/request_rejected"),
   PASSWORD_CHANGE_REQUIRED(HttpStatus.UNAUTHORIZED,
                            "Password has to be changed",
                            "https://docs.api.deeppay.swiss/ebanking/interfaces/password_change_required"),
@@ -37,11 +36,32 @@ public enum DeepPayProblemType implements DeepPayProblemTypeGetter {
                          "Validation is in progress",
                          "https://docs.api.deeppay.swiss/ebanking/interfaces/validation_in_progress"),
   INSTITUTE_SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE,
-                         "Service of the institute is unavailable",
-                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_service_unavailable"),
+                                "Service of the institute is unavailable",
+                                "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_service_unavailable"),
   INSTITUTE_API_ERROR(HttpStatus.BAD_GATEWAY,
-                         "Institute api error",
-                         "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_api_error");
+                      "Institute api error",
+                      "https://docs.api.deeppay.swiss/ebanking/interfaces/institute_api_error"),
+  INVALID_GATEWAY_AUTHORIZATION(HttpStatus.UNAUTHORIZED,
+                                "Unauthorized api call",
+                                "https://docs.api.deeppay.swiss/ebanking/interfaces/invalid_gateway_authorization"),
+  CONTRACT_NOT_FOUND(HttpStatus.NOT_FOUND,
+                     "Contract not found",
+                     "https://docs.api.deeppay.swiss/ebanking/interfaces/contract_not_found"),
+  CONTRACT_NOT_ACTIVE(HttpStatus.FORBIDDEN,
+                      "Contract not active",
+                      "https://docs.api.deeppay.swiss/ebanking/interfaces/contract_not_active"),
+  CREDIT_CARD_NOT_FOUND(HttpStatus.NOT_FOUND,
+                        "Credit card not found",
+                        "https://docs.api.deeppay.swiss/ebanking/interfaces/credit_card_not_found"),
+  CREDIT_CARD_NOT_ACTIVE(HttpStatus.FORBIDDEN,
+                         "Credit card is not active",
+                         "https://docs.api.deeppay.swiss/ebanking/interfaces/credit_card_not_active"),
+  CREDIT_CARD_BLOCKED(HttpStatus.FORBIDDEN,
+                      "Credit card is blocked",
+                      "https://docs.api.deeppay.swiss/ebanking/interfaces/credit_card_blocked"),
+  CREDIT_CARD_EXPIRED(HttpStatus.FORBIDDEN,
+                      "Credit card is expired",
+                      "https://docs.api.deeppay.swiss/ebanking/interfaces/credit_card_expired");
 
   private final HttpStatus httpStatus;
   private final String title;
