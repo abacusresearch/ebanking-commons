@@ -11,13 +11,13 @@ public class FileFormatValidator implements ConstraintValidator<FileFormatConstr
   @Autowired(required = false)
   private final ExtendedFileFormatValidatorInterface extendedFileFormatValidator;
 
-  /**
-   * Default constructor for tests.
-   */
+  //Default constructor needed for tests.
+  @SuppressWarnings("unused")
   public FileFormatValidator() {
     extendedFileFormatValidator = null;
   }
 
+  @SuppressWarnings("unused")
   public FileFormatValidator(ExtendedFileFormatValidatorInterface extendedFileFormatValidator) {
     this.extendedFileFormatValidator = extendedFileFormatValidator;
   }
