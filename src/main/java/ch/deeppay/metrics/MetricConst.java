@@ -13,20 +13,20 @@ public interface MetricConst {
 
   //
   //Definition for ebanking metrics
-  String LOGIN_COUNTER = "ebanking.login.counter";
-  String LOGIN_COUNTER_DESCRIPTION = "The number of login calls (before step one)";
+  String EBANKING_LOGIN_COUNTER = "ebanking.login.counter";
+  String EBANKING_LOGIN_COUNTER_DESCRIPTION = "The number of login calls (before step one)";
 
-  String LOGIN_SUCCESSFUL_COUNTER = "ebanking.login.successful.counter";
-  String LOGIN_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful logins";
+  String EBANKING_LOGIN_SUCCESSFUL_COUNTER = "ebanking.login.successful.counter";
+  String EBANKING_LOGIN_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful logins";
 
-  String PAYMENT_SUCCESSFUL_COUNTER = "ebanking.payment.successful.counter";
-  String PAYMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful uploaded payments";
+  String EBANKING_PAYMENT_SUCCESSFUL_COUNTER = "ebanking.payment.successful.counter";
+  String EBANKING_PAYMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful uploaded payments";
 
-  String STATEMENT_SUCCESSFUL_COUNTER = "ebanking.statement.successful.counter";
-  String STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful downloaded statements";
+  String EBANKING_STATEMENT_SUCCESSFUL_COUNTER = "ebanking.statement.successful.counter";
+  String EBANKING_STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful downloaded statements";
 
-  String EVENT_SUCCESSFUL_COUNTER = "ebanking.event.successful.counter";
-  String EVENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful invoked (external) event requests";
+  String EBANKING_EVENT_SUCCESSFUL_COUNTER = "ebanking.event.successful.counter";
+  String EBANKING_EVENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful invoked (external) event requests";
 
   //
   //Definition for certificate metrics
@@ -38,6 +38,17 @@ public interface MetricConst {
 
   String CERT_ERROR_COUNTER = "cert.error.counter";
   String CERT_ERROR_COUNTER_DESCRIPTION = "Total number of certificate load errors.";
+
+  //
+  //Definition for accounting metrics
+  String ACCOUNTING_LOGIN_COUNTER = "accounting.login.counter";
+  String ACCOUNTING_LOGIN_COUNTER_DESCRIPTION = "The number of login calls";
+
+  String ACCOUNTING_LOGIN_SUCCESSFUL_COUNTER = "accounting.login.successful.counter";
+  String ACCOUNTING_LOGIN_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful logins";
+
+  String ACCOUNTING_STATEMENT_SUCCESSFUL_COUNTER = "accounting.statement.successful.counter";
+  String ACCOUNTING_STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful downloaded statements";
 
 
 }
