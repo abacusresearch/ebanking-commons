@@ -1,0 +1,85 @@
+package ch.deeppay.rest.async;
+
+import java.util.concurrent.Executor;
+
+import io.minio.BucketExistsArgs;
+import io.minio.MinioClient;
+import lombok.Data;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.UnsatisfiedDependencyException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+@Log4j2
+@Data
+@Configuration
+@EnableAsync
+@ConditionalOnProperty(value = "ch.deeppay.rest.async.enabled", matchIfMissing = false)
+public class AsyncConfiguration {
+
+  public static final String EXECUTOR_NAME = "restAsyncExecutor";
+
+  @Value("${ch.deeppay.rest.async.executor.queueCapacity:100}")
+  private int queueCapacity;
+
+  @Value("${ch.deeppay.rest.async.executor.maxPoolSize:10}")
+  private int maxPoolSize;
+
+  @Value("${ch.deeppay.rest.async.executor.corePoolSize:5}")
+  private int corePoolSize;
+
+  @Value("${ch.deeppay.rest.async.response.timeout: 30}")
+  private int responseTimeout;
+
+  @Value("${ch.deeppay.rest.async.minio.access.key}")
+  private String minioAccessKey;
+
+  @Value("${ch.deeppay.rest.async.minio.access.secret}")
+  private String minioAccessSecret;
+
+  @Value("${ch.deeppay.rest.async.minio.url}")
+  private String minioUrl;
+
+  @Value("${spring.application.name}")
+  private String minioBucketName;
+
+  @Value("${ch.deeppay.rest.async.minio.default.folder}")
+  private String defaultBaseFolder;
+
+  @Bean(name = EXECUTOR_NAME)
+  public Executor restAsyncExecutor1() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(corePoolSize);
+    executor.setMaxPoolSize(maxPoolSize);
+    executor.setQueueCapacity(queueCapacity);
+    executor.setThreadNamePrefix("RestAsynchThread-");
+    executor.initialize();
+    return executor;
+  }
+
+  @Bean
+  public MinioClient restAsyncMinioClient() {
+
+    try {
+      MinioClient minioClient =
+          MinioClient.builder()
+                     .credentials(minioAccessKey, minioAccessSecret)
+                     .endpoint(minioUrl)
+                     .build();
+
+      if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioBucketName).build())) {
+        throw new Exception("Bucket is required. Define a valid backet name at ch.deeppay.rest.async.minio.bucket.name");
+      } else {
+        log.debug("Minio-Service update and running");
+      }
+      return minioClient;
+    } catch (Exception e) {
+      throw new UnsatisfiedDependencyException("Minio Bucket not available or accessible!", AsyncConfiguration.class.getSimpleName(), "", "Minio Bucket not available or accessible!");
+    }
+  }
+
+}

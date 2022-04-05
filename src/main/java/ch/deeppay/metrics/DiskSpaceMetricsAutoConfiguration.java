@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration()
 @ConditionalOnClass({MeterRegistry.class})
-@ConditionalOnProperty(value = "management.metrics.binders.diskspace.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "management.metrics.binders.diskspace.enabled", matchIfMissing = false)
 @AutoConfigureAfter({MetricsAutoConfiguration.class, CompositeMeterRegistryAutoConfiguration.class})
 public class DiskSpaceMetricsAutoConfiguration {
 

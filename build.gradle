@@ -4,7 +4,7 @@ plugins {
 
 
 group = 'ch.deeppay'
-version = '0.1.59'
+version = '0.1.60'
 
 sourceCompatibility = '1.8'
 
@@ -31,6 +31,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.5.5'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.0.4'
     implementation 'org.springframework.cloud:spring-cloud-sleuth-brave:3.0.4'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1'
 
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'commons-lang:commons-lang:2.6'
@@ -46,6 +47,7 @@ dependencies {
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'io.minio:minio:8.3.7'
 
     implementation 'org.joda:joda-money:1.0.1'
     implementation 'org.hibernate.validator:hibernate-validator:6.0.17.Final'
