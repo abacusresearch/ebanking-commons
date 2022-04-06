@@ -1,26 +1,27 @@
 package ch.deeppay.rest.async;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.UUID;
 
 import ch.deeppay.exception.DeepPayProblemException;
-import org.apache.commons.lang.StringUtils;
 
 import static ch.deeppay.exception.DeepPayProblemException.createServerErrorProblemException;
 
 public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
 
-  private final AsyncResponseSaveFactory asyncResponseSaveFactory;
+  private final AsyncResponseSaveFactory asyncResponseHandlerFactory;
   private final AsyncContextDataProvider contextDataProvider;
   private boolean isAsynchronous;
   private String response;
   private Throwable exception;
-  private String identifier = null;
+  private AsyncResponseSaveHandler asyncResponseHandler = null;
 
   private final Object lock = new Object();
 
-  public ApiResponseHandlerImpl(final AsyncResponseSaveFactory asyncResponseSaveFactory, final AsyncContextDataProvider contextDataProvider) {
-    this.asyncResponseSaveFactory = asyncResponseSaveFactory;
+  public ApiResponseHandlerImpl(final AsyncResponseSaveFactory asyncResponseHandlerFactory, final AsyncContextDataProvider contextDataProvider) {
+    this.asyncResponseHandlerFactory = asyncResponseHandlerFactory;
     this.contextDataProvider = contextDataProvider;
   }
 
@@ -32,18 +33,27 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
   }
 
   @Override
-  public String applyResponse(final String response, final Throwable throwable) {
+  public String applyResponse(final String response, final Throwable throwable) { //TODO check if response must be outputstream
     synchronized (lock) {
       this.response = response;
       this.exception = throwable;
-      if (StringUtils.isNotEmpty(identifier)) {
-        AsyncResponseSaveHandler saveHandler = asyncResponseSaveFactory.create(contextDataProvider);
-        saveHandler.saveResponse(Objects.isNull(exception) ?
-                                     ResponseData.builder().identifier(identifier).response(response).build() :
-            ResponseData.builder().identifier(identifier).exception(exception).build());
+    }
+
+    //TODO check logic -> outside lock
+    if (Objects.nonNull(asyncResponseHandler)) {
+      if (Objects.nonNull(exception)) {
+        asyncResponseHandler.handleResponse(throwable);
+      } else {
+        //TODO check response type
+        try(ByteArrayInputStream in = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8))) {
+          asyncResponseHandler.handleResponse(in);
+        } catch (IOException e) {
+          asyncResponseHandler.handleResponse(e);
+        }
       }
     }
-    return response; //only used that CompletableFuture:handle can be used as lambda
+
+    return response; //only needed that CompletableFuture:handle can be used as lambda
   }
 
   @Override
@@ -57,16 +67,21 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
 
       if (isAsynchronous) {
         //create an identifier that can be used to download the response later in an additional query.
-        identifier = UUID.randomUUID().toString();
-        data = ResponseData.builder().identifier(identifier).build();
+        asyncResponseHandler = asyncResponseHandlerFactory.create(contextDataProvider);
+        data = ResponseData.builder().identifier(asyncResponseHandler.getIdentifier()).build();
       } else {
-        if(Objects.nonNull(exception)){
+        if (Objects.nonNull(exception)) {
           throw handleException(exception);
-        }else{
-          data =  ResponseData.builder().response(response).build();
+        } else {
+          data = ResponseData.builder().response(response).build();
         }
       }
     }
+    //make api call outside of lock. //TODO check logic -> outside lock
+    if (Objects.nonNull(asyncResponseHandler)) {
+      asyncResponseHandler.createJob();
+    }
+
     return processor.process(isAsynchronous, data);
   }
 
@@ -74,9 +89,9 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
   private DeepPayProblemException handleException(final Throwable exception) {
     if (exception instanceof DeepPayProblemException) {
       return (DeepPayProblemException) exception;
-    } else if(exception.getCause() instanceof DeepPayProblemException) {
+    } else if (exception.getCause() instanceof DeepPayProblemException) {
       return (DeepPayProblemException) exception.getCause();
-    }else{
+    } else {
       return createServerErrorProblemException(exception.getMessage());
     }
   }

@@ -47,9 +47,6 @@ public class AsyncConfiguration {
   @Value("${spring.application.name}")
   private String minioBucketName;
 
-  @Value("${ch.deeppay.rest.async.minio.default.folder}")
-  private String defaultBaseFolder;
-
   @Bean(name = EXECUTOR_NAME)
   public Executor restAsyncExecutor1() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
