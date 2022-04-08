@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @FeignClient(name = "job")
 public interface JobClient {
 
-  @PostMapping(path = "/jobs")
+  @PostMapping(path = "/")
   ResponseEntity<Void> createJob(JobRequest jobRequest);
 
 

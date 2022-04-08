@@ -1,43 +1,42 @@
 package ch.deeppay.rest.async;
 
-import javax.crypto.KeyGenerator;
 import java.io.InputStream;
 
+import ch.deeppay.util.EncryptionUtil;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import io.minio.ServerSideEncryptionCustomerKey;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnBean({AsyncConfiguration.class,MinioClient.class})
 public class StorageService {
 
   private final MinioClient minioClient;
   private final AsyncConfiguration asyncConfiguration;
 
-  public StorageService(final MinioClient minioClient, final AsyncConfiguration asyncConfiguration) {
+  public StorageService(@Qualifier(AsyncConfiguration.MINIO_CLIENT_NAME) final MinioClient minioClient, final AsyncConfiguration asyncConfiguration) {
     this.minioClient = minioClient;
     this.asyncConfiguration = asyncConfiguration;
   }
 
   public void upload(String path, InputStream stream) throws Exception {
 
-//      headers.put("Content-Type", "application/octet-stream");
-
     // Generate a new 256 bit AES key - This key must be remembered by the client.
     ServerSideEncryptionCustomerKey ssec = null;
     if (StringUtils.startsWith(asyncConfiguration.getMinioUrl(), "https")) {
-      KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-      keyGen.init(256);
-      ssec = new ServerSideEncryptionCustomerKey(keyGen.generateKey());
+      ssec = new ServerSideEncryptionCustomerKey(EncryptionUtil.createSecretKeySpec(asyncConfiguration.getMinioEncryptionSecret(),"SALT"));
     }
 
     minioClient.putObject(
         PutObjectArgs.builder()
                      .bucket(asyncConfiguration.getMinioBucketName())
                      .object(path)
-                     .stream(stream, 0, -1)
+                     .stream(stream, stream.available(), -1)
                      .sse(ssec)
                      .build());
   }

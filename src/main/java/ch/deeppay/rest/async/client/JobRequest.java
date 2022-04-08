@@ -1,6 +1,5 @@
 package ch.deeppay.rest.async.client;
 
-import ch.deeppay.util.FileFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +11,6 @@ public class JobRequest {
   private String objectPath;
   private String subjectClaim;
   private String errorMessage;
-  private FileFormat format;
+  private String format;
 
 }

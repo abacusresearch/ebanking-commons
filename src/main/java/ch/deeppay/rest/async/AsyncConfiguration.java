@@ -22,6 +22,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class AsyncConfiguration {
 
   public static final String EXECUTOR_NAME = "restAsyncExecutor";
+  public static final String MINIO_CLIENT_NAME = "restAsyncMinioClient";
 
   @Value("${ch.deeppay.rest.async.executor.queueCapacity:100}")
   private int queueCapacity;
@@ -41,6 +42,9 @@ public class AsyncConfiguration {
   @Value("${ch.deeppay.rest.async.minio.access.secret}")
   private String minioAccessSecret;
 
+  @Value("${ch.deeppay.rest.async.minio.encryption.secret}")
+  private String minioEncryptionSecret;
+
   @Value("${ch.deeppay.rest.async.minio.url}")
   private String minioUrl;
 
@@ -58,7 +62,7 @@ public class AsyncConfiguration {
     return executor;
   }
 
-  @Bean
+  @Bean(name = MINIO_CLIENT_NAME )
   public MinioClient restAsyncMinioClient() {
 
     try {

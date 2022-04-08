@@ -1,8 +1,6 @@
 package ch.deeppay.rest.async;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.util.Objects;
 
 import ch.deeppay.exception.DeepPayProblemException;
@@ -14,7 +12,7 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
   private final AsyncResponseSaveFactory asyncResponseHandlerFactory;
   private final AsyncContextDataProvider contextDataProvider;
   private boolean isAsynchronous;
-  private String response;
+  private InputStream response;
   private Throwable exception;
   private AsyncResponseSaveHandler asyncResponseHandler = null;
 
@@ -33,7 +31,7 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
   }
 
   @Override
-  public String applyResponse(final String response, final Throwable throwable) { //TODO check if response must be outputstream
+  public Void applyResponse(final InputStream response, final Throwable throwable) {
     synchronized (lock) {
       this.response = response;
       this.exception = throwable;
@@ -45,15 +43,10 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
         asyncResponseHandler.handleResponse(throwable);
       } else {
         //TODO check response type
-        try(ByteArrayInputStream in = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8))) {
-          asyncResponseHandler.handleResponse(in);
-        } catch (IOException e) {
-          asyncResponseHandler.handleResponse(e);
-        }
+          asyncResponseHandler.handleResponse(response);
       }
     }
-
-    return response; //only needed that CompletableFuture:handle can be used as lambda
+    return null;
   }
 
   @Override

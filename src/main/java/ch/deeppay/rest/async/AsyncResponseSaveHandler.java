@@ -8,7 +8,6 @@ import ch.deeppay.rest.async.client.JobRequest;
 import ch.deeppay.util.FileFormat;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.lang.NonNull;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 
@@ -23,11 +22,11 @@ public class AsyncResponseSaveHandler {
   private final FileFormat format;
 
 
-  public AsyncResponseSaveHandler(@NonNull final StorageService storageService,
-                                  @NonNull final JobClient jobClient,
-                                  @NonNull final String serviceName,
-                                  @NonNull final String subjectClaim,
-                                  @NonNull final FileFormat format) {
+  public AsyncResponseSaveHandler(final StorageService storageService,
+                                  final JobClient jobClient,
+                                  final String serviceName,
+                                  final String subjectClaim,
+                                  final FileFormat format) {
     this.storageService = storageService;
     this.jobClient = jobClient;
     this.serviceName = serviceName;
@@ -82,7 +81,7 @@ public class AsyncResponseSaveHandler {
                      .jobId(jobId)
                      .serviceName(serviceName)
                      .subjectClaim(subjectClaim)
-                     .format(format);
+                     .format(format.name());
   }
 
   private void delete(String path) {

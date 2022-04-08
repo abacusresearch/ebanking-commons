@@ -2,6 +2,7 @@ package ch.deeppay.rest.async;
 
 
 import javax.annotation.Nullable;
+import java.io.InputStream;
 
 /**
  * Implementation of this interface handles the answer of an api call that is executed asynchronous.
@@ -26,7 +27,7 @@ public interface ApiResponseHandler<T> {
    * @return response of the api. It might be null when an exception was thrown
    */
   @Nullable
-  String applyResponse(@Nullable String response, @Nullable Throwable throwable);
+  Void applyResponse(@Nullable InputStream response, @Nullable Throwable throwable);
 
   /**
    * Methode to prepare the response for the current caller. If the answer is asynchronous the ResponseData contains an identifier that can be used to download the response later.
