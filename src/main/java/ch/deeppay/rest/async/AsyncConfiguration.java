@@ -33,7 +33,7 @@ public class AsyncConfiguration {
   @Value("${ch.deeppay.rest.async.executor.corePoolSize:5}")
   private int corePoolSize;
 
-  @Value("${ch.deeppay.rest.async.response.timeout: 30}")
+  @Value("${ch.deeppay.rest.async.response.timeout:45}")
   private int responseTimeout;
 
   @Value("${ch.deeppay.rest.async.minio.access.key}")

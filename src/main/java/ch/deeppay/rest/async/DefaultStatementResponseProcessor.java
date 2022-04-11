@@ -22,7 +22,7 @@ public class DefaultStatementResponseProcessor implements ResponseProcessor<Resp
   }
 
   @Override
-  public ResponseEntity<StatementResponse> process(final Boolean isAsynchronous, final ResponseData responseData) {
+  public ResponseEntity<StatementResponse> process(final boolean isAsynchronous, final ResponseData responseData) {
     if (isAsynchronous) {
       statementResponse.setJobId(responseData.getIdentifier());
     } else {

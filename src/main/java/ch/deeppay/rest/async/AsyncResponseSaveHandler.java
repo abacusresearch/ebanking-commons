@@ -1,15 +1,15 @@
 package ch.deeppay.rest.async;
 
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.UUID;
 
+import ch.deeppay.exception.DeepPayProblemException;
 import ch.deeppay.rest.async.client.JobClient;
 import ch.deeppay.rest.async.client.JobRequest;
 import ch.deeppay.util.FileFormat;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
-
-import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 
 @Log4j2
 public class AsyncResponseSaveHandler {
@@ -37,34 +37,41 @@ public class AsyncResponseSaveHandler {
 
 
   public void handleResponse(final InputStream stream) {
-      try {
-        String path = createPath(identifier); //TODO check if subjectClaim is empty
-        storageService.upload(path, stream);
-        if (!createJob(createBuilder(identifier)
-                           .objectPath(path)
-                           .build())) {
-          delete(path);
-        }
-      } catch (Exception e) {
-        log.error("Error at JobId " + identifier, e);
-        createJob(createBuilder(identifier)
-                      .errorMessage(getMessage(e))
-                      .build());
+    if (StringUtils.isEmpty(subjectClaim)) {
+      throw new IllegalArgumentException("Subject claim can not be empty");
+    }
+
+    try {
+      String path = createPath(identifier);
+      String salt = storageService.upload(path, stream);
+      if (!createOrUpdateJob(createBuilder(identifier)
+                                 .objectPath(path)
+                                 .salt(salt)
+                                 .build())) {
+        delete(path);
       }
+    } catch (Exception e) {
+      log.error("Error at JobId " + identifier, e);
+      createOrUpdateJob(createBuilder(identifier)
+                            .errorMessage(getMessage(e))
+                            .build());
+    }
 
   }
 
   public void handleResponse(final Throwable exception) {
-      createJob(createBuilder(identifier)
-                    .errorMessage(getMessage(exception))
-                    .build());
+    createOrUpdateJob(createBuilder(identifier)
+                          .errorMessage(getMessage(exception))
+                          .build()); //Ignore failed job because nothing can be done.
 
   }
 
 
-  public void createJob(){
-    createJob(createBuilder(identifier)
-                  .build());
+  public void createJob() {
+    if(!createOrUpdateJob(createBuilder(identifier)
+                          .build())){
+      throw DeepPayProblemException.createServerErrorProblemException("Failed to create a async job");
+    }
   }
 
   private String createPath(String jobId) {
@@ -92,10 +99,9 @@ public class AsyncResponseSaveHandler {
     }
   }
 
-  private boolean createJob(JobRequest jobRequest) {
-    //TODO implement retry
+  private boolean createOrUpdateJob(JobRequest jobRequest) {
     try {
-      jobClient.createJob(jobRequest);
+      jobClient.createOrUpdateJob(jobRequest);
       return true;
     } catch (Exception e) {
       log.error(e);
@@ -106,4 +112,9 @@ public class AsyncResponseSaveHandler {
   public String getIdentifier() {
     return identifier;
   }
+
+  public String getMessage(final Throwable th) {
+    return Objects.isNull(th) || Objects.isNull(th.getMessage()) ? StringUtils.EMPTY : StringUtils.defaultString(th.getMessage());
+  }
+
 }
