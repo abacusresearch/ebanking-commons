@@ -21,6 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @ConditionalOnProperty(value = "ch.deeppay.job.enabled", matchIfMissing = false)
 public class AsyncConfiguration {
 
+  public static final String BUCKET_NAME_PREFIX = "job-";
   public static final String EXECUTOR_NAME = "restAsyncExecutor";
   public static final String MINIO_CLIENT_NAME = "restAsyncMinioClient";
 
@@ -51,13 +52,16 @@ public class AsyncConfiguration {
   @Value("${spring.application.name}")
   private String applicationName;
 
+  @Value("${ch.deeppay.job.minio.bucketValidation:true}")
+  private boolean bucketValidation;
+
   @Bean(name = EXECUTOR_NAME)
-  public Executor restAsyncExecutor1() {
+  public Executor restAsyncExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(corePoolSize);
     executor.setMaxPoolSize(maxPoolSize);
     executor.setQueueCapacity(queueCapacity);
-    executor.setThreadNamePrefix("RestAsynchThread-");
+    executor.setThreadNamePrefix("RestAsyncThread-");
     executor.initialize();
     return executor;
   }
@@ -72,10 +76,14 @@ public class AsyncConfiguration {
                      .endpoint(minioUrl)
                      .build();
 
-      if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(getMinioBucketName()).build())) {
-        throw new Exception("Bucket is required. Define a valid backet name at ch.deeppay.rest.async.minio.bucket.name");
-      } else {
-        log.debug("Minio-Service update and running");
+      if(bucketValidation) {
+        if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(getMinioBucketName()).build())) {
+          throw new Exception("Bucket is required. Define a valid backet name at ch.deeppay.rest.async.minio.bucket.name");
+        } else {
+          log.debug("Minio-Service update and running");
+        }
+      }else{
+        log.warn("Bucket validation disabled");
       }
       return minioClient;
     } catch (Exception e) {
@@ -84,7 +92,7 @@ public class AsyncConfiguration {
   }
 
   public String getMinioBucketName(){
-    return "job-" + applicationName;
+    return BUCKET_NAME_PREFIX + applicationName;
   }
 
 }
