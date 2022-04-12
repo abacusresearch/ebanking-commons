@@ -34,6 +34,6 @@ public interface OpenApiLoginRequestPassword {
   String getAccessMethod();
 
   @Schema(description = "Optional flag to force that the login type is changed. If the value is true at the login step 1 a list of possible login types is returned as a challenge object. The selected login type must be returned in the challenge field")
-  boolean isChangeAccessMethod();
+  Boolean getChangeAccessMethod();
 
 }

@@ -36,7 +36,7 @@ public class LoginRequest implements OpenApiLoginRequestCertificate, OpenApiLogi
   private String url;
   private String participantId;
   private String accessMethod;
-  private boolean isChangeAccessMethod;
+  private Boolean changeAccessMethod;
 
   public void setLanguage(String language) {
     if (language != null) {
