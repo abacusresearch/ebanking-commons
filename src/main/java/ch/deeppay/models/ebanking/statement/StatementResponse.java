@@ -1,5 +1,7 @@
 package ch.deeppay.models.ebanking.statement;
 
+import java.util.List;
+
 import ch.deeppay.models.ebanking.ClientResponse;
 import ch.deeppay.util.FileFormat;
 import ch.deeppay.util.serializer.FileFormatSerializer;
@@ -13,7 +15,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -24,4 +25,14 @@ public class StatementResponse extends ClientResponse {
   @JsonSerialize(using = FileFormatSerializer.class)
   private FileFormat format;
   private String file;
+  private String jobId;
+
+  @Builder
+  public StatementResponse(String message, String transportData, List<String> errors, FileFormat format, String file, String jobId) {
+    super(message, transportData, errors);
+    this.format = format;
+    this.file = file;
+    this.jobId = jobId;
+  }
+
 }

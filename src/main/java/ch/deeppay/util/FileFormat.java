@@ -1,5 +1,11 @@
 package ch.deeppay.util;
 
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -9,32 +15,26 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-public class FileFormat {
+public class FileFormat implements FileFormatGetter {
 
   public static final FileFormat MT940 = new FileFormat("MT940", ".sta", true, false);
-  public static final FileFormat MT942= new FileFormat("MT942", ".sta", true, false);
-  public static final FileFormat CAMT052= new FileFormat("CAMT052", ".c52.xml", true, false);
-  public static final FileFormat CAMT053= new FileFormat("CAMT053", ".c53.xml", true, false);
-  public static final FileFormat CAMT054= new FileFormat("CAMT054", ".c54.xml", true, false);
-  public static final FileFormat CAMT054_CDTN_DBTN= new FileFormat("CAMT054_CDTN_DBTN", ".cs2.xml", true, false);
-  public static final FileFormat CAMT054_ESR_LSV= new FileFormat("CAMT054_ESR_LSV", ".xml", true, false);
-  public static final FileFormat CAMT054_ZA= new FileFormat("CAMT054_ZA", ".xml", true, false);
+  public static final FileFormat MT942 = new FileFormat("MT942", ".sta", true, false);
+  public static final FileFormat CAMT052 = new FileFormat("CAMT052", ".c52.xml", true, false);
+  public static final FileFormat CAMT053 = new FileFormat("CAMT053", ".c53.xml", true, false);
+  public static final FileFormat CAMT054 = new FileFormat("CAMT054", ".c54.xml", true, false);
+  public static final FileFormat CAMT054_CDTN_DBTN = new FileFormat("CAMT054_CDTN_DBTN", ".cs2.xml", true, false);
+  public static final FileFormat CAMT054_ESR_LSV = new FileFormat("CAMT054_ESR_LSV", ".xml", true, false);
+  public static final FileFormat CAMT054_ZA = new FileFormat("CAMT054_ZA", ".xml", true, false);
 
-  public static final FileFormat ESR= new FileFormat("ESR", ".v11", true, false);
-  public static final FileFormat LSV_CHL= new FileFormat("LSV_CHL", ".lsv", false, true);
-  public static final FileFormat  LSV_CLG= new FileFormat("LSV_CLG", ".lsv", true, false);
-  public static final FileFormat EDOC= new FileFormat("EDOC", ".pdf", true, false);
+  public static final FileFormat ESR = new FileFormat("ESR", ".v11", true, false);
+  public static final FileFormat LSV_CHL = new FileFormat("LSV_CHL", ".lsv", false, true);
+  public static final FileFormat LSV_CLG = new FileFormat("LSV_CLG", ".lsv", true, false);
+  public static final FileFormat EDOC = new FileFormat("EDOC", ".pdf", true, false);
 
-  public static final FileFormat DTA= new FileFormat("DTA", ".dta", false, true);
-  public static final FileFormat PAIN001= new FileFormat("PAIN001", ".xml", false, true);
-  public static final FileFormat PAIN002= new FileFormat("PAIN002", ".z01.xml", true, false);
-  public static final FileFormat PAIN008= new FileFormat("PAIN008", ".xml", false, true);
+  public static final FileFormat DTA = new FileFormat("DTA", ".dta", false, true);
+  public static final FileFormat PAIN001 = new FileFormat("PAIN001", ".xml", false, true);
+  public static final FileFormat PAIN002 = new FileFormat("PAIN002", ".z01.xml", true, false);
+  public static final FileFormat PAIN008 = new FileFormat("PAIN008", ".xml", false, true);
 
   private final String name;
   private final String fileExtension;
@@ -42,7 +42,7 @@ public class FileFormat {
   private final boolean download;
 
   @SuppressWarnings({"StaticCollection", "DoubleBraceInitialization"})
-  private static final ImmutableMap<String, FileFormat> standardFileFormats = ImmutableMap.copyOf(new HashMap<String, FileFormat>(){{
+  private static final ImmutableMap<String, FileFormat> standardFileFormats = ImmutableMap.copyOf(new HashMap<String, FileFormat>() {{
     put(MT940.name(), MT940);
     put(MT942.name(), MT942);
     put(CAMT052.name(), CAMT052);
@@ -69,27 +69,31 @@ public class FileFormat {
     this.download = download;
   }
 
+  @Override
   @NonNull
   public String name() {
     return name;
   }
 
   public static FileFormat valueOf(@NonNull String name) {
-    if(!standardFileFormats.containsKey(name)) {
+    if (!standardFileFormats.containsKey(name)) {
       throw new IllegalArgumentException("Invalid FileFormat " + name);
     }
     return standardFileFormats.get(name);
   }
 
+  @Override
   @Nonnull
   public String getFileExtension() {
     return fileExtension;
   }
 
+  @Override
   public boolean isDownload() {
     return download;
   }
 
+  @Override
   public boolean isUpload() {
     return upload;
   }
@@ -115,9 +119,9 @@ public class FileFormat {
       return null;
     }
     final List<FileFormat> fileFormats = standardFileFormats.values()
-        .stream()
-        .filter(type)
-        .collect(Collectors.toList());
+                                                            .stream()
+                                                            .filter(type)
+                                                            .collect(Collectors.toList());
 
     try {
       FileFormat format = standardFileFormats.get(formatAsString.toUpperCase()); // throws illegal argument exception
@@ -131,8 +135,8 @@ public class FileFormat {
   }
 
   @Nullable
-  public static FileFormat fromStr(@Nullable final String formatAsString){
-    if(StringUtils.isBlank(formatAsString)){
+  public static FileFormat fromStr(@Nullable final String formatAsString) {
+    if (StringUtils.isBlank(formatAsString)) {
       return null;
     }
     return standardFileFormats.get(formatAsString.toUpperCase());
@@ -152,9 +156,9 @@ public class FileFormat {
 
     //noinspection ObjectInstantiationInEqualsHashCode
     return new EqualsBuilder().append(upload, that.upload)
-        .append(download, that.download)
-        .append(name, that.name)
-        .isEquals();
+                              .append(download, that.download)
+                              .append(name, that.name)
+                              .isEquals();
   }
 
   @Override

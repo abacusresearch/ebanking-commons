@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -249,6 +250,30 @@ public class ZipUtil {
       return out.toByteArray();
     }
   }
+
+  public static void zip(@NonNull final Path dir, OutputStream outputStream) throws IOException {
+      try (ZipOutputStream zs = new ZipOutputStream(outputStream)) {
+        List<Path> paths = Files.walk(dir).collect(Collectors.toList());
+        for (Path path : paths) {
+          Path relativePath = dir.relativize(path);
+
+          if (Files.isDirectory(path)) {
+            //skip root path element. php does not ignore it
+            if ("".equals(relativePath.toString())) {
+              continue;
+            }
+
+            zs.putNextEntry(new ZipEntry(relativePath + "/"));
+          } else {
+            ZipEntry zipEntry = new ZipEntry(relativePath.toString());
+            zs.putNextEntry(zipEntry);
+            Files.copy(path, zs);
+            zs.closeEntry();
+          }
+        }
+    }
+  }
+
 
   /**
    * Unzip does only work for a single zipped file that does not has a subfolder

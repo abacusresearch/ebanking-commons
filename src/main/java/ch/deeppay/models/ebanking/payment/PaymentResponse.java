@@ -1,5 +1,7 @@
 package ch.deeppay.models.ebanking.payment;
 
+import java.util.List;
+
 import ch.deeppay.models.ebanking.ClientResponse;
 import ch.deeppay.models.ebanking.login.Challenge;
 import ch.deeppay.spring.openapi.ebanking.OpenApiPaymentResponseChallenge;
@@ -14,7 +16,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -26,4 +27,14 @@ public class PaymentResponse extends ClientResponse implements OpenApiPaymentRes
   private LoginState state;
   private Challenge challenge;
   private String paymentReference;
+
+  @Builder
+  public PaymentResponse(String message, String transportData, List<String> errors, String file, LoginState state, Challenge challenge, String paymentReference) {
+    super(message, transportData, errors);
+    this.file = file;
+    this.state = state;
+    this.challenge = challenge;
+    this.paymentReference = paymentReference;
+  }
+
 }
