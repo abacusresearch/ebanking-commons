@@ -13,18 +13,18 @@ public class AsyncResponseSaveFactory {
 
   private final StorageService storageService;
   private final JobClient jobClient;
-  private final String serviceName;
+  private final String bucketName;
 
   public AsyncResponseSaveFactory(@NonNull final StorageService storageService,
                                   @NonNull final JobClient jobClient,
-                                  @NonNull @Value("${spring.application.name}") final String serviceName) {
+                                  @NonNull @Value("${spring.application.name}") final String applicationName) {
     this.storageService = storageService;
     this.jobClient = jobClient;
-    this.serviceName = serviceName;
+    this.bucketName = AsyncConfiguration.getBucketName(applicationName);
   }
 
   public AsyncResponseSaveHandler create(final AsyncContextDataProvider contextDataProvider) {
-    return new AsyncResponseSaveHandler(storageService, jobClient, serviceName, contextDataProvider.getSubjectClaim(), contextDataProvider.getFormat());
+    return new AsyncResponseSaveHandler(storageService, jobClient, bucketName, contextDataProvider.getSubjectClaim(), contextDataProvider.getFormat());
   }
 
 }

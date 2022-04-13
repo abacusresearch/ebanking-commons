@@ -16,7 +16,7 @@ public class AsyncResponseSaveHandler {
 
   private final StorageService storageService;
   private final JobClient jobClient;
-  private final String serviceName;
+  private final String bucketName;
   private final String subjectClaim;
   private final String identifier;
   private final FileFormat format;
@@ -24,12 +24,12 @@ public class AsyncResponseSaveHandler {
 
   public AsyncResponseSaveHandler(final StorageService storageService,
                                   final JobClient jobClient,
-                                  final String serviceName,
+                                  final String bucketName,
                                   final String subjectClaim,
                                   final FileFormat format) {
     this.storageService = storageService;
     this.jobClient = jobClient;
-    this.serviceName = serviceName;
+    this.bucketName = bucketName;
     this.subjectClaim = subjectClaim;
     this.format = format;
     identifier = UUID.randomUUID().toString();
@@ -86,7 +86,7 @@ public class AsyncResponseSaveHandler {
   private JobRequest.JobRequestBuilder createBuilder(String jobId) {
     return JobRequest.builder()
                      .jobId(jobId)
-                     .serviceName(serviceName)
+                     .bucketName(bucketName)
                      .subjectClaim(subjectClaim)
                      .format(format.name());
   }

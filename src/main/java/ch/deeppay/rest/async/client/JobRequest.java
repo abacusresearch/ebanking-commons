@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 public class JobRequest implements OpenAPiJobRequest {
   private String jobId;
-  private String serviceName;
+  private String bucketName;
   private String objectPath;
   private String subjectClaim;
   private String errorMessage;

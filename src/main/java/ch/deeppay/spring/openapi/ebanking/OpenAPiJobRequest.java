@@ -9,8 +9,8 @@ public interface OpenAPiJobRequest {
   @Schema(description = "Unique identifier of a job")
   String getJobId();
 
-  @Schema(description = "Name of the service (normally spring.application.name from the application.yml is used", example = "finnova")
-  String getServiceName();
+  @Schema(description = "Name of the bucket that is used to store the file", example = "finnova")
+  String getBucketName();
 
   @Schema(description = "path under which the file was saved on minio")
   String getObjectPath();

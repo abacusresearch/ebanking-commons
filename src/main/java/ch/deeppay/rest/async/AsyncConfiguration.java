@@ -95,4 +95,8 @@ public class AsyncConfiguration {
     return BUCKET_NAME_PREFIX + applicationName;
   }
 
+  public static String getBucketName(String applicationName){
+    return BUCKET_NAME_PREFIX + applicationName;
+  }
+
 }

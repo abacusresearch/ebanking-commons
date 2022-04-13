@@ -38,7 +38,7 @@ class AsyncResponseSaveHandlerTest {
       JobRequest request = invocation.getArgument(0);
       Assertions.assertNull(request.getErrorMessage());
       Assertions.assertEquals(testee.getIdentifier(), request.getJobId());
-      Assertions.assertEquals("SERVICE_NAME", request.getServiceName());
+      Assertions.assertEquals("SERVICE_NAME", request.getBucketName());
       Assertions.assertEquals("SUJECT_CLAIM", request.getSubjectClaim());
       Assertions.assertEquals(FileFormat.CAMT053.name(), request.getFormat());
       Assertions.assertTrue(StringUtils.startsWith(request.getObjectPath(), "SUJECT_CLAIM/" + testee.getIdentifier() + "/"));
@@ -57,7 +57,7 @@ class AsyncResponseSaveHandlerTest {
       JobRequest request = invocation.getArgument(0);
       Assertions.assertEquals("EXCEPTION", request.getErrorMessage());
       Assertions.assertEquals(testee.getIdentifier(), request.getJobId());
-      Assertions.assertEquals("SERVICE_NAME", request.getServiceName());
+      Assertions.assertEquals("SERVICE_NAME", request.getBucketName());
       Assertions.assertEquals("SUJECT_CLAIM", request.getSubjectClaim());
       Assertions.assertEquals(FileFormat.CAMT053.name(), request.getFormat());
       return null;
