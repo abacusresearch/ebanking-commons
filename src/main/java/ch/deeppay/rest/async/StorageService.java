@@ -14,22 +14,20 @@ import io.minio.RemoveObjectArgs;
 import io.minio.ServerSideEncryptionCustomerKey;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnBean({AsyncConfiguration.class, MinioClient.class})
-public class StorageService {
+@ConditionalOnBean({AsyncConfiguration.class})
+class StorageService {
 
   private final MinioClient minioClient;
   private final AsyncConfiguration asyncConfiguration;
 
-  public StorageService(@NonNull @Qualifier(AsyncConfiguration.MINIO_CLIENT_NAME) final MinioClient minioClient,
-                        @NonNull final AsyncConfiguration asyncConfiguration) {
-    this.minioClient = minioClient;
+  StorageService(@NonNull final AsyncConfiguration asyncConfiguration) {
     this.asyncConfiguration = asyncConfiguration;
+    this.minioClient = asyncConfiguration.getMinioClient();
   }
 
   public String upload(String path, InputStream stream) throws Exception {

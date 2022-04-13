@@ -28,7 +28,7 @@ class AsyncResponseSaveHandlerTest {
   @BeforeEach
   private void before() {
     MockitoAnnotations.openMocks(this);
-    testee = new AsyncResponseSaveHandler(storageService, jobClient, "SERVICE_NAME", "SUJECT_CLAIM", FileFormat.CAMT053);
+    testee = new AsyncResponseSaveHandler(storageService, jobClient, "SERVICE_NAME", "SUBJECT_CLAIM", FileFormat.CAMT053);
   }
 
   @Test
@@ -39,9 +39,9 @@ class AsyncResponseSaveHandlerTest {
       Assertions.assertNull(request.getErrorMessage());
       Assertions.assertEquals(testee.getIdentifier(), request.getJobId());
       Assertions.assertEquals("SERVICE_NAME", request.getBucketName());
-      Assertions.assertEquals("SUJECT_CLAIM", request.getSubjectClaim());
+      Assertions.assertEquals("SUBJECT_CLAIM", request.getSubjectClaim());
       Assertions.assertEquals(FileFormat.CAMT053.name(), request.getFormat());
-      Assertions.assertTrue(StringUtils.startsWith(request.getObjectPath(), "SUJECT_CLAIM/" + testee.getIdentifier() + "/"));
+      Assertions.assertTrue(StringUtils.startsWith(request.getObjectPath(), "SUBJECT_CLAIM/" + testee.getIdentifier() + "/"));
       return null;
     }).when(jobClient).createOrUpdateJob(Mockito.any());
 
@@ -58,7 +58,7 @@ class AsyncResponseSaveHandlerTest {
       Assertions.assertEquals("EXCEPTION", request.getErrorMessage());
       Assertions.assertEquals(testee.getIdentifier(), request.getJobId());
       Assertions.assertEquals("SERVICE_NAME", request.getBucketName());
-      Assertions.assertEquals("SUJECT_CLAIM", request.getSubjectClaim());
+      Assertions.assertEquals("SUBJECT_CLAIM", request.getSubjectClaim());
       Assertions.assertEquals(FileFormat.CAMT053.name(), request.getFormat());
       return null;
     }).when(jobClient).createOrUpdateJob(Mockito.any());

@@ -67,7 +67,7 @@ public class AsyncConfiguration {
   }
 
   @Bean(name = MINIO_CLIENT_NAME )
-  public MinioClient restAsyncMinioClient() {
+  public MinioClient getMinioClient() {
 
     try {
       MinioClient minioClient =
