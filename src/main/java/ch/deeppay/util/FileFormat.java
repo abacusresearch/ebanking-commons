@@ -1,11 +1,5 @@
 package ch.deeppay.util;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,6 +9,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 public class FileFormat implements FileFormatGetter {
 
   public static final FileFormat MT940 = new FileFormat("MT940", ".sta", true, false);
@@ -22,9 +22,6 @@ public class FileFormat implements FileFormatGetter {
   public static final FileFormat CAMT052 = new FileFormat("CAMT052", ".c52.xml", true, false);
   public static final FileFormat CAMT053 = new FileFormat("CAMT053", ".c53.xml", true, false);
   public static final FileFormat CAMT054 = new FileFormat("CAMT054", ".c54.xml", true, false);
-  public static final FileFormat CAMT054_CDTN_DBTN = new FileFormat("CAMT054_CDTN_DBTN", ".cs2.xml", true, false);
-  public static final FileFormat CAMT054_ESR_LSV = new FileFormat("CAMT054_ESR_LSV", ".xml", true, false);
-  public static final FileFormat CAMT054_ZA = new FileFormat("CAMT054_ZA", ".xml", true, false);
 
   public static final FileFormat ESR = new FileFormat("ESR", ".v11", true, false);
   public static final FileFormat LSV_CHL = new FileFormat("LSV_CHL", ".lsv", false, true);
@@ -48,9 +45,6 @@ public class FileFormat implements FileFormatGetter {
     put(CAMT052.name(), CAMT052);
     put(CAMT053.name(), CAMT053);
     put(CAMT054.name(), CAMT054);
-    put(CAMT054_CDTN_DBTN.name(), CAMT054_CDTN_DBTN);
-    put(CAMT054_ESR_LSV.name(), CAMT054_ESR_LSV);
-    put(CAMT054_ZA.name(), CAMT054_ZA);
     put(ESR.name(), ESR);
     put(LSV_CHL.name(), LSV_CHL);
     put(LSV_CLG.name(), LSV_CLG);
@@ -79,6 +73,7 @@ public class FileFormat implements FileFormatGetter {
     if (!standardFileFormats.containsKey(name)) {
       throw new IllegalArgumentException("Invalid FileFormat " + name);
     }
+    //noinspection ConstantConditions
     return standardFileFormats.get(name);
   }
 
