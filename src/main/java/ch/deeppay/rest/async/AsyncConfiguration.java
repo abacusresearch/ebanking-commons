@@ -6,6 +6,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.MinioClient;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -55,6 +56,9 @@ public class AsyncConfiguration {
   @Value("${ch.deeppay.job.minio.bucketValidation:true}")
   private boolean bucketValidation;
 
+  @Value("${ch.deeppay.job.minio.bucketName:}")
+  private String bucketName;
+
   @Bean(name = EXECUTOR_NAME)
   public Executor restAsyncExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -77,7 +81,7 @@ public class AsyncConfiguration {
                      .build();
 
       if(bucketValidation) {
-        if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(getMinioBucketName()).build())) {
+        if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(StringUtils.isEmpty(bucketName) ? getMinioBucketName() : bucketName).build())) {
           throw new Exception("Bucket is required. Define a valid backet name at ch.deeppay.rest.async.minio.bucket.name");
         } else {
           log.debug("Minio-Service update and running");
