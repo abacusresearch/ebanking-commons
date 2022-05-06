@@ -12,7 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 
 @Log4j2
-public class AsyncResponseSaveHandler {
+class AsyncResponseSaveHandler {
 
   private final StorageService storageService;
   private final JobClient jobClient;
@@ -22,7 +22,7 @@ public class AsyncResponseSaveHandler {
   private final FileFormat format;
 
 
-  public AsyncResponseSaveHandler(final StorageService storageService,
+  AsyncResponseSaveHandler(final StorageService storageService,
                                   final JobClient jobClient,
                                   final String bucketName,
                                   final String subjectClaim,
@@ -32,13 +32,21 @@ public class AsyncResponseSaveHandler {
     this.bucketName = bucketName;
     this.subjectClaim = subjectClaim;
     this.format = format;
-    identifier = UUID.randomUUID().toString();
+    this.identifier = UUID.randomUUID().toString();
   }
 
 
   public void handleResponse(final InputStream stream) {
     if (StringUtils.isEmpty(subjectClaim)) {
       throw new IllegalArgumentException("Subject claim can not be empty");
+    }
+
+    if (Objects.isNull(format)) {
+      throw new IllegalArgumentException("Format can not be empty");
+    }
+
+    if (StringUtils.isEmpty(bucketName)) {
+      throw new IllegalArgumentException("BucketName can not be empty");
     }
 
     try {

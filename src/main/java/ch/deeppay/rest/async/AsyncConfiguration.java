@@ -81,7 +81,7 @@ public class AsyncConfiguration {
                      .build();
 
       if(bucketValidation) {
-        if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(StringUtils.isEmpty(bucketName) ? getMinioBucketName() : bucketName).build())) {
+        if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(getMinioBucketName()).build())) {
           throw new Exception("Bucket is required. Define a valid backet name at ch.deeppay.rest.async.minio.bucket.name");
         } else {
           log.debug("Minio-Service update and running");
@@ -96,7 +96,7 @@ public class AsyncConfiguration {
   }
 
   public String getMinioBucketName(){
-    return BUCKET_NAME_PREFIX + applicationName;
+    return StringUtils.isEmpty(bucketName) ? BUCKET_NAME_PREFIX + applicationName : bucketName;
   }
 
   public static String getBucketName(String applicationName){
