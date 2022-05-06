@@ -1,6 +1,7 @@
 package ch.deeppay.rest.async;
 
 import ch.deeppay.rest.async.client.JobClient;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.lang.NonNull;
@@ -13,18 +14,25 @@ public class AsyncResponseSaveFactory {
 
   private final StorageService storageService;
   private final JobClient jobClient;
-  private final String bucketName;
+
+  @Value("${spring.application.name}")
+  private String applicationName;
+
+  @Value("${ch.deeppay.job.minio.bucketName:}")
+  private String bucketName;
 
   public AsyncResponseSaveFactory(@NonNull final StorageService storageService,
-                                  @NonNull final JobClient jobClient,
-                                  @NonNull @Value("${spring.application.name}") final String applicationName) {
+                                  @NonNull final JobClient jobClient) {
     this.storageService = storageService;
     this.jobClient = jobClient;
-    this.bucketName = AsyncConfiguration.getBucketName(applicationName);
   }
 
   public AsyncResponseSaveHandler create(final AsyncContextDataProvider contextDataProvider) {
-    return new AsyncResponseSaveHandler(storageService, jobClient, bucketName, contextDataProvider.getSubjectClaim(), contextDataProvider.getFormat());
+    return new AsyncResponseSaveHandler(storageService,
+                                        jobClient,
+                                        StringUtils.isEmpty(bucketName) ? AsyncConfiguration.getBucketName(applicationName) : bucketName,
+                                        contextDataProvider.getSubjectClaim(),
+                                        contextDataProvider.getFormat());
   }
 
 }
