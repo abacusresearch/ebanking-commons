@@ -4,9 +4,11 @@ import java.io.InputStream;
 import java.util.Objects;
 
 import ch.deeppay.exception.DeepPayProblemException;
+import lombok.extern.log4j.Log4j2;
 
 import static ch.deeppay.exception.DeepPayProblemException.createServerErrorProblemException;
 
+@Log4j2
 public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
 
   private final AsyncResponseSaveFactory asyncResponseHandlerFactory;
@@ -62,6 +64,7 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
         //create an identifier that can be used to download the response later in an additional query.
         asyncResponseHandler = asyncResponseHandlerFactory.create(contextDataProvider);
         data = ResponseData.builder().identifier(asyncResponseHandler.getIdentifier()).build();
+        log.info("Job {} has to be processed asynchronous.",data.getIdentifier());
       } else {
         if (Objects.nonNull(exception)) {
           throw handleException(exception);
