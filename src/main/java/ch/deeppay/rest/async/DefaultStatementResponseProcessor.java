@@ -1,7 +1,10 @@
 package ch.deeppay.rest.async;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import ch.deeppay.exception.DeepPayProblemException;
 import ch.deeppay.models.ebanking.statement.StatementResponse;
@@ -16,9 +19,11 @@ import org.springframework.http.ResponseEntity;
 public class DefaultStatementResponseProcessor implements ResponseProcessor<ResponseEntity<StatementResponse>> {
 
   private final StatementResponse statementResponse;
+  private final StatementMetricCounter metricCounter;
 
-  public DefaultStatementResponseProcessor(final StatementResponse statementResponse) {
+  public DefaultStatementResponseProcessor(@Nonnull final StatementResponse statementResponse,@Nullable final StatementMetricCounter metricCounter) {
     this.statementResponse = statementResponse;
+    this.metricCounter = metricCounter;
   }
 
   @Override
@@ -34,12 +39,20 @@ public class DefaultStatementResponseProcessor implements ResponseProcessor<Resp
       }
     }
 
+    ResponseEntity<StatementResponse> result;
     if(StringUtils.isNotEmpty(statementResponse.getJobId())){
-      return ResponseEntity.accepted().body(statementResponse);
+      result = ResponseEntity.accepted().body(statementResponse);
     }else if(StringUtils.isEmpty(statementResponse.getFile())){
-      return new ResponseEntity<>(statementResponse, HttpStatus.NO_CONTENT);
+      result = new ResponseEntity<>(statementResponse, HttpStatus.NO_CONTENT);
     }else{
-      return new ResponseEntity<>(statementResponse, HttpStatus.OK);
+      result = new ResponseEntity<>(statementResponse, HttpStatus.OK);
     }
+
+    if(Objects.nonNull(metricCounter)){
+      metricCounter.count(result);
+    }
+
+    return result;
+
   }
 }

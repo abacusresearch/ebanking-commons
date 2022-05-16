@@ -105,4 +105,24 @@ public class EBankingMetrics extends AbstractMetrics {
            .register(meterRegistry).increment();
   }
 
+
+  public void incrementCounter(String counterName, MetricTagValueGetter getter){
+    if(MetricConst.EBANKING_ASYNC_STATEMENT_SUCCESSFUL_COUNTER.equals(counterName)){
+      incrementAsyncStatementSuccessfulCounter(getter.getBankId(),getter.getClientType(),getter.getClientId(),getter.getFormat());
+    }else if(MetricConst.EBANKING_JOBS_SUCCESSFUL_COUNTER.equals(counterName)){
+      incrementJobsSuccessfulCounter(getter.getBankId(),getter.getClientType(),getter.getClientId(),getter.getFormat());
+    }else if(MetricConst.EBANKING_EVENT_SUCCESSFUL_COUNTER.equals(counterName)){
+      incrementEventSuccessfulCounter(getter.getBankId(),getter.getClientType(),getter.getClientId(),getter.getFormat());
+    }else if(MetricConst.EBANKING_LOGIN_SUCCESSFUL_COUNTER.equals(counterName)){
+      incrementLoginSuccessfulCounter(getter.getBankId(),getter.getClientType(),getter.getClientId());
+    }else if(MetricConst.EBANKING_LOGIN_COUNTER.equals(counterName)){
+      incrementLoginCounter(getter.getBankId(),getter.getClientType(),getter.getClientId());
+    }else if(MetricConst.EBANKING_PAYMENT_SUCCESSFUL_COUNTER.equals(counterName)){
+      incrementPaymentSuccessfulCounter(getter.getBankId(),getter.getClientType(),getter.getClientId(),getter.getFormat());
+    }else if(MetricConst.EBANKING_STATEMENT_SUCCESSFUL_COUNTER.equals(counterName)){
+      incrementStatementSuccessfulCounter(getter.getBankId(),getter.getClientType(),getter.getClientId(),getter.getFormat());
+    }
+  }
+
+
 }

@@ -17,7 +17,7 @@ class DefaultStatementResponseProcessorTest {
   @BeforeEach
   void before() {
     statementResponse = new StatementResponse();
-    testee = new DefaultStatementResponseProcessor(statementResponse);
+    testee = new DefaultStatementResponseProcessor(statementResponse, null);
   }
 
   @Test
