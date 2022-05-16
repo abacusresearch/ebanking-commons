@@ -82,7 +82,7 @@ public class AsyncConfiguration {
 
       if(bucketValidation) {
         if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(getMinioBucketName()).build())) {
-          throw new Exception("Bucket is required. Define a valid backet name at ch.deeppay.rest.async.minio.bucket.name");
+          throw new Exception("Bucket is required. Define a valid bucket name at ch.deeppay.rest.async.minio.bucket.name");
         } else {
           log.debug("Minio-Service update and running");
         }

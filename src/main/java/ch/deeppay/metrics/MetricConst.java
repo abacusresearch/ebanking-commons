@@ -25,6 +25,12 @@ public interface MetricConst {
   String EBANKING_STATEMENT_SUCCESSFUL_COUNTER = "ebanking.statement.successful.counter";
   String EBANKING_STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful downloaded statements";
 
+  String EBANKING_JOBS_SUCCESSFUL_COUNTER = "ebanking.jobs.successful.counter";
+  String EBANKING_JOBS_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful downloaded jobs";
+
+  String EBANKING_ASYNC_STATEMENT_SUCCESSFUL_COUNTER = "ebanking.statement.async.successful.counter";
+  String EBANKING_ASYNC_STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful statements that has to be downloaded asynchronous";
+
   String EBANKING_EVENT_SUCCESSFUL_COUNTER = "ebanking.event.successful.counter";
   String EBANKING_EVENT_SUCCESSFUL_COUNTER_DESCRIPTION = "The number of successful invoked (external) event requests";
 

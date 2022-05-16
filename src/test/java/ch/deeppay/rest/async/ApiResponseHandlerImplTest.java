@@ -21,7 +21,7 @@ class ApiResponseHandlerImplTest {
   private AsyncContextDataProvider contextDataProvider;
 
   @Mock
-  private AsyncResponseSaveHandler asyncResponseSaveHandler;
+  private AsyncResponseSaveHandlerImpl asyncResponseSaveHandler;
 
   ApiResponseHandlerImpl<StatementResponse> testee;
 

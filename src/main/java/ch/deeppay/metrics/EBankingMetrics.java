@@ -78,4 +78,31 @@ public class EBankingMetrics extends AbstractMetrics {
            .register(meterRegistry).increment();
   }
 
+
+  public void incrementJobsSuccessfulCounter(@Nonnull final String bankId,
+                                                  @Nullable final ClientType clientType,
+                                                  @Nonnull final String clientId,
+                                                  @Nullable final FileFormat format) {
+    Counter.builder(MetricConst.EBANKING_JOBS_SUCCESSFUL_COUNTER)
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_FORMAT, nonNull(format))
+           .description(MetricConst.EBANKING_JOBS_SUCCESSFUL_COUNTER_DESCRIPTION)
+           .register(meterRegistry).increment();
+  }
+
+  public void incrementAsyncStatementSuccessfulCounter(@Nonnull final String bankId,
+                                                  @Nullable final ClientType clientType,
+                                                  @Nonnull final String clientId,
+                                                  @Nullable final FileFormat format) {
+    Counter.builder(MetricConst.EBANKING_ASYNC_STATEMENT_SUCCESSFUL_COUNTER)
+           .tag(MetricConst.TAG_BANK_ID, nonEmpty(bankId))
+           .tag(MetricConst.TAG_CLIENT_TYPE, nonNull(clientType))
+           .tag(MetricConst.TAG_CLIENT_ID, convertClientId(clientId))
+           .tag(MetricConst.TAG_FORMAT, nonNull(format))
+           .description(MetricConst.EBANKING_ASYNC_STATEMENT_SUCCESSFUL_COUNTER_DESCRIPTION)
+           .register(meterRegistry).increment();
+  }
+
 }

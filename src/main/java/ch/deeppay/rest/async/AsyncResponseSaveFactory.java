@@ -22,11 +22,11 @@ public class AsyncResponseSaveFactory {
   }
 
   public AsyncResponseSaveHandler create(final AsyncContextDataProvider contextDataProvider) {
-    return new AsyncResponseSaveHandler(storageService,
-                                        jobClient,
-                                        asyncConfiguration.getMinioBucketName(),
-                                        contextDataProvider.getSubjectClaim(),
-                                        contextDataProvider.getFormat());
+    return new AsyncResponseSaveHandlerImpl(storageService,
+                                            jobClient,
+                                            asyncConfiguration.getMinioBucketName(),
+                                            contextDataProvider.getSubjectClaim(),
+                                            contextDataProvider.getFormat());
   }
 
 }

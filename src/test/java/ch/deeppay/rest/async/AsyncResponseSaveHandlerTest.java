@@ -23,12 +23,12 @@ class AsyncResponseSaveHandlerTest {
   @Mock
   private JobClient jobClient;
 
-  private AsyncResponseSaveHandler testee;
+  private AsyncResponseSaveHandlerImpl testee;
 
   @BeforeEach
   private void before() {
     MockitoAnnotations.openMocks(this);
-    testee = new AsyncResponseSaveHandler(storageService, jobClient, "SERVICE_NAME", "SUBJECT_CLAIM", FileFormat.CAMT053);
+    testee = new AsyncResponseSaveHandlerImpl(storageService, jobClient, "SERVICE_NAME", "SUBJECT_CLAIM", FileFormat.CAMT053);
   }
 
   @Test
