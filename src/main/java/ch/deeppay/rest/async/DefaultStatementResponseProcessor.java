@@ -21,6 +21,10 @@ public class DefaultStatementResponseProcessor implements ResponseProcessor<Resp
   private final StatementResponse statementResponse;
   private final StatementMetricCounter metricCounter;
 
+  public DefaultStatementResponseProcessor(@Nonnull final StatementResponse statementResponse) {
+    this(statementResponse, null);
+  }
+
   public DefaultStatementResponseProcessor(@Nonnull final StatementResponse statementResponse,@Nullable final StatementMetricCounter metricCounter) {
     this.statementResponse = statementResponse;
     this.metricCounter = metricCounter;
