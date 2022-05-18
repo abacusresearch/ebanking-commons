@@ -23,18 +23,19 @@ public interface OpenApiBankingTextConst extends OpenApiTextConst {
                                        "### Possible login states after step 1\n" +
                                        "*Note: Login types must be handled on client side. The same states (except CHANGE_PASSWORD) might also be returned when a payment has to be confirmed*\n" +
                                        "\n" +
-                                       "| Login state        | Description |\n" +
-                                       "| ------------------ | ------------|\n" +
-                                       "| MOBILE_TAN         | Is a tan that was sent by the institute to the registered mobile device. The user has to enter to tan into a login field and the value has be send back.|\n" +
-                                       "| PUSH_TAN           | The tan is sent in the challenge field. The same tan value is sent by the institute to a registered mobile device. The user has to compare the values and confirm it on the mobile device|\n" +
-                                       "| GRID_CARD          | The text is found under the key 'value'|\n" +
-                                       "| CHOOSE             | Is a list of challenge options; the items are the keys (or values)|\n" +
-                                       "| KEYFILE            | Is a text which needs to be signed; the text is found under the key 'value'|\n" +
-                                       "| POLL               | The /login route has to be polled until the user confirms the login at the mobile device|\n" +
-                                       "| OPTICAL_CHALLENGE  | Is a BASE64 encoded image (PNG format); the data is found under the key 'value'|\n" +
-                                       "| OAUTH_AUTHORIZE    | Is an url that needs to be opened in a new tab; send empty challenge; the url is found under the key 'value'|\n" +
-                                       "| OAUTH_POLL         | The /login route has to be polled until the user authorized Deeppay; send empty challenge; the url is found under the key 'value'|\n" +
-                                       "| CHANGE_PASSWORD    | The field 'passwordNew' must be sent to the server with the user's input.|\n";
+                                       "| Login state         | Description |\n" +
+                                       "| ------------------- | ------------|\n" +
+                                       "| MOBILE_TAN          | Is a tan that was sent by the institute to the registered mobile device. The user has to enter to tan into a login field and the value has be send back.|\n" +
+                                       "| PUSH_TAN            | The tan is sent in the challenge field. The same tan value is sent by the institute to a registered mobile device. The user has to compare the values and confirm it on the mobile device|\n" +
+                                       "| GRID_CARD           | The text is found under the key 'value'|\n" +
+                                       "| CHOOSE              | Is a list of challenge options; the items are the keys (or values)|\n" +
+                                       "| KEYFILE             | Is a text which needs to be signed; the text is found under the key 'value'|\n" +
+                                       "| POLL                | The /login route has to be polled until the user confirms the login at the mobile device|\n" +
+                                       "| OPTICAL_CHALLENGE   | Is a BASE64 encoded image (PNG format); the data is found under the key 'value'|\n" +
+                                       "| OAUTH_AUTHORIZE     | Is an url that needs to be opened in a new tab; send empty challenge; the url is found under the key 'value'|\n" +
+                                       "| OAUTH_POLL          | The /login route has to be polled until the user authorized Deeppay; send empty challenge; the url is found under the key 'value'|\n" +
+                                       "| OAUTH_REFRESH_TOKEN | Send refresh token in challenge (or empty if unavailable)|\n" +
+                                       "| CHANGE_PASSWORD     | The field 'passwordNew' must be sent to the server with the user's input.|\n";
 
   String OPERATION_PAYMENT_SUMMARY = "Method to upload a payment file in Pain001 format.";
   String OPERATION_PAYMENT_DESCRIPTION = "This route is used to upload payment files. The format of the file must be defined according to the pain001 specification. The file may contain one or more payments and can be uploaded as plain text. If a pain001 is upload the result might contain a pain002 file that is zipped and base64 encoded.";
