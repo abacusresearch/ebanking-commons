@@ -39,15 +39,14 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
       this.exception = throwable;
     }
 
-    //TODO check logic -> outside lock
     if (Objects.nonNull(asyncResponseHandler)) {
       if (Objects.nonNull(exception)) {
         asyncResponseHandler.handleResponse(throwable);
       } else {
-        //TODO check response type
-          asyncResponseHandler.handleResponse(response);
+        asyncResponseHandler.handleResponse(response);
       }
     }
+
     return null;
   }
 
@@ -64,7 +63,10 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
         //create an identifier that can be used to download the response later in an additional query.
         asyncResponseHandler = asyncResponseHandlerFactory.create(contextDataProvider);
         data = ResponseData.builder().identifier(asyncResponseHandler.getIdentifier()).build();
-        log.info("Job {} has to be processed asynchronous.",data.getIdentifier());
+        log.info("Job {} has to be processed asynchronous.", data.getIdentifier());
+
+        //make api call outside the lock might cause a duplicate record exception problem on the job service.
+        asyncResponseHandler.createJob();
       } else {
         if (Objects.nonNull(exception)) {
           throw handleException(exception);
@@ -72,10 +74,6 @@ public class ApiResponseHandlerImpl<T> implements ApiResponseHandler<T> {
           data = ResponseData.builder().response(response).build();
         }
       }
-    }
-    //make api call outside of lock. //TODO check logic -> outside lock
-    if (Objects.nonNull(asyncResponseHandler)) {
-      asyncResponseHandler.createJob();
     }
 
     return processor.process(isAsynchronous, data);
