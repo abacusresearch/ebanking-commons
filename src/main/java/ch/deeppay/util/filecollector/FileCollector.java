@@ -38,11 +38,11 @@ public class FileCollector {
       final File tmpDirectory = Files.createTempDirectory("base64").toFile();
       try {
         handler.handle((content, fileNameProvider) -> {
-          byte[] tmp = Base64.isBase64(content) ? Base64.decodeBase64(content) : content.getBytes(StandardCharsets.UTF_8);
-          if (isZipFile(content)) {
-            unzip(tmp, fileNameProvider.apply(tmpDirectory,true));
+          byte[] encodedContent = Base64.isBase64(content) ? Base64.decodeBase64(content) : content.getBytes(StandardCharsets.UTF_8);
+          if (isZipFile(encodedContent)) {
+            unzip(encodedContent, fileNameProvider.apply(tmpDirectory,true));
           } else {
-            FileUtils.writeByteArrayToFile(fileNameProvider.apply(tmpDirectory,false), tmp);
+            FileUtils.writeByteArrayToFile(fileNameProvider.apply(tmpDirectory,false), encodedContent);
           }
         });
 
